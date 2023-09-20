@@ -1,0 +1,96 @@
+/* ESTILOS PARA ELECTRO.WEB */
+
+body{
+    background-color: rgba(16, 160, 232, 0.05);
+    margin: 0;
+    font-family: calibri;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(150, 220, 240);
+  color: white;
+  text-align: left;
+}
+
+.header {
+  overflow: hidden;
+  background-color: rgb(150, 220, 240);
+  padding: 20px 10px;
+}
+
+.header a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px; 
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.header a:hover {
+  color: black;
+}
+
+.header a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+
+.header-right {
+  float: right;
+}
+
+a:link, a:visited {
+    color: white;
+    text-decoration: none;
+    margin-right: 5px;    
+    padding: 5px;
+}
+a:hover {
+    text-decoration: underline;
+}
+div#contenido {
+    width: 80%;
+    margin: 40px auto;
+    text-align: center;
+}
+
+input[type="reset"], input[type="button"], input[type="submit"]{
+    background-color: rgb(16, 160, 232);
+    color: rgb(236, 247, 255);
+    border-color: rgb(16, 160, 232);
+}
+
+input[type="reset"]:hover, input[type="button"]:hover, input[type="submit"]:hover{
+    background-color: rgb(118, 209, 255);
+    color: rgb(236, 247, 255);
+    border-color: rgb(16, 160, 232);
+    cursor: pointer;
+}
+
+input[type="reset"]:active, input[type="button"]:active, input[type="submit"]:active{
+    background-color: rgb(18, 94, 133);
+    color: rgb(236, 247, 255);
+    border-color: rgb(16, 160, 232);
+}
+
+input[disabled], input[readonly]{
+    background-color: rgb(112, 193, 234);
+    border-color: rgb(236, 247, 255);
+    color: rgb(236, 247, 255);
+    cursor: default;
+}
+input::placeholder{
+    color: rgb(236, 247, 255);
+}

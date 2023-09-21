@@ -8,9 +8,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SpringConfiguration {
+	
+	/*
     @Bean
     WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerFactoryCustomizer(){
 		return factory->factory.setContextPath("");
 	}
+	*/
 	
 }

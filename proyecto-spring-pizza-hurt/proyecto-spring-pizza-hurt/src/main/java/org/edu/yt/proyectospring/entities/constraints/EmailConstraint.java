@@ -15,7 +15,7 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = EmailConstraintValidator.class)
 public @interface EmailConstraint {
 	
-	String message() default "El email@ tiene formato incorrecto";
+	String message() default "El email tiene formato incorrecto";
 	
 	Class<?>[] groups() default {};
 	

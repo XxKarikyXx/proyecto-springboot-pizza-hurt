@@ -11,21 +11,23 @@
 	</div>
     <div id="contenido">
       <p>
-         <div th:unless="${#lists.isEmpty(users)}">
+         <div th:unless="${#lists.isEmpty(usersDTO)}">
          <ul>
          	<li> th:each="userDTO: ${usersDTO}">
-         		<span> th:text="${userDTO.fullname}"> NOMBRE</span>
+         		<span> th:text="${userDTO.fullname}"> NOMBRE COMPLETO</span>
          		<span> th:text="${userDTO.email}"> EMAIL</span>
          	</li>
          </ul>
          </div>
          
-         <form th:object="${userDTO}" action="/addUser" method="post">
-
-			<label for="fullname">Nombre: </label> 
-	         <input id="fullname" type="text" name="fullname"/></br> 
-	         <label for="email" type="text" name="email">Email: </label> 
-	         <input id="email" type="text" name="email"/></br> 
+         <form th:object="${userDTO}" th:action="@{/addUser}" method="post">
+			<div th:if="${#fields.hasAnyErrors()}">
+			    <p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+			</div>
+			<label for="fullName">Nombre: </label> 
+	         <input id="fullName" type="text" name="fullName" th:field="*{fullName}"/></br>
+	         <label for="email" type="text" name="email" >Email: </label> 
+	         <input id="email" type="text" name="email" th:field="*{email}"/></br> 
 	         <button type="submit">Agregar</button>
          </form> 
       </p>

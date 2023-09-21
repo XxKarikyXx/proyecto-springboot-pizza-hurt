@@ -35,7 +35,6 @@ public class UserEntity extends BaseEntity {
 	@NotNull
 	private String password;
 
-	
 	@OneToMany
 	@JoinTable(
 			  name = "UserCards", 
@@ -50,9 +49,10 @@ public class UserEntity extends BaseEntity {
 	@Column(columnDefinition="boolean default true")
 	private boolean active;
 
-	public UserEntity(@NotNull String email, @NotNull String telephone, @NotNull String password, List<Card> cards,
-			List<OrderEntity> orders, boolean active) {
+	public UserEntity(@NotNull String fullName, @NotNull String email, @NotNull String telephone,
+			@NotNull String password, List<Card> cards, List<OrderEntity> orders, boolean active) {
 		super();
+		this.fullName = fullName;
 		this.email = email;
 		this.telephone = telephone;
 		this.password = password;
@@ -60,9 +60,11 @@ public class UserEntity extends BaseEntity {
 		this.orders = orders;
 		this.active = active;
 	}
-
+	
 	public UserEntity() {
 		// TODO Auto-generated constructor stub
 	}
+
+
 
 }

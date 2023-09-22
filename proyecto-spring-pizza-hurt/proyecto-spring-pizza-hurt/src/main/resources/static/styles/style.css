@@ -66,20 +66,20 @@ div#contenido {
     text-align: center;
 }
 
-input[type="reset"], input[type="button"], input[type="submit"]{
+input[type="reset"], input[type="button"], input[type="submit"], button[type="submit"]{
     background-color: rgb(16, 160, 232);
     color: rgb(236, 247, 255);
     border-color: rgb(16, 160, 232);
 }
 
-input[type="reset"]:hover, input[type="button"]:hover, input[type="submit"]:hover{
+input[type="reset"]:hover, input[type="button"]:hover, input[type="submit"]:hover, button[type="submit"]:hover{
     background-color: rgb(118, 209, 255);
     color: rgb(236, 247, 255);
     border-color: rgb(16, 160, 232);
     cursor: pointer;
 }
 
-input[type="reset"]:active, input[type="button"]:active, input[type="submit"]:active{
+input[type="reset"]:active, input[type="button"]:active, input[type="submit"]:active, button[type="submit"]:active{
     background-color: rgb(18, 94, 133);
     color: rgb(236, 247, 255);
     border-color: rgb(16, 160, 232);

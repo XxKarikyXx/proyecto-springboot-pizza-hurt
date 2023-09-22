@@ -20,14 +20,19 @@
          </ul>
          </div>
          
+         Nuevo Usuario
          <form th:object="${userDTO}" th:action="@{/addUser}" method="post">
 			<div th:if="${#fields.hasAnyErrors()}">
 			    <p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
 			</div>
-			<label for="fullName">Nombre: </label> 
-	         <input id="fullName" type="text" name="fullName" th:field="*{fullName}"/></br>
 	         <label for="email" type="text" name="email" >Email: </label> 
-	         <input id="email" type="text" name="email" th:field="*{email}"/></br> 
+	         <input id="email" type="text" name="email" th:field="*{email}"/></br>
+	         <label for="password" type="text" name="password" >Password: </label> 
+	         <input id="password" type="text" name="password" th:field="*{password}"/></br>
+	         <label for="fullName">Nombre: </label> 
+	         <input id="fullName" type="text" name="fullName" th:field="*{fullName}"/></br>  
+	         <label for="telephone" type="text" name="telephone" >Telephone: </label> 
+	         <input id="telephone" type="text" name="telephone" th:field="*{telephone}"/></br>  
 	         <button type="submit">Agregar</button>
          </form> 
       </p>

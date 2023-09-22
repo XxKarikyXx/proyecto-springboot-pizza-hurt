@@ -25,15 +25,16 @@ public class UserController {
 	}
 	
 	@PostMapping("/addUser")
-	public String addUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO, Errors errors, Model model) {
-		if(errors.hasErrors()) {
-			//IMPORTANTE. SI REDIRECCIONAMOS PERDEMOS LOS ERRORES
+	public String addUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
+			//IMPORTANTE. SI REDIRECCIONAMOS PERDEMOS LOS ERRORES (a menos q se lo pasemos)
 			return "formexample";
 		}else {
 			try {
 				userService.createUser(userDTO);
 			}catch(Exception ex) {
-				//Da errores por las validaciones de UserEntity. Habría que pasarlas al DTO
+				return "formexample";
+				//Otros errores. Hay que ver de pasarlo al modelo...
 			}
 			return "redirect:/form";		
 		}

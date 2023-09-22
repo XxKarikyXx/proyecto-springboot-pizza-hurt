@@ -12,12 +12,14 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @Entity
 public class UserEntity extends BaseEntity {
 	
@@ -60,11 +62,6 @@ public class UserEntity extends BaseEntity {
 		this.orders = orders;
 		this.active = active;
 	}
-	
-	public UserEntity() {
-		// TODO Auto-generated constructor stub
-	}
-
 
 
 }

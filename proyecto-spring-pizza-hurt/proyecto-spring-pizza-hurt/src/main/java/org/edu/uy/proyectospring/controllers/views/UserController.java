@@ -24,7 +24,7 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@PostMapping("/addUser")
+	@PostMapping("/signin")
 	public String addUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			//IMPORTANTE. SI REDIRECCIONAMOS PERDEMOS LOS ERRORES (a menos q se lo pasemos)
@@ -36,12 +36,12 @@ public class UserController {
 				return "formexample";
 				//Otros errores. Hay que ver de pasarlo al modelo...
 			}
-			return "redirect:/form";		
+			return "redirect:/";		
 		}
 	}
 	
 	
-	@GetMapping("/form")
+	@GetMapping("/signin")
 	public String showAddUser(@ModelAttribute("userDTO")UserDTO userDTO) {
 		return "formexample";
 	}

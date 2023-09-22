@@ -21,7 +21,7 @@
          </div>
          
          Nuevo Usuario
-         <form th:object="${userDTO}" th:action="@{/addUser}" method="post">
+         <form th:object="${userDTO}" th:action="@{/signin}" method="post">
 			<div th:if="${#fields.hasAnyErrors()}">
 			    <p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
 			</div>

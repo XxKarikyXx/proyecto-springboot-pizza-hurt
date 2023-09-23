@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Carrito</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link th:href="@{/styles/style.css}" rel="stylesheet" />
+  </head>
+  <body>
+	<div th:replace="~{/fragments/header :: header}">
+	</div>
+    <div id="content">
+		<h1>Carrito</h1>
+		<form method="POST" th:object="${orderPizza}">
+			
+			<div th:if="${#fields.hasAnyErrors()}">
+			    <p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+			</div>
+			
+			<div th:each="pizza : ${orderPizza.pizzas}">
+				<div class="flex-inline">
+					<label for="name" type="text" name="name" >Nombre: </label> 
+					<span th:text="${pizza.nombre}">nombre</span>
+					<br/>
+				</div>
+				<h3>Componentes</h3>
+				<div class="grid">
+					<div class="pizza-component" id="size">
+						<label for="size" type="text" name="size" >Tama&ntilde;o: </label> 
+						<select th:field="*{size}">
+							<option value="0">Seleccione</option>
+							<option th:each="component : ${size}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.size}"></option>
+						</select>
+					</div>		
+				</div>
+			</div>
+			<button id="button">Confirmar Orden</button>  <button id="button" >Anular Orden</button>
+		</form>
+	</div>
+	<div th:replace="~{fragments/footer :: footer}">&copy; 2016 The Static Templates</div>
+</body>
+</html>

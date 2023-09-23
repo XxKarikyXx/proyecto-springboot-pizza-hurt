@@ -1,11 +1,14 @@
 package org.edu.uy.proyectospring.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.edu.uy.proyectospring.converters.PizzaComponentConverter;
 import org.edu.uy.proyectospring.entities.Cheese;
 import org.edu.uy.proyectospring.entities.Mass;
 import org.edu.uy.proyectospring.entities.Pizza;
+import org.edu.uy.proyectospring.entities.PizzaComponent;
 import org.edu.uy.proyectospring.entities.Sauce;
 import org.edu.uy.proyectospring.entities.Size;
 import org.edu.uy.proyectospring.entities.Topping;
@@ -20,6 +23,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class PizzaComponentService {
 	
+	private PizzaComponentConverter pizzaComponentConverter;
+	
 	private MassRepository massRepository;
 	
 	private SauceRepository sauceRepository;
@@ -31,15 +36,15 @@ public class PizzaComponentService {
 	private ToppingRepository toppingRepository;
 
 	public PizzaComponentService(MassRepository massRepository, SauceRepository sauceRepository,
-			SizeRepository sizeRepository, CheeseRepository cheeseRepository, ToppingRepository toppingRepository) {
+			SizeRepository sizeRepository, CheeseRepository cheeseRepository, ToppingRepository toppingRepository, PizzaComponentConverter pizzaComponentConverter) {
 		super();
 		this.massRepository = massRepository;
 		this.sauceRepository = sauceRepository;
 		this.sizeRepository = sizeRepository;
 		this.cheeseRepository = cheeseRepository;
 		this.toppingRepository = toppingRepository;
+		this.pizzaComponentConverter = pizzaComponentConverter;
 	}
-	
 	
 	public List<Mass> getMasses(){
 		return this.massRepository.findAll();
@@ -74,14 +79,17 @@ public class PizzaComponentService {
 	}
 	
 	public Pizza map(PizzaDTO pizza) {
-		Pizza mappedPizza = new Pizza();
-		mappedPizza.setName(pizza.getName());
-		mappedPizza.setMass(this.massRepository.findById(pizza.getMass()).orElseThrow());
-		mappedPizza.setSize(this.sizeRepository.findById(pizza.getSize()).orElseThrow());
-		mappedPizza.setCheese(this.cheeseRepository.findById(pizza.getCheese()).orElseThrow());
-		mappedPizza.setTopping(this.toppingRepository.findById(pizza.getTopping()).orElseThrow());
-		mappedPizza.setSauce(this.sauceRepository.findById(pizza.getSauce()).orElseThrow());
-		return mappedPizza;
+		return pizzaComponentConverter.convert(pizza);
+	}
+	
+	public List<PizzaComponent> getAllComponents(){
+		List<PizzaComponent> componentsList = new ArrayList<PizzaComponent>();
+		componentsList.addAll(getMasses());
+		componentsList.addAll(getSauces());
+		componentsList.addAll(getSizes());
+		componentsList.addAll(getCheeses());
+		componentsList.addAll(getToppings());
+		return componentsList;
 	}
 
 }

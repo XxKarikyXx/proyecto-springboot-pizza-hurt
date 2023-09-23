@@ -84,9 +84,9 @@ public class PizzaComponentService {
 	
 	public List<PizzaComponent> getAllComponents(){
 		List<PizzaComponent> componentsList = new ArrayList<PizzaComponent>();
+		componentsList.addAll(getSizes());
 		componentsList.addAll(getMasses());
 		componentsList.addAll(getSauces());
-		componentsList.addAll(getSizes());
 		componentsList.addAll(getCheeses());
 		componentsList.addAll(getToppings());
 		return componentsList;

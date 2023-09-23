@@ -27,4 +27,5 @@ public abstract class PizzaComponent extends BaseEntity{
 	
 	public abstract PizzaComponentEnum getComponentType();
 	
+	
 }

@@ -10,10 +10,17 @@ import org.edu.uy.proyectospring.services.OrderService;
 import org.edu.uy.proyectospring.services.PizzaComponentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+
+import jakarta.validation.Valid;
 
 @RequestMapping("/carrito")
 @Controller
@@ -30,16 +37,41 @@ public class OrderController {
 		this.pizzaComponentService = pizzaComponentService;
 	}
 	
-	@GetMapping("")
+	@GetMapping()
 	public String showCartForm() {
 		return "cart";
 	}
 	
 
+	@PostMapping
+	public String processOrder(@Valid OrderDTO orderPizza, BindingResult errors, SessionStatus sessionStatus) {
+		
+	if (errors.hasErrors()) {
+		return "cart";
+	}
+	
+	//orderService.save(orderDTO);
+	
+	sessionStatus.setComplete();
+	return "redirect:/";		
+	}
+	
+	@PostMapping("/delete")
+	public String deleteCart(SessionStatus sessionStatus) {	
+		sessionStatus.setComplete();
+		return "redirect:/carrito";
+	}
+	
+	@ModelAttribute(name = "orderPizza")
+	public OrderDTO orderPizza() {
+		return new OrderDTO();
+	}
+	
+	
 	//Get ingredients
 	//Refactorear porque hay repeticion
 	@ModelAttribute	
-	public void addComponentsToModel(Model model) {	
+	public void addComponentsToModel1(Model model) {	
 		List<PizzaComponent> components = pizzaComponentService.getAllComponents();
 		PizzaComponentEnum enumPizza = null;
 		
@@ -57,10 +89,10 @@ public class OrderController {
 			}
 			
 			componentsToAddToModel.add(components.get(i));
-		}
-		
-		model.addAttribute(enumPizza.toString().toLowerCase(), componentsToAddToModel);
+		}		
+		model.addAttribute(enumPizza.toString().toLowerCase(), new ArrayList<PizzaComponent>(componentsToAddToModel));
 	}
 	
+
 
 }

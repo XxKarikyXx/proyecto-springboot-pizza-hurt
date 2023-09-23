@@ -1,6 +1,5 @@
 package org.edu.uy.proyectospring.entities;
 
-
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

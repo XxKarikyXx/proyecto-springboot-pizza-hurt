@@ -1,10 +1,10 @@
 <div th:fragment="header" class="header">
   <a th:href="@{~/}" class="logo">Pizza Hurt</a>
   <div class="header-right">
-    <a class="active" href="#home">Inicio</a>
+    <a class="active" th:href="@{~/}">Inicio</a>
     <a th:href="@{/carrito/pizza}">Armar mi pizza</a>
     <a href="#orders">Órdenes</a>
-    <a th:href="@{/carrito/pizzas}">Carrito</a>
+    <a th:href="@{/carrito}">Carrito</a>
     <a href="#profile">Perfil</a>
   </div>
 </div>

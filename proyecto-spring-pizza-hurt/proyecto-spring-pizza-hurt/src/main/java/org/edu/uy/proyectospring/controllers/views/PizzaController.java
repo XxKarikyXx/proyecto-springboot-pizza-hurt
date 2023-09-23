@@ -57,7 +57,7 @@ public class PizzaController {
 			componentsToAddToModel.add(components.get(i));
 		}
 		
-		model.addAttribute(enumPizza.toString().toLowerCase(), componentsToAddToModel);
+		model.addAttribute(enumPizza.toString().toLowerCase(), new ArrayList<PizzaComponent>(componentsToAddToModel));
 	}
 	
 	@ModelAttribute(name = "orderPizza")
@@ -73,11 +73,11 @@ public class PizzaController {
 	}
 	
 	
-	@PostMapping("")
+	@PostMapping
 	//En el ejemplo no necesita pasarle el @ModelAttribute pero si no lo hago no muestra los errores...
 	//Lo dejo marcado para ver que ocurre...
 	//Descubri que es por el nombre...
-	public String addPizzaToOrder(boolean sameForm,@ModelAttribute(name="pizza") @Valid PizzaDTO pizza, BindingResult bindingResult, @ModelAttribute OrderDTO orderPizza) {
+	public String addPizzaToOrder(boolean sameForm,@ModelAttribute(name="pizza") @Valid PizzaDTO pizza, BindingResult bindingResult, @ModelAttribute(name = "orderPizza") OrderDTO orderPizza) {
 		if (bindingResult.hasErrors()) {
 			System.out.println("errores" +bindingResult.getAllErrors());
 			return "createPizza";
@@ -95,7 +95,7 @@ public class PizzaController {
 	}
 	
 	
-	@GetMapping("")
+	@GetMapping
 	public String showCreatePizzaForm() {
 		return "createPizza";
 	}

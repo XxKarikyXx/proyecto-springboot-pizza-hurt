@@ -25,4 +25,6 @@ public class Mass extends PizzaComponent{
 		return PizzaComponentEnum.MASS;
 	}
 	
+	
+	
 }

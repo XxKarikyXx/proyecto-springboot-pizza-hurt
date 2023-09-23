@@ -60,5 +60,9 @@ public class OrderEntity extends BaseEntity{
 		this.user = user;
 		this.totalPrice = totalPrice;
 	}
+	
+	public void addPizza(Pizza pizza) {
+		this.pizzas.add(pizza);
+	}
 
 }

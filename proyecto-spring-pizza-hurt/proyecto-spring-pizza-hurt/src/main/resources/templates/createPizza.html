@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Crear Pizza</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link th:href="@{/styles/style.css}" rel="stylesheet" />
+  </head>
+  <body>
+	<div th:replace="~{/fragments/header :: header}">
+	</div>
+    <div id="content">
+		<h1>Armar pizza</h1>
+		<form method="POST" th:object="${pizza}">
+		
+			<div th:if="${#fields.hasAnyErrors()}">
+			    <p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+			</div>
+			<div class="flex-inline">
+				<label for="name" type="text" name="name" >Nombre: </label> 
+				<input type="text" th:field="*{name}"/>
+				<br/>
+			</div>
+			<h2>Componentes</h2>
+			<div class="grid">
+				<div class="pizza-component" id="size">
+					<label for="size" type="text" name="size" >Tama&ntilde;o: </label> 
+					<select th:field="*{size}">
+						<option value="0">Seleccione</option>
+						<option th:each="component : ${size}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+					</select>
+				</div>				
+				<div class="pizza-component" id="masses">
+					<label for="mass" type="text" name="mass" >Masa: </label> 
+					<select th:field="*{mass}">
+						<option value="0">Seleccione</option>
+						<option th:each="component : ${mass}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+					</select>
+				</div>	
+				<div class="pizza-component" id="cheese">
+					<label for="cheese" type="text" name="cheese" >Queso: </label> 
+					<select th:field="*{cheese}">
+						<option value="0">Seleccione</option>
+						<option th:each="component : ${cheese}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+					</select>
+				</div>	
+				<div class="pizza-component" id="sauce">
+					<label for="sauce" type="text" name="sauce" >Salsa: </label> 
+					<select th:field="*{sauce}">
+						<option value="0">Seleccione</option>
+						<option th:each="component : ${sauce}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+					</select>
+				</div>	
+				<div class="pizza-component" id="topping">
+					<label for="topping" type="text" name="sauce" >Toping: </label> 
+					<select th:field="*{topping}">
+						<option value="0">Seleccione</option>
+						<option th:each="component : ${topping}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+					</select>
+				</div>				
+			</div>
+			<button id="button" name="sameForm" value="true">Agregar y Seguir agregando</button>  <button id="button" name="sameForm" value="false">Agregar e ir al Carrito</button>
+		</form>
+	</div>
+	<div th:replace="~{fragments/footer :: footer}">&copy; 2016 The Static Templates</div>
+</body>
+</html>

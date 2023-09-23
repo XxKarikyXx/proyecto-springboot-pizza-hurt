@@ -5,6 +5,7 @@
     <title>Carrito</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link th:href="@{/styles/style.css}" rel="stylesheet" />
+	<script type="text/javascript" th:src="@{/scripts/script.js}"></script>
   </head>
   <body>
 	<div th:replace="~{/fragments/header :: header}">
@@ -13,7 +14,7 @@
 		<h1>Carrito de Pizzas</h1>
 		<form method="POST" th:object="${orderPizza}">
 			
-			<div class="border scroll" th:each="pizza : ${orderPizza.pizzas}">
+			<div class="border scroll super-sum" th:each="pizza : ${orderPizza.pizzas}">
 				<div class="flex-inline">
 					<label for="name" type="text" name="name" >Nombre: </label> 
 					<span th:text="${pizza.name}">nombre</span>
@@ -23,36 +24,40 @@
 				<div class="grid">
 					<div class="pizza-component" id="size">
 						<label for="size" type="text" name="size" >Tama&ntilde;o: </label> 
-						<select th:object="${size}" disabled>
-							<option th:each="component : ${size}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.size}"></option>
+						<select th:object="${size}" class="sum" disabled>
+							<option th:price="${component.price}" th:each="component : ${size}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.size}"></option>
 						</select>
 					</div>	
 					<div class="pizza-component" id="mass">
 						<label for="mass" type="text" name="mass" >Masa: </label> 
-						<select th:object="${mass}" disabled>
-							<option th:each="component : ${mass}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.mass}"></option>
+						<select th:object="${mass}" class="sum" disabled>
+							<option th:price="${component.price}" th:each="component : ${mass}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.mass}"></option>
 						</select>
 					</div>	
 					<div class="pizza-component" id="cheese">
 						<label for="cheese" type="text" name="cheese" >Masa: </label> 
-						<select th:object="${cheese}" disabled>
-							<option th:each="component : ${cheese}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.cheese}"></option>
+						<select th:object="${cheese}" class="sum" disabled>
+							<option th:price="${component.price}" th:each="component : ${cheese}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.cheese}"></option>
 						</select>
 					</div>	
 					<div class="pizza-component" id="sauce">
 						<label for="sauce" type="text" name="sauce" >Salsa: </label> 
-						<select th:object="${sauce}" disabled>
-							<option th:each="component : ${sauce}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.sauce}"></option>
+						<select th:object="${sauce}" class="sum" disabled>
+							<option th:price="${component.price}" th:each="component : ${sauce}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.sauce}"></option>
 						</select>
 					</div>	
 					<div class="pizza-component" id="topping">
 						<label for="topping" type="text" name="topping" >Topin: </label> 
-						<select th:object="${topping}" disabled>
-							<option th:each="component : ${topping}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.topping}"></option>
+						<select th:object="${topping}" class="sum" disabled>
+							<option th:price="${component.price}" th:each="component : ${topping}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.topping}"></option>
 						</select>
 					</div>	
-				</div>	
+				</div>
+			<div>
+				<span>Total: </span><span class="total">$0</span>	
+			</div>		
 			</div>
+			</br>
 			<button id="button" disabled>Confirmar Orden</button>  <button id="button" th:formaction="@{/carrito/delete}">Anular Orden</button>
 		</form>
 	</div>

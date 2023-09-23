@@ -38,26 +38,7 @@ public class PizzaController {
 	//Get ingredients
 	@ModelAttribute	
 	public void addComponentsToModel(Model model) {	
-		List<PizzaComponent> components = pizzaComponentService.getAllComponents();
-		PizzaComponentEnum enumPizza = null;
-		
-		List<PizzaComponent> componentsToAddToModel = new ArrayList<PizzaComponent>();
-		
-		for (int i = 0; i < components.size(); i++) {
-			
-			if (enumPizza != components.get(i).getComponentType()) {				
-				
-				if (i != 0) {
-					model.addAttribute(enumPizza.toString().toLowerCase(), new ArrayList<PizzaComponent>(componentsToAddToModel));
-					componentsToAddToModel.clear();
-				}			
-				enumPizza = components.get(i).getComponentType();
-			}
-			
-			componentsToAddToModel.add(components.get(i));
-		}
-		
-		model.addAttribute(enumPizza.toString().toLowerCase(), new ArrayList<PizzaComponent>(componentsToAddToModel));
+		ControllerUtilities.loadPizzaComponentsToModel(model,pizzaComponentService);
 	}
 	
 	@ModelAttribute(name = "orderPizza")
@@ -74,9 +55,6 @@ public class PizzaController {
 	
 	
 	@PostMapping
-	//En el ejemplo no necesita pasarle el @ModelAttribute pero si no lo hago no muestra los errores...
-	//Lo dejo marcado para ver que ocurre...
-	//Descubri que es por el nombre...
 	public String addPizzaToOrder(boolean sameForm,@ModelAttribute(name="pizza") @Valid PizzaDTO pizza, BindingResult bindingResult, @ModelAttribute(name = "orderPizza") OrderDTO orderPizza) {
 		if (bindingResult.hasErrors()) {
 			System.out.println("errores" +bindingResult.getAllErrors());

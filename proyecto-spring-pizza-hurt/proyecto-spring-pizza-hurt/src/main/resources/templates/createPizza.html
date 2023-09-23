@@ -5,13 +5,14 @@
     <title>Crear Pizza</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link th:href="@{/styles/style.css}" rel="stylesheet" />
+	<script type="text/javascript" th:src="@{/scripts/script.js}"></script>
   </head>
   <body>
 	<div th:replace="~{/fragments/header :: header}">
 	</div>
     <div id="content">
 		<h1>Armar pizza</h1>
-		<form method="POST" th:object="${pizza}">
+		<form method="POST" th:object="${pizza}" class="super-sum">
 		
 			<div th:if="${#fields.hasAnyErrors()}">
 			    <p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
@@ -23,42 +24,46 @@
 			</div>
 			<h2>Componentes</h2>
 			<div class="grid">
-				<div class="pizza-component" id="size">
+				<div class="pizza-component" id="size" >
 					<label for="size" type="text" name="size" >Tama&ntilde;o: </label> 
-					<select th:field="*{size}">
+					<select th:field="*{size}" class="sum">
 						<option value="0">Seleccione</option>
-						<option th:each="component : ${size}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+						<option sum th:price="${component.price}" th:each="component : ${size}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
 					</select>
 				</div>				
-				<div class="pizza-component" id="masses">
+				<div class="pizza-component" id="masses" >
 					<label for="mass" type="text" name="mass" >Masa: </label> 
-					<select th:field="*{mass}">
+					<select th:field="*{mass}" class="sum">
 						<option value="0">Seleccione</option>
-						<option th:each="component : ${mass}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+						<option th:price="${component.price}" th:each="component : ${mass}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
 					</select>
 				</div>	
-				<div class="pizza-component" id="cheese">
+				<div class="pizza-component" id="cheese" >
 					<label for="cheese" type="text" name="cheese" >Queso: </label> 
-					<select th:field="*{cheese}">
+					<select th:field="*{cheese}" class="sum">
 						<option value="0">Seleccione</option>
-						<option th:each="component : ${cheese}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+						<option th:price="${component.price}"  th:each="component : ${cheese}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
 					</select>
 				</div>	
-				<div class="pizza-component" id="sauce">
+				<div class="pizza-component" id="sauce" >
 					<label for="sauce" type="text" name="sauce" >Salsa: </label> 
-					<select th:field="*{sauce}">
+					<select th:field="*{sauce}" class="sum">
 						<option value="0">Seleccione</option>
-						<option th:each="component : ${sauce}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+						<option th:price="${component.price}"  th:each="component : ${sauce}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
 					</select>
 				</div>	
-				<div class="pizza-component" id="topping">
+				<div class="pizza-component" id="topping" >
 					<label for="topping" type="text" name="sauce" >Toping: </label> 
-					<select th:field="*{topping}">
+					<select th:field="*{topping}" class="sum">
 						<option value="0">Seleccione</option>
-						<option th:each="component : ${topping}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+						<option th:price="${component.price}" th:each="component : ${topping}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
 					</select>
-				</div>				
+				</div>			
 			</div>
+			<div>
+				<span>Total: </span><span class="total">$0</span>	
+			</div>	
+			</br>
 			<button id="button" name="sameForm" value="true">Agregar y Seguir agregando</button>  <button id="button" name="sameForm" value="false">Agregar e ir al Carrito</button>
 		</form>
 	</div>

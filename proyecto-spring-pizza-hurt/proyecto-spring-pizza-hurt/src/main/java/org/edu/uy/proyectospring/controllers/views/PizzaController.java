@@ -59,10 +59,14 @@ public class PizzaController {
 		if (bindingResult.hasErrors()) {
 			System.out.println("errores" +bindingResult.getAllErrors());
 			return "createPizza";
+		}		
+		//Se validan los componentes antes de agregarlos.
+		try {
+			pizzaComponentService.map(pizza);
+		}catch(Exception ex) {
+			bindingResult.reject("errorCode", "Hubo una inconsistencia en algunos de los ingredientes");
+			return "createPizza";
 		}
-		
-		//Se validan los componentes antes de agregarlos. Aqui tengo que hacer un catch para emitir un error global...
-		pizzaComponentService.map(pizza);
 		orderPizza.addPizza(pizza);
 		
 		if (sameForm) {

@@ -1,19 +1,12 @@
 package org.edu.uy.proyectospring.controllers.views;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import org.edu.uy.proyectospring.entities.PizzaComponent;
-import org.edu.uy.proyectospring.entities.PizzaComponentEnum;
 import org.edu.uy.proyectospring.models.OrderDTO;
-import org.edu.uy.proyectospring.models.PizzaDTO;
 import org.edu.uy.proyectospring.services.OrderService;
 import org.edu.uy.proyectospring.services.PizzaComponentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -12,8 +12,7 @@
 	</div>
     <div id="content">
 		<h1>Armar pizza</h1>
-		<form method="POST" th:object="${pizza}" class="super-sum">
-		
+		<form method="POST" th:object="${pizza}" class="super-sum">		
 			<div th:if="${#fields.hasAnyErrors()}">
 			    <p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
 			</div>

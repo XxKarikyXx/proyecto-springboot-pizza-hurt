@@ -6,6 +6,7 @@ import java.util.List;
 import org.edu.uy.proyectospring.entities.PizzaComponent;
 import org.edu.uy.proyectospring.entities.PizzaComponentEnum;
 import org.edu.uy.proyectospring.models.OrderDTO;
+import org.edu.uy.proyectospring.models.PizzaDTO;
 import org.edu.uy.proyectospring.services.OrderService;
 import org.edu.uy.proyectospring.services.PizzaComponentService;
 import org.springframework.stereotype.Controller;
@@ -56,10 +57,16 @@ public class OrderController {
 	return "redirect:/";		
 	}
 	
-	@PostMapping("/delete")
+	@PostMapping("/eliminar")
 	public String deleteCart(SessionStatus sessionStatus) {	
 		sessionStatus.setComplete();
 		return "redirect:/carrito";
+	}
+	
+	@PostMapping("/pizza/eliminar")
+	public String removePizzaFromCart(int number,@ModelAttribute(name="orderPizza") OrderDTO orderPizza) {
+		orderPizza.removePizzaByIndex(number);
+		return "cart";
 	}
 	
 	@ModelAttribute(name = "orderPizza")

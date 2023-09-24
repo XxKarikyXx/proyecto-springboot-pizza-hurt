@@ -66,7 +66,7 @@ public class PizzaController {
 		orderPizza.addPizza(pizza);
 		
 		if (sameForm) {
-			return "redirect:/ordenes/pizza";
+			return "redirect:/carrito/pizza";
 		}else{
 			return "redirect:/carrito";
 		}

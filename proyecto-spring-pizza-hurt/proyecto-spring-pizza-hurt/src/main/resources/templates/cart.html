@@ -14,10 +14,10 @@
 		<h1>Carrito de Pizzas</h1>
 		<form method="POST" th:object="${orderPizza}">
 			
-			<div class="border scroll super-sum" th:each="pizza : ${orderPizza.pizzas}">
+			<div class="border scroll super-sum" th:each="pizza,iter : ${orderPizza.pizzas}">
 				<div class="flex-inline">
 					<label for="name" type="text" name="name" >Nombre: </label> 
-					<span th:text="${pizza.name}">nombre</span>
+					<span th:text="${pizza.name}">nombre</span> <button id="button" th:name="number" th:value="${iter.index}" th:formaction="@{/carrito/pizza/eliminar}">Eliminar</button>
 					<br/>
 				</div>
 				<h3>Componentes</h3>
@@ -58,7 +58,7 @@
 			</div>		
 			</div>
 			</br>
-			<button id="button" disabled>Confirmar Orden</button>  <button id="button" th:formaction="@{/carrito/delete}">Anular Orden</button>
+			<button id="button" disabled>Confirmar Orden</button>  <button id="button" th:formaction="@{/carrito/eliminar}">Anular Orden</button>
 		</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}">&copy; 2016 The Static Templates</div>

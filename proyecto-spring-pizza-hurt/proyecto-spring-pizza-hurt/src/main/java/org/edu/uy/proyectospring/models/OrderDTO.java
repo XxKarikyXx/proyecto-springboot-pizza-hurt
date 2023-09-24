@@ -15,5 +15,17 @@ public  class OrderDTO{
 	public void addPizza(PizzaDTO pizza) {
 		this.pizzas.add(pizza);		
 	}
+
+	public void removePizza(PizzaDTO pizza) {
+		this.pizzas.remove(pizza);
+		
+	}
+
+	public void removePizzaByIndex(int number) {
+		if (number < this.pizzas.size() && number > -1) {
+			this.pizzas.remove(number);	
+		}
+		
+	}
 	
 }

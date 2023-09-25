@@ -59,11 +59,16 @@ public class OrderService {
 		return orderRepository.findByUserId(userId);
 	}
 
-	public OrderWithIdDTO getOrderById(Long order) {
+	public OrderWithIdDTO getOrderByIdAndUserId(Long orderId, Long userId) {
+		OrderEntity order = orderRepository.findById(orderId)
+				.orElseThrow(()->new EntityNotFoundException(orderId));
+		
+		if (order.getUser().getId() != userId) {
+			throw new EntityNotFoundException(orderId);
+		}
+		
 		return orderWithIdDTOConverter
-				.convert(orderRepository.findById(order)
-							.orElseThrow(()->new EntityNotFoundException(order))
-						);
+				.convert(order);
 	}
 
 }

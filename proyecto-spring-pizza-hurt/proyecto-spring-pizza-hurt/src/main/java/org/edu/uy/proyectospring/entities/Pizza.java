@@ -45,10 +45,8 @@ public class Pizza extends BaseEntity{
 	@ManyToOne
 	@JoinColumn(name="topping_id")
 	private Topping topping;
-	
-	private Long price;
-	
 
+	
 	public Pizza(String name, Size size, Mass mass, Sauce sauce, Cheese cheese, Topping topping) {
 		super();
 		this.name = name;

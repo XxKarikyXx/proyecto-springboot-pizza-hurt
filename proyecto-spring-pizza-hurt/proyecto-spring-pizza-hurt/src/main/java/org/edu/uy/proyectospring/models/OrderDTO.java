@@ -5,8 +5,10 @@ import java.util.List;
 
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public  class OrderDTO{
 	
 	@Size(min= 1, message="No se puede generar la orden sin pizzas")
@@ -26,6 +28,10 @@ public  class OrderDTO{
 			this.pizzas.remove(number);	
 		}
 		
+	}
+
+	public void setPizzas(List<PizzaDTO> pizzas) {
+		this.pizzas = pizzas;	
 	}
 	
 }

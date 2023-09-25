@@ -98,6 +98,10 @@ div.flex-inline{
 	display: inline-flex;
 }
 
+div.flex{
+	display: flex;
+}
+
 input[type="reset"], input[type="button"], input[type="submit"], button{
     background-color: rgb(16, 160, 232);
     color: rgb(236, 247, 255);

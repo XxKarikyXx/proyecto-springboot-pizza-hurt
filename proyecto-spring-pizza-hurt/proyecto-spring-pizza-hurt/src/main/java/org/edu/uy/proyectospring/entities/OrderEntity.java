@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -24,8 +26,12 @@ import lombok.ToString;
 @Entity
 public class OrderEntity extends BaseEntity{
 	
-	@OneToMany
-	@JoinColumn(name="order_id")
+	//Para que se creen las pizzas
+	@OneToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(
+			  name = "OrderPizzas", 
+			  joinColumns = @JoinColumn(name = "order_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "pizza_id"))
 	private List<Pizza> pizzas = new ArrayList<Pizza>();
 	
 	

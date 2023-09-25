@@ -39,14 +39,11 @@ public class CartController {
 	public String processOrder(@ModelAttribute(name="orderPizza") @Valid OrderDTO orderPizza, BindingResult bindingResult, SessionStatus sessionStatus) {		
 		
 		if (bindingResult.hasErrors()) {
-			System.out.println(bindingResult.getAllErrors().get(0));
-			System.out.println("aaaaaa");
 			return "cart";
 		}
 		try {
 			orderService.saveOrderWithUserId(orderPizza,1L);
 		}catch(Exception ex) {
-			System.out.println(ex);
 			bindingResult.reject("errorCode", "Hubo una inconsistencia en algunos de los datos ingresados..., se sugiere refrescar y volver a intentar");
 			return "cart";
 		}

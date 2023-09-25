@@ -52,7 +52,6 @@ public class PizzaController {
 	@PostMapping
 	public String addPizzaToOrder(boolean sameForm,@ModelAttribute(name="pizza") @Valid PizzaDTO pizza, BindingResult bindingResult, @ModelAttribute(name = "orderPizza") OrderDTO orderPizza) {
 		if (bindingResult.hasErrors()) {
-			System.out.println("errores" +bindingResult.getAllErrors());
 			return "createPizza";
 		}		
 		//Se validan los componentes antes de agregarlos.

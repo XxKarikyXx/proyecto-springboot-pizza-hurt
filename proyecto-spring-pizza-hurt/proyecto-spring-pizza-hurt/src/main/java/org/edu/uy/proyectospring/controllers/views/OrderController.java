@@ -11,6 +11,7 @@ import org.edu.uy.proyectospring.services.PizzaComponentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -41,6 +42,15 @@ public class OrderController {
 		
 		model.addAttribute("orders", orders);
 		return "orders";
+	}
+	
+	@GetMapping("/{orderId}/pagar")
+	public String showOrderDeliveryPaymentForm(@PathVariable("orderId") Long orderId, Model model) {
+		//HARDCODEADO USERID
+		OrderWithIdDTO orderToReturn = orderService.getOrderById(orderId);
+		
+		model.addAttribute("order", orderToReturn);
+		return "orderDeliveryPayment";
 	}
 	
 

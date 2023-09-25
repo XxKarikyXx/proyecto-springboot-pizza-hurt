@@ -8,12 +8,10 @@ import lombok.Setter;
 public class OrderWithIdDTO extends OrderDTO{
 	
 	
-	Long id;
+	private Long id;
 	
-	Double total;
+	private Double total;
 	
-	boolean paid; 
-	//Aca queda a criterio nuestro. 
-	//Podemos devolver un booleano para dependiendo de ello saber si esa orden se tiene que pagar o no y lo manejamos cn el framework
+	private Long payment; 
 
 }

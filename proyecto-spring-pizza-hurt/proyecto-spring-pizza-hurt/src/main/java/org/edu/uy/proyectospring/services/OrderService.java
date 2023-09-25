@@ -5,9 +5,12 @@ import java.util.List;
 
 import org.edu.uy.proyectospring.converters.OrderConverter;
 import org.edu.uy.proyectospring.converters.OrderDTOConverter;
+import org.edu.uy.proyectospring.converters.OrderWithIdDTOConverter;
 import org.edu.uy.proyectospring.entities.OrderEntity;
 import org.edu.uy.proyectospring.entities.UserEntity;
+import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
 import org.edu.uy.proyectospring.models.OrderDTO;
+import org.edu.uy.proyectospring.models.OrderWithIdDTO;
 import org.edu.uy.proyectospring.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,23 +25,31 @@ public class OrderService {
 	
 	private OrderDTOConverter orderDTOConverter;
 	
+	private OrderWithIdDTOConverter orderWithIdDTOConverter;
+	
 	private PizzaComponentService pizzaComponentService;
 
 	public OrderService(OrderRepository orderRepository, UserService userService, OrderConverter orderConverter, OrderDTOConverter orderDTOConverter,
-			PizzaComponentService pizzaComponentService) {
+			PizzaComponentService pizzaComponentService, OrderWithIdDTOConverter orderWithIdDTOConverter) {
 		super();
 		this.userService = userService;
 		this.orderRepository = orderRepository;
 		this.orderConverter = orderConverter;
 		this.orderDTOConverter = orderDTOConverter;
 		this.pizzaComponentService = pizzaComponentService;
+		this.orderWithIdDTOConverter = orderWithIdDTOConverter;
 	}
 	
-	//Hay que analizar esto.
+	//Hay que revisar esto.
 	public OrderDTO saveOrderWithUserId(OrderDTO orderPizza, Long userId) {
-		//Hay que acordarse de calcular el total aqui que seria la suma de cada componente.
 		UserEntity user = userService.getUserById(userId);
 		OrderEntity orderToSave = orderConverter.convert(orderPizza);
+		orderToSave.getPizzas().forEach(p->
+			orderToSave.setTotalPrice(
+					orderToSave.getTotalPrice() +
+					pizzaComponentService.getTotalOfPizza(p)
+					)
+		);
 		orderToSave.setOrderDateTime(new Date());
 		orderToSave.setUser(user);
 		return orderDTOConverter.convert(orderRepository.save(orderToSave));
@@ -46,6 +57,13 @@ public class OrderService {
 
 	public List<OrderEntity> getOrdersByUserId(Long userId) {
 		return orderRepository.findByUserId(userId);
+	}
+
+	public OrderWithIdDTO getOrderById(Long order) {
+		return orderWithIdDTOConverter
+				.convert(orderRepository.findById(order)
+							.orElseThrow(()->new EntityNotFoundException(order))
+						);
 	}
 
 }

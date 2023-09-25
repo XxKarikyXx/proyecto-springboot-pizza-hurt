@@ -16,19 +16,20 @@
 			Aún no tiene órdenes realizadas :(
 		</div>
 		<div th:if="${orders.size} > 0">
-			<form method="POST" th:object="${orders}">
+			<form method="GET" th:object="${orders}">
 				<div th:if="${#fields.hasAnyErrors()}">
 					<p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
 				</div>
 				<ol>
+					<hr>
 					<div th:each="order,iter : ${orders}" >
 					<span th:text="Orden +' '+${iter.index+1}">Orden</span>
 						<li>
 							<ul>
 								<div th:each="pizza,iter2 : ${order.pizzas}">
-									<span th:text="Pizza +' '+${iter2.index+1}">Pizza</span>
 									<li>
 										<div class="flex">
+											<span th:text="Pizza +' '+${iter2.index+1}">Pizza</span>
 											<label for="name" type="text" name="name" >Nombre: </label> 
 											<span th:object="${pizza}" th:text="${pizza.name}">nombre</span>
 										</div>
@@ -36,7 +37,8 @@
 								</div>
 							</ul>
 						</li>
-						<button disabled>Pagar y Enviar</button>
+						<div>Total: $<span th:text=${order.total}>Total</span></div>
+						<button th:formaction="@{'/ordenes/' + ${order.id} + '/pagar'}">Pagar y Enviar</button>
 						<hr>
 						</br>
 					</div>

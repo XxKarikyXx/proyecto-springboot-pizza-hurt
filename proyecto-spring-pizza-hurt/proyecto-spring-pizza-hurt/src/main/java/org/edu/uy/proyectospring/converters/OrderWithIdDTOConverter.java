@@ -21,11 +21,20 @@ public class OrderWithIdDTOConverter implements Converter<OrderEntity, OrderWith
 	}
 
 	
+	
 	@Override
 	public OrderWithIdDTO convert(OrderEntity source) {
 		OrderDTO order = orderDTOConverter.convert(source);
 		OrderWithIdDTO finalOrder =  new OrderWithIdDTO();
 		finalOrder.setPizzas(order.getPizzas());
+		finalOrder.setTotal(source.getTotalPrice());
+		
+		//Esto tal vez cambie
+		if(source.getPayment() != null) {
+			finalOrder.setPayment(source.getPayment().getId());
+		}else{
+			finalOrder.setPayment(0L);	
+		}
 		finalOrder.setId(source.getId());
 		return finalOrder;		
 	}

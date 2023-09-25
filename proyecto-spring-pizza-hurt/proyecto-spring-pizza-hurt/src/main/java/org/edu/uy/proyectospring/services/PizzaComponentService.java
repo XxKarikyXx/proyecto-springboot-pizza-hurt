@@ -91,5 +91,13 @@ public class PizzaComponentService {
 		componentsList.addAll(getToppings());
 		return componentsList;
 	}
+	
+	public Double getTotalOfPizza(Pizza pizza){
+		return pizza.getCheese().getPrice()+
+				pizza.getMass().getPrice()+
+				pizza.getSauce().getPrice()+
+				pizza.getSize().getPrice()+
+				pizza.getTopping().getPrice();		
+	}
 
 }

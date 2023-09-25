@@ -14,20 +14,20 @@ import lombok.Setter;
 @Setter
 public class PizzaDTO{
 	@NotEmpty(message="El nombre no puede ser vacío")
-	public String name;
+	private String name;
 	
 	@Range(min = 1, message="Debe indicar una salsa")
-	public Long sauce;
+	private Long sauce;
 	
 	@Range(min = 1, message="Debe indicar una masa") 
-	public Long mass;
+	private Long mass;
 	
 	@Range(min = 1, message="Debe indicar un queso") 
-	public Long cheese;
+	private Long cheese;
 	
 	@Range(min = 1, message="Debe indicar un tamaño") 
-	public Long size;
+	private Long size;
 	
 	@Range(min = 1, message="Debe indicar un topin") 
-	public Long topping;
+	private Long topping;
 }

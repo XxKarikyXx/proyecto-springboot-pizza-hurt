@@ -1,10 +1,5 @@
 package org.edu.uy.proyectospring.controllers.views;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.edu.uy.proyectospring.entities.PizzaComponent;
-import org.edu.uy.proyectospring.entities.PizzaComponentEnum;
 import org.edu.uy.proyectospring.models.OrderDTO;
 import org.edu.uy.proyectospring.models.PizzaDTO;
 import org.edu.uy.proyectospring.services.OrderService;

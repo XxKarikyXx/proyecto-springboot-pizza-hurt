@@ -47,7 +47,7 @@ public class OrderController {
 	@GetMapping("/{orderId}/pagar")
 	public String showOrderDeliveryPaymentForm(@PathVariable("orderId") Long orderId, Model model) {
 		//HARDCODEADO USERID
-		OrderWithIdDTO orderToReturn = orderService.getOrderById(orderId);
+		OrderWithIdDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,1L);
 		
 		model.addAttribute("order", orderToReturn);
 		return "orderDeliveryPayment";

@@ -55,12 +55,14 @@
 						</select>
 					</div>	
 				</div>
-			<div>
-				<span>Total: </span><span class="total">$0</span>	
-			</div>		
+				<div>
+					<span>Total: </span><span class="total">$0</span>	
+				</div>	
+			</div>
+			<div th:if="${orderPizza.pizzas.size} > 0">
+				<button id="button" th:formaction="@{/carrito}">Confirmar Orden</button>  <button id="button" th:formaction="@{/carrito/eliminar}">Anular Orden</button>	
 			</div>
 			</br>
-			<button id="button" th:formaction="@{/carrito}">Confirmar Orden</button>  <button id="button" th:formaction="@{/carrito/eliminar}">Anular Orden</button>
 		</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}">&copy; 2016 The Static Templates</div>

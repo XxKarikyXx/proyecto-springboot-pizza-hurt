@@ -10,6 +10,7 @@ import org.edu.uy.proyectospring.services.OrderService;
 import org.edu.uy.proyectospring.services.PizzaComponentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,8 +49,8 @@ public class OrderController {
 	public String showOrderDeliveryPaymentForm(@PathVariable("orderId") Long orderId, Model model) {
 		//HARDCODEADO USERID
 		OrderWithIdDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,1L);
-		
 		model.addAttribute("order", orderToReturn);
+
 		return "orderDeliveryPayment";
 	}
 	

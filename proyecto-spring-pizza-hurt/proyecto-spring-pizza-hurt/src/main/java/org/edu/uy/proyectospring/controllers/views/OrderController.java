@@ -4,8 +4,8 @@ package org.edu.uy.proyectospring.controllers.views;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.edu.uy.proyectospring.converters.OrderWithIdDTOConverter;
-import org.edu.uy.proyectospring.models.OrderWithIdDTO;
+import org.edu.uy.proyectospring.converters.orders.OrderWithIdDTOConverter;
+import org.edu.uy.proyectospring.models.orders.OrderWithIdDTO;
 import org.edu.uy.proyectospring.services.OrderService;
 import org.edu.uy.proyectospring.services.PizzaComponentService;
 import org.springframework.stereotype.Controller;

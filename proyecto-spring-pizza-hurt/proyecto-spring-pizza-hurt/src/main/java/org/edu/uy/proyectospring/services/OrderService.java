@@ -3,14 +3,14 @@ package org.edu.uy.proyectospring.services;
 import java.util.Date;
 import java.util.List;
 
-import org.edu.uy.proyectospring.converters.OrderConverter;
-import org.edu.uy.proyectospring.converters.OrderDTOConverter;
-import org.edu.uy.proyectospring.converters.OrderWithIdDTOConverter;
+import org.edu.uy.proyectospring.converters.orders.OrderDTOToOrderConverter;
+import org.edu.uy.proyectospring.converters.orders.OrderDTOConverter;
+import org.edu.uy.proyectospring.converters.orders.OrderWithIdDTOConverter;
 import org.edu.uy.proyectospring.entities.OrderEntity;
 import org.edu.uy.proyectospring.entities.UserEntity;
 import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
-import org.edu.uy.proyectospring.models.OrderDTO;
-import org.edu.uy.proyectospring.models.OrderWithIdDTO;
+import org.edu.uy.proyectospring.models.orders.OrderDTO;
+import org.edu.uy.proyectospring.models.orders.OrderWithIdDTO;
 import org.edu.uy.proyectospring.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class OrderService {
 	
 	private OrderRepository orderRepository;
 	
-	private OrderConverter orderConverter;
+	private OrderDTOToOrderConverter orderConverter;
 	
 	private OrderDTOConverter orderDTOConverter;
 	
@@ -29,7 +29,7 @@ public class OrderService {
 	
 	private PizzaComponentService pizzaComponentService;
 
-	public OrderService(OrderRepository orderRepository, UserService userService, OrderConverter orderConverter, OrderDTOConverter orderDTOConverter,
+	public OrderService(OrderRepository orderRepository, UserService userService, OrderDTOToOrderConverter orderConverter, OrderDTOConverter orderDTOConverter,
 			PizzaComponentService pizzaComponentService, OrderWithIdDTOConverter orderWithIdDTOConverter) {
 		super();
 		this.userService = userService;

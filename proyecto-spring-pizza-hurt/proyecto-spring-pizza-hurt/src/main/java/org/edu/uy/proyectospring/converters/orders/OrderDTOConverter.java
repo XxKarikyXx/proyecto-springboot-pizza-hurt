@@ -1,9 +1,10 @@
-package org.edu.uy.proyectospring.converters;
+package org.edu.uy.proyectospring.converters.orders;
 
 import java.util.stream.Collectors;
 
+import org.edu.uy.proyectospring.converters.PizzaComponentDTOConverter;
 import org.edu.uy.proyectospring.entities.OrderEntity;
-import org.edu.uy.proyectospring.models.OrderDTO;
+import org.edu.uy.proyectospring.models.orders.OrderDTO;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

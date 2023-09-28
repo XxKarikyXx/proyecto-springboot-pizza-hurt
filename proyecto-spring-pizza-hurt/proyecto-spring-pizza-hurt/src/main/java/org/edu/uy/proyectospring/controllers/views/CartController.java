@@ -1,6 +1,6 @@
 package org.edu.uy.proyectospring.controllers.views;
 
-import org.edu.uy.proyectospring.models.OrderDTO;
+import org.edu.uy.proyectospring.models.orders.OrderDTO;
 import org.edu.uy.proyectospring.services.OrderService;
 import org.edu.uy.proyectospring.services.PizzaComponentService;
 import org.springframework.stereotype.Controller;

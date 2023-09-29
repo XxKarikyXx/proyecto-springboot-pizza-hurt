@@ -16,29 +16,69 @@
 				<div th:if="${#fields.hasAnyErrors()}">
 					<p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
 				</div>
-				<div>
-					Orden:
-					<ul>
-						<div th:each="pizza,iter2 : ${order.pizzas}">
-							<li>
-								<div class="flex">
-									<span th:text="Pizza +' '+${iter2.index+1}">Pizza</span>
-									<label for="name" type="text" name="name" >Nombre: </label> 
-									<span th:object="${pizza}" th:text="${pizza.name}">nombre</span>
-								</div>
-							</li>
-						</div>
-					</ul>
+				<div class="flex-column">
+					<h2>Orden:</h2>
+					<div class="left">
+						<ul>
+							<div th:each="pizza,iter2 : ${order.pizzas}">
+								<li>
+									<div class="flex">
+										<span th:text="Pizza +' '+${iter2.index+1}">Pizza</span> -
+										<label class="label-width-auto" for="name" type="text" name="name" >Nombre: </label> 
+										<span th:object="${pizza}" th:text="${pizza.name}">nombre</span>
+									</div>
+								</li>
+							</div>
+						</ul>
+					</div>
 					<div>Total: $<span th:text=${order.total}>Total</span></div>
 				</div>
-				<div>
-					Envio:
-					(Sin completar)
+				<div class="flex-column">
+					<h2>Envío:</h2>
+					<div class="left">
+						<label for="street" type="text" name="street" >Calle: </label> 
+						<input type="text" th:field="*{delivery.address.street}"/>
+						<br>
+						<label for="doorNumber" type="text" name="doorNumber" >Nro de puerta: </label> 
+						<input type="text" th:field="*{delivery.address.doorNumber}"/>
+						<br>
+						<label for="apartmentNumber" type="text" name="apartmentNumber" >Apartamento: </label> 
+						<input type="text" th:field="*{delivery.address.apartmentNumber}"/>
+						<br>
+						<label for="district" type="text" name="district" >Barrio: </label> 
+						<input type="text" th:field="*{delivery.address.district}"/>
+						<br>
+						<label for="zipCode" type="text" name="zipCode" >Código postal: </label> 
+						<input type="text" th:field="*{delivery.address.zipCode}"/>
+						<br>
+						<label for="observations" type="text" name="observations" >Observaciones: </label> 
+						<textarea th:field="*{delivery.observations}"/>
+					</div>
 				</div>
-				<div>
-					Pago:
-					(Sin completar)
+				<div class="flex-column">
+					<h2>Pago:</h2>
+					<div class="left">
+						<label for="size" type="text" name="size" >Tarjeta: </label>
+						<select>
+							<option value="0">Nueva</option>
+							<option>(Sin completar)</option>
+						</select>
+						<button disabled>Guardar Tarjeta</button>
+						<br>
+						<label for="bank" type="text" name="bank" >Banco emisor: </label> 
+						<input type="text" th:field="*{payment.card.bank}"/>
+						<br>
+						<label for="cardNumber" type="text" name="cardNumber" >N°: </label> 
+						<input type="text" th:field="*{payment.card.cardNumber}"/>
+						<br>
+						<label for="validUntil" type="date" name="validUntil" >Vencimiento: </label> 
+						<input type="text" th:field="*{payment.card.validUntil}"/>
+						<br>
+						<label for="cvv" type="number" name="cvv" >CVV: </label> 
+						<input type="text" th:field="*{payment.card.cvv}"/>
+					</div>
 				</div>
+				<br>
 				<button disabled>Confirmar</button>
 			</form>
 	</div>

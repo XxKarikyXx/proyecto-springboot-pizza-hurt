@@ -94,6 +94,20 @@ div.pizza-component{
 	
 }
 
+.label-width-auto{
+	width: auto;
+}
+
+.left{
+	text-align:left;
+	margin: auto;
+}
+
+.flex-column{
+	display: flex;
+    flex-direction: column;
+}
+
 div.flex-inline{
 	display: inline-flex;
 }

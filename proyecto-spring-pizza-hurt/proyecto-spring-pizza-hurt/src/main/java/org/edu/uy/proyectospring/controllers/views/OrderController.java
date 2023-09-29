@@ -1,10 +1,12 @@
 package org.edu.uy.proyectospring.controllers.views;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.edu.uy.proyectospring.converters.orders.OrderWithIdDTOConverter;
+import org.edu.uy.proyectospring.models.CardDTO;
 import org.edu.uy.proyectospring.models.orders.OrderWithIdDTO;
 import org.edu.uy.proyectospring.services.OrderService;
 import org.edu.uy.proyectospring.services.PizzaComponentService;
@@ -50,6 +52,10 @@ public class OrderController {
 		//HARDCODEADO USERID
 		OrderWithIdDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,1L);
 		model.addAttribute("order", orderToReturn);
+		
+		//Hardcodeado. Hay que en realidad cargar las tarjetas del usuario loggeado
+		List<CardDTO> cards = new ArrayList<CardDTO>();
+		model.addAttribute("cards",cards);
 
 		return "orderDeliveryPayment";
 	}

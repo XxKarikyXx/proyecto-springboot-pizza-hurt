@@ -5,6 +5,7 @@ import java.util.Date;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class CardDTO {
 	@NotEmpty
 	private String bank;
 	
+	@Future(message="La tarjeta está vencida")
 	@NotNull
 	private Date validUntil;
 	

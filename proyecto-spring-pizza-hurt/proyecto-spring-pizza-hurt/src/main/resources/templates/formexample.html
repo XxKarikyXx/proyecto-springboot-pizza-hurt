@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>Bienvenido a Pizza Hurt</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link th:href="@{/styles/style.css}" rel="stylesheet" />
+  </head>
+  <body>
+	<div th:replace="~{/fragments/header :: header}">
+	</div>
+    <div id="contenido">
+      <p>
+         <div th:unless="${#lists.isEmpty(usersDTO)}">
+         <ul>
+         	<li> th:each="userDTO: ${usersDTO}">
+         		<span> th:text="${userDTO.fullname}"> NOMBRE COMPLETO</span>
+         		<span> th:text="${userDTO.email}"> EMAIL</span>
+         	</li>
+         </ul>
+         </div>
+         
+         Nuevo Usuario
+         <form th:object="${userDTO}" th:action="@{/signin}" method="post">
+			<div th:if="${#fields.hasAnyErrors()}">
+			    <p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+			</div>
+	         <label for="email" type="text" name="email" >Email: </label> 
+	         <input id="email" type="text" name="email" th:field="*{email}"/></br>
+	         <label for="password" type="text" name="password" >Password: </label> 
+	         <input id="password" type="text" name="password" th:field="*{password}"/></br>
+	         <label for="fullName">Nombre: </label> 
+	         <input id="fullName" type="text" name="fullName" th:field="*{fullName}"/></br>  
+	         <label for="telephone" type="text" name="telephone" >Telephone: </label> 
+	         <input id="telephone" type="text" name="telephone" th:field="*{telephone}"/></br>  
+	         <button type="submit">Agregar</button>
+         </form> 
+      </p>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}">&copy; 2016 The Static Templates</div>
+</html>

@@ -2,18 +2,12 @@ package org.edu.uy.proyectospring.controllers.views;
 
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.services.UserService;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -31,7 +25,7 @@ public class UserController {
 		//this.authenticationManager = authenticationManager;
 	}
 	
-	@PostMapping("/addUser")
+	@PostMapping("/signin")
 	public String addUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			//IMPORTANTE. SI REDIRECCIONAMOS PERDEMOS LOS ERRORES (a menos q se lo pasemos)
@@ -43,12 +37,13 @@ public class UserController {
 				return "adduser";
 				//Otros errores. Hay que ver de pasarlo al modelo...
 			}
-			return "redirect:/form";		
+			return "redirect:/";		
 		}
 	}
 	
 	
-	@GetMapping("/addUser")
+
+	@GetMapping("/signin")
 	public String showAddUser(@ModelAttribute("userDTO")UserDTO userDTO) {
 		return "adduser";
 	}

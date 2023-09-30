@@ -10,7 +10,7 @@ import jakarta.persistence.MappedSuperclass;
 public abstract class BaseEntity {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue()
 	private Long id;
 	
 	public Long getId() {

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-public class PizzaComponent extends BaseEntity{
+public abstract class PizzaComponent extends BaseEntity{
 	
 	@NotNull
 	@NotEmpty
@@ -24,5 +24,8 @@ public class PizzaComponent extends BaseEntity{
 		this.name = name;
 		this.price = price;
 	}
+	
+	public abstract PizzaComponentEnum getComponentType();
+	
 	
 }

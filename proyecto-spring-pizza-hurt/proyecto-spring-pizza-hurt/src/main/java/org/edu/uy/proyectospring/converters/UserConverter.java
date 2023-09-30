@@ -3,7 +3,9 @@ package org.edu.uy.proyectospring.converters;
 import org.edu.uy.proyectospring.entities.UserEntity;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserConverter implements Converter<UserDTO, UserEntity>{
 
 	@Override

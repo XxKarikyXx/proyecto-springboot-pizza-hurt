@@ -16,6 +16,14 @@ body{
   text-align: left;
 }
 
+label {
+  color: #B4886B;
+  font-weight: bold;
+  width: 130px;
+  float: left;
+
+}
+
 .header {
   overflow: hidden;
   background-color: rgb(150, 220, 240);
@@ -57,35 +65,77 @@ a:link, a:visited {
     margin-right: 5px;    
     padding: 5px;
 }
+
+form.scroll{
+    overflow-y: auto;
+    max-height: 600px;
+}
 a:hover {
     text-decoration: underline;
 }
-div#contenido {
+div#content {
     width: 80%;
     margin: 40px auto;
     text-align: center;
 }
 
-input[type="reset"], input[type="button"], input[type="submit"], button[type="submit"]{
+div.border{
+	border: 1px solid rgb(16, 160, 232);
+}
+
+div.grid{
+	display: flex;
+    flex-flow: wrap;
+    padding: 5px;
+    margin: auto;
+}
+div.pizza-component{
+	margin:5px;
+	
+}
+
+.label-width-auto{
+	width: auto;
+}
+
+.left{
+	text-align:left;
+	margin: auto;
+}
+
+.flex-column{
+	display: flex;
+    flex-direction: column;
+}
+
+div.flex-inline{
+	display: inline-flex;
+}
+
+div.flex{
+	display: flex;
+}
+
+input[type="reset"], input[type="button"], input[type="submit"], button{
     background-color: rgb(16, 160, 232);
     color: rgb(236, 247, 255);
     border-color: rgb(16, 160, 232);
 }
 
-input[type="reset"]:hover, input[type="button"]:hover, input[type="submit"]:hover, button[type="submit"]:hover{
+input[type="reset"]:hover, input[type="button"]:hover, input[type="submit"]:hover, button:hover{
     background-color: rgb(118, 209, 255);
     color: rgb(236, 247, 255);
     border-color: rgb(16, 160, 232);
     cursor: pointer;
 }
 
-input[type="reset"]:active, input[type="button"]:active, input[type="submit"]:active, button[type="submit"]:active{
+input[type="reset"]:active, input[type="button"]:active, input[type="submit"]:active, button:active{
     background-color: rgb(18, 94, 133);
     color: rgb(236, 247, 255);
     border-color: rgb(16, 160, 232);
 }
 
-input[disabled], input[readonly]{
+input[disabled], input[readonly],button[disabled]{
     background-color: rgb(112, 193, 234);
     border-color: rgb(236, 247, 255);
     color: rgb(236, 247, 255);

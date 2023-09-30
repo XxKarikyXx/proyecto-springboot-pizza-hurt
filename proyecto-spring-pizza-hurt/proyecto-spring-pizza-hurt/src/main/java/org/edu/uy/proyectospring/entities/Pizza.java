@@ -45,12 +45,9 @@ public class Pizza extends BaseEntity{
 	@ManyToOne
 	@JoinColumn(name="topping_id")
 	private Topping topping;
-	
-	@NotEmpty
-	private int quantity;
-	
 
-	public Pizza(String name, Size size, Mass mass, Sauce sauce, Cheese cheese, Topping topping, int quantity) {
+	
+	public Pizza(String name, Size size, Mass mass, Sauce sauce, Cheese cheese, Topping topping) {
 		super();
 		this.name = name;
 		this.size = size;
@@ -58,7 +55,6 @@ public class Pizza extends BaseEntity{
 		this.sauce = sauce;
 		this.cheese = cheese;
 		this.topping = topping;
-		this.quantity = quantity;
 	}
 
 }

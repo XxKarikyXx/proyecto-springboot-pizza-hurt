@@ -20,6 +20,11 @@ public class Sauce extends PizzaComponent{
 		super(name, price);
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public PizzaComponentEnum getComponentType() {
+		return PizzaComponentEnum.SAUCE;
+	}
 	
 
 }

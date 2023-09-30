@@ -9,6 +9,7 @@ import org.edu.uy.proyectospring.converters.UserRegistrationConverter;
 import org.edu.uy.proyectospring.entities.Card;
 import org.edu.uy.proyectospring.entities.OrderEntity;
 import org.edu.uy.proyectospring.entities.UserEntity;
+import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
 import org.edu.uy.proyectospring.repositories.PaymentRepository;
@@ -40,16 +41,14 @@ public class UserService implements UserDetailsService {
 		return null;
 	}
 
-	public UserService(UserRepository userRepository, PaymentRepository paymentRepository) {
+	public UserService(UserRepository userRepository, UserConverter userConverter) {
 		super();
 		this.userRepository = userRepository;
-		this.paymentRepository = paymentRepository;
-		this.userConverter = new UserConverter();
+		this.userConverter = userConverter;
 	}
 
 	public List<UserEntity> getUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		return userRepository.findAll();
 	}
 
 	public UserEntity createUser(@Valid UserDTO userEntity) {		
@@ -60,9 +59,9 @@ public class UserService implements UserDetailsService {
 		return userRepository.save(user);
 	}
 
-	public Optional<UserEntity> getUserById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public UserEntity getUserById(Long id) {
+		return userRepository.findById(id)
+				.orElseThrow(()-> new EntityNotFoundException(id));
 	}
 
 	@Override

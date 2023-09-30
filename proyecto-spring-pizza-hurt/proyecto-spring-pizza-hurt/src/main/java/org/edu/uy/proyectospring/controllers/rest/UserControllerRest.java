@@ -39,8 +39,7 @@ public class UserControllerRest {
 	
 	@GetMapping("/usuarios/{id}")
 	public UserEntity getUserById(@PathVariable Long id) {
-		return userService.getUserById(id)
-				.orElseThrow(() -> new EntityNotFoundException(id));
+		return userService.getUserById(id);
 	}
 	
 	

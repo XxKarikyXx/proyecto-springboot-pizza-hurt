@@ -1,29 +1,25 @@
-package org.edu.uy.proyectospring.entities;
+package org.edu.uy.proyectospring.models;
 
 import java.util.Date;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
 
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@Entity
-@NoArgsConstructor
-public class Card extends BaseEntity{
+public class CardDTO {	
+	Long id;
 	
-	@NotNull
 	@NotEmpty
 	private String bank;
 	
+	@Future(message="La tarjeta está vencida")
 	@NotNull
 	private Date validUntil;
 	
@@ -35,12 +31,4 @@ public class Card extends BaseEntity{
 	@Digits(integer=3, fraction=0, message="Código CVV inválido")
 	private int cvv;
 
-	public Card(String bank, Date validUntil, String cardNumber, int cvv) {
-		super();
-		this.bank = bank;
-		this.validUntil = validUntil;
-		this.cardNumber = cardNumber;
-		this.cvv = cvv;
-	}
-	
 }

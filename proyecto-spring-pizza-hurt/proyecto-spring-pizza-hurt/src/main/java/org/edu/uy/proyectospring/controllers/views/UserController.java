@@ -1,13 +1,16 @@
 package org.edu.uy.proyectospring.controllers.views;
 
+import org.edu.uy.proyectospring.entities.UserEntity;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.services.UserService;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -25,38 +28,21 @@ public class UserController {
 		//this.authenticationManager = authenticationManager;
 	}
 	
-	@PostMapping("/signin")
-	public String addUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult bindingResult, Model model) {
-		if(bindingResult.hasErrors()) {
-			//IMPORTANTE. SI REDIRECCIONAMOS PERDEMOS LOS ERRORES (a menos q se lo pasemos)
-			return "adduser";
-		}else {
-			try {
-				userService.createUser(userDTO);
-			}catch(Exception ex) {
-				return "adduser";
-				//Otros errores. Hay que ver de pasarlo al modelo...
-			}
-			return "redirect:/";		
-		}
-	}
 	
-	
-
 	@GetMapping("/signin")
-	public String showAddUser(@ModelAttribute("userDTO")UserDTO userDTO) {
-		return "adduser";
-	}
-	
-	/*
-	@GetMapping("/login")
 	public String showLogin(@ModelAttribute("userDTO")UserDTO userDTO) {
 		return "login";
 	}
 	
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public String login(@RequestParam String email, @RequestParam String password, Model model) {
+    	System.out.println("login");
         try {
+			 UserDetails user = userService.loadByUsername(email);
+			 System.out.print(user.toString());
+			 if (user == null) {
+				 return "login";
+			 }
             //Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             //SecurityContextHolder.getContext().setAuthentication(authentication);
             return "redirect:/dashboard";  // o redirige a donde desees después del login
@@ -65,5 +51,5 @@ public class UserController {
             return "login";
         }
     }
-    */
+    
 }

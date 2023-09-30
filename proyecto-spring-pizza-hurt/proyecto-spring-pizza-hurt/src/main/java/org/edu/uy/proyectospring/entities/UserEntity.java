@@ -37,10 +37,6 @@ public class UserEntity implements UserDetails {
 	private Long id;
 	
 	@NotNull
-	@NotBlank
-	private String username;
-	
-	@NotNull
 	private String password;
 	
 	@NotNull
@@ -67,18 +63,20 @@ public class UserEntity implements UserDetails {
 	
 	@Column(columnDefinition="boolean default true")
 	private boolean active;
-
-	public UserEntity(@NotNull String fullName, @NotNull String email, @NotNull String telephone,
-			@NotNull String password, List<Card> cards, List<OrderEntity> orders, boolean active) {
+	
+	public UserEntity(Long id, @NotNull String password, @NotNull String fullName, @NotNull String email,
+			@NotNull String telephone, List<Card> cards, List<OrderEntity> orders, boolean active) {
 		super();
+		this.id = id;
+		this.password = password;
 		this.fullName = fullName;
 		this.email = email;
 		this.telephone = telephone;
-		this.password = password;
 		this.cards = cards;
 		this.orders = orders;
 		this.active = active;
 	}
+	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -108,6 +106,11 @@ public class UserEntity implements UserDetails {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.getEmail();
 	}
 
 

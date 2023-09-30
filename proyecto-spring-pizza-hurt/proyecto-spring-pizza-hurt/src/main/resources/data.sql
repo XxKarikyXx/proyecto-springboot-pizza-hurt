@@ -18,6 +18,3 @@ INSERT INTO topping (id, name, price) VALUES
   
 INSERT INTO size (id, name, price) VALUES
 	(1L,'Normal',100);
-	
-INSERT INTO user_entity (id, full_name, email, password, telephone) VALUES
-	(1L,'Admin','usuario@email.com','123','123456789');

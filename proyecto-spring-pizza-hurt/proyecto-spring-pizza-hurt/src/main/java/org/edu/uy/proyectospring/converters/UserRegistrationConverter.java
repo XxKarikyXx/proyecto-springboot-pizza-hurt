@@ -9,7 +9,7 @@ public class UserRegistrationConverter implements Converter<UserRegistrationDTO,
 	@Override
 	public UserEntity convert(UserRegistrationDTO source) {
 		UserEntity mappedEntity = new UserEntity();
-		mappedEntity.setEmail(source.getUsername());
+		mappedEntity.setEmail(source.getEmail());
 		mappedEntity.setFullName(source.getFullName());
 		mappedEntity.setPassword(source.getPassword());
 		mappedEntity.setTelephone(source.getTelephone());

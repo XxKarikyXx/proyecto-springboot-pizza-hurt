@@ -1,4 +1,4 @@
-package org.edu.uy.proyectospring.controllers.rest;
+package org.edu.uy.proyectospring.controllers.views;
 
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
 import org.edu.uy.proyectospring.services.UserService;

@@ -66,14 +66,14 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return Optional.ofNullable(userRepository.findByUsername(username))
+		return Optional.ofNullable(userRepository.findByEmail(username))
 				       .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 	}
 	
 	@Transactional
 	public UserEntity agregarUsuario(UserRegistrationDTO usuarioDTO) throws Exception{
 		
-		UserEntity userValidation = userRepository.findByUsername(usuarioDTO.getUsername());
+		UserEntity userValidation = userRepository.findByEmail(usuarioDTO.getEmail());
 		
 		if (userValidation != null) {
 			

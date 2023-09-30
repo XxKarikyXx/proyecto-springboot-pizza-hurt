@@ -28,7 +28,7 @@ public class CardController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        UserEntity user = userRepository.findByUsername(email);
+        UserEntity user = userRepository.findByEmail(email);
 
         model.addAttribute("loggedInUser", user);
 

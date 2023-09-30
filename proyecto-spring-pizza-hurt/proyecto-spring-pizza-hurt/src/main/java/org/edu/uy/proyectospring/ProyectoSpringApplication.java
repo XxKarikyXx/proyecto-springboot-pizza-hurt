@@ -20,8 +20,7 @@ public class ProyectoSpringApplication {
 	{
 		return args -> {
 				UserEntity user = new UserEntity();
-				
-				user.setUsername("pepe@pepe.com");
+				user.setId(1L);
 				user.setPassword(encoder.encode("1234"));
 				
 				user.setFullName("Pepe");

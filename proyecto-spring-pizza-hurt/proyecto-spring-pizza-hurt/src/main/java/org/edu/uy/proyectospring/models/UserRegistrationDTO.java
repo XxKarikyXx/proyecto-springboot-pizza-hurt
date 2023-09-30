@@ -1,6 +1,5 @@
 package org.edu.uy.proyectospring.models;
 
-import java.util.List;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
@@ -10,11 +9,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserRegistrationDTO {
+public class UserRegistrationDTO {	
 	
 	@NotNull
 	@NotBlank
-	private String username;
+	private String email;
 	
 	@NotNull
 	@NotBlank
@@ -27,10 +26,6 @@ public class UserRegistrationDTO {
 	@NotNull
 	@NotBlank
 	private String fullName;
-	
-	@NotNull
-	@NotBlank
-	private String email;
 	
 	@NotNull
 	@NotBlank

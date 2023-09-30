@@ -17,18 +17,19 @@ import jakarta.servlet.http.HttpServletResponse;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 	
-
+/*
 	@ExceptionHandler(value=RuntimeException.class)
 	public String handleMyException(RuntimeException ex, HttpServletRequest request, HttpServletResponse response) throws IOException {		
 		//Lo dejo comentado porque puede servir para otra cosa. Esto podria re-dirigir a una pagina en especial poniéndole ya valores con FlashMap
-		/*
+	
 		RedirectView redirectwiew = new RedirectView(request.getRequestURI());
 		FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);
 		if (outputFlashMap != null){
 			outputFlashMap.put("myAttribute", true);
 		}
-		*/
+		
 		return "error";
 	}
+*/
 	
 }

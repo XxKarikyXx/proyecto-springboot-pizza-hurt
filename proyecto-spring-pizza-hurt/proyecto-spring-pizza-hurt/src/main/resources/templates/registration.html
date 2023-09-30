@@ -8,11 +8,11 @@
 
 	<!-- AGREGAR COMPONENTE PARA MOSTRAR ERRORES -->
 
-	<form method="POST" th:action="@{/registrarse}" th:object="$formDTO">
+	<form method="POST" th:action="@{/registrarse}" th:object="${formDTO}">
 	
 		<p>
-			<label for="username">Username</label>
-			<input type="text" th:field="*{username}">
+			<label for="email">Email</label>
+			<input type="text" th:field="*{email}">
 		</p>
 	
 		<p>

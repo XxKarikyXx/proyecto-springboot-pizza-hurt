@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/carrito/**", "/ordenes/**").authenticated()
                         .requestMatchers("/", "/**").permitAll()
                         .and()
-                        .formLogin(login -> login.loginPage("/signin")
+                        .formLogin(login -> login.loginPage("/registrarse")
                                 .defaultSuccessUrl("/"))
                         .logout(logout -> logout
                                 .logoutSuccessUrl("/"))

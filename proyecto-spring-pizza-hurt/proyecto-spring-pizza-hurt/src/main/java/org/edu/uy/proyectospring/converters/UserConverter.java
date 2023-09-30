@@ -17,6 +17,4 @@ public class UserConverter implements Converter<UserDTO, UserEntity>{
 		mappedEntity.setTelephone(source.telephone());
 		return mappedEntity;
 	}
-
-
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registro de usuarios</title>
+    <!-- Aquí irían tus referencias a CSS o JS -->
+</head>
+<body>
+
+	<!-- AGREGAR COMPONENTE PARA MOSTRAR ERRORES -->
+
+	<form method="POST" th:action="@{/registrarse}" th:object="$formDTO">
+	
+		<p>
+			<label for="username">Username</label>
+			<input type="text" th:field="*{username}">
+		</p>
+	
+		<p>
+			<label for="password">Password</label>
+			<input type="password" th:field="*{password}">
+		</p>
+		
+		<p>
+			<label for="confirmPassword">Confirmar Password</label>
+			<input type="password" th:field="*{confirmPassword}">
+		</p>
+		
+		<input type="submit" value="Confirmar">
+	
+	</form>
+
+</body>
+</html>

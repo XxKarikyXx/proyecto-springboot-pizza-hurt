@@ -23,10 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.validation.Valid;
-
-
-
 @RequestMapping("/ordenes")
 @Controller
 public class OrderController {
@@ -51,7 +47,7 @@ public class OrderController {
 	@GetMapping()
 	public String showOrderForm(Model model) {
 		//HARDCODEADO USERID
-		List<OrderDTO> orders = orderService.getOrdersByUserId(1L).stream()
+		List<OrderDTO> orders = orderService.getOrdersByUserId(userService.getUserLogged().getId()).stream()
 				.map(o -> orderDTOConverter.convert(o))
 				.collect(Collectors.toList());
 		
@@ -63,13 +59,13 @@ public class OrderController {
 	public String showOrderDeliveryPaymentForm(@PathVariable("orderId") Long orderId, Model model) {
 		//HARDCODEADO USERID
 		try {
-			OrderDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,1L);
+			OrderDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,userService.getUserLogged().getId());
 			model.addAttribute("order", orderToReturn);
 		}catch(Exception ex) {
 			return "redirect:/error";
 		}
-		//Hardcodeado. Hay que en realidad cargar las tarjetas del usuario loggeado
-		List<CardDTO> cards = userService.getUserCardsByUserId(1L);
+
+		List<CardDTO> cards = userService.getUserCardsByUserId(userService.getUserLogged().getId());
 		model.addAttribute("cards",cards);
 
 		return "orderDeliveryPayment";
@@ -82,18 +78,19 @@ public class OrderController {
 
 		//Mantiene los atributos no modificables de la orden en el form
 		try {
-			OrderDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,1L);
+			OrderDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,userService.getUserLogged().getId());
 			order.setPizzas(orderToReturn.getPizzas());
 			order.setTotal(orderToReturn.getTotal());
 			model.addAttribute("order", order);
 		}catch(Exception ex) {
-			return "redirect:/error";
+			bindingResult.reject(ex.getMessage());
+			return "orderDeliveryPayment";
 		}
 		
-		//if (bindingResult.hasErrors()) {
-			//return "orderDeliveryPayment";
-		//}
-		orderService.saveDeliveryAndPaymentOfOrderOfUserId(orderId, 1L, order);
+		if (bindingResult.hasErrors()) {
+			return "orderDeliveryPayment";
+		}
+		orderService.saveDeliveryAndPaymentOfOrderOfUserId(orderId, userService.getUserLogged().getId(), order);
 
 		return "redirect:/ordenes";
 	}

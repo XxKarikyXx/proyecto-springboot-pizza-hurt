@@ -18,7 +18,7 @@ public  class OrderDTO{
 	
 	private UserDTO user;
 	
-	@NotNull(groups = PaymentInfo.class)
+	@NotNull(groups = PaymentInfo.class, message="Debe elegir una forma de pago válida")
 	private PaymentDTO payment;
 	
 	@NotNull(groups = DeliveryInfo.class)

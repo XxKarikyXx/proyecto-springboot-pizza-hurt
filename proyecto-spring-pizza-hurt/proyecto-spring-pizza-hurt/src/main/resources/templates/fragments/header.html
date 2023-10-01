@@ -2,9 +2,11 @@
   <a th:href="@{~/}" class="logo">Pizza Hurt</a>
   <div class="header-right">
     <a th:href="@{~/}">Inicio</a>
-    <a th:href="@{/carrito/pizza}">Armar mi pizza</a>
-    <a th:href="@{/ordenes}">Órdenes</a>
-    <a th:href="@{/carrito}">Carrito</a>
-    <a th:href="@{/profile}">Perfil</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/carrito/pizza}">Armar mi pizza</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/ordenes}">Órdenes</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/carrito}">Carrito</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/profile}">Perfil</a>
+    <a sec:authorize="!isAuthenticated()" th:href="@{/profile}">LogIn</a>
+    <a sec:authorize="isAuthenticated()" th:href="@{/logout}">LogOut</a>
   </div>
 </div>

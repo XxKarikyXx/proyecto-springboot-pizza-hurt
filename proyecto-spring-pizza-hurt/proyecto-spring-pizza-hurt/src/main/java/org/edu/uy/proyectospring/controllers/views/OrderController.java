@@ -55,9 +55,19 @@ public class OrderController {
 		return "orders";
 	}
 	
+	@GetMapping("/{orderId}")
+	public String showOrder(@PathVariable("orderId") Long orderId, Model model) {
+		try {
+			OrderDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,userService.getUserLogged().getId());
+			model.addAttribute("order", orderToReturn);
+		}catch(Exception ex) {
+			return "redirect:/error";
+		}
+		return "order";
+	}
+	
 	@GetMapping("/{orderId}/pagar")
 	public String showOrderDeliveryPaymentForm(@PathVariable("orderId") Long orderId, Model model) {
-		//HARDCODEADO USERID
 		try {
 			OrderDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,userService.getUserLogged().getId());
 			model.addAttribute("order", orderToReturn);

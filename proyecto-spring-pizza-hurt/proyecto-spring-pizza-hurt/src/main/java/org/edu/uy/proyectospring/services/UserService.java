@@ -30,6 +30,7 @@ public class UserService implements UserDetailsService {
 	private UserRepository userRepository;
 	
 	private UserConverter userConverter;
+	private UserRegistrationConverter userRegistrationConverter;
 	
 	private PaymentRepository paymentRepository;
 	
@@ -41,18 +42,19 @@ public class UserService implements UserDetailsService {
 		return null;
 	}
 
-	public UserService(UserRepository userRepository, UserConverter userConverter) {
+	public UserService(UserRepository userRepository, UserConverter userConverter, UserRegistrationConverter userRegistrationConverter) {
 		super();
 		this.userRepository = userRepository;
 		this.userConverter = userConverter;
+		this.userRegistrationConverter = userRegistrationConverter;
 	}
 
 	public List<UserEntity> getUsers() {
 		return userRepository.findAll();
 	}
 
-	public UserEntity createUser(@Valid UserDTO userEntity) {		
-		UserEntity user = this.userConverter.convert(userEntity);
+	public UserEntity createUser(@Valid UserRegistrationDTO userRegistrationDTO) {		
+		UserEntity user = this.userRegistrationConverter.convert(userRegistrationDTO);
 		user.setActive(true);
 		user.setCards(new ArrayList<Card>());
 		user.setOrders(new ArrayList<OrderEntity>());

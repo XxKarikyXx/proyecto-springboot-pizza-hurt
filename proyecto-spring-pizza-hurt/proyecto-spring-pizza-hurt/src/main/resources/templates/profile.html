@@ -7,8 +7,27 @@
 
 <h1>Perfil de Usuario</h1>
 
-<p>Nombre de usuario: <span th:text="${user.username}"></span></p>
-<p>Email: <span th:text="${user.email}"></span></p>
+<p>Usuario: <span th:text="${user.username}"></span></p>
+<p>Nombre: <span th:text="${user.username}"></span></p>
+<p>Teléfono: <span th:text="${user.telephone}"></span></p>
+
+<h2>Tarjetas</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Número de Tarjeta</th>
+            <th>Banco</th>
+            <th>Válido Hasta</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="card : ${cards}">
+            <td th:text="${card.cardNumber}"></td>
+            <td th:text="${card.bank}"></td>
+            <td th:text="${card.validUntil}"></td>
+        </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

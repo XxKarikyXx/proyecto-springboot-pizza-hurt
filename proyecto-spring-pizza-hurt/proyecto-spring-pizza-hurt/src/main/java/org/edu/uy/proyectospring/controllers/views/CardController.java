@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 public class CardController {
 
     @Autowired
-    private UserRepository userRepository;  // Asumiendo que tienes un repositorio para UserEntity
-    
+    private UserRepository userRepository;
     @Autowired
-    private CardRepository cardRepository;  // Asumiendo que tienes un repositorio para Card
+    private CardRepository cardRepository;
 
     @GetMapping("/addCard")
     public String showAddCard(Model model) {

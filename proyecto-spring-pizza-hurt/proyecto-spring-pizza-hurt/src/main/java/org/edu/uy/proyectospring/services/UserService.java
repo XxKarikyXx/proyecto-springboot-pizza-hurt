@@ -70,6 +70,11 @@ public class UserService implements UserDetailsService {
 				       .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 	}
 	
+	public UserEntity loadUserEntityByUsername(String username) throws UsernameNotFoundException {
+		return Optional.ofNullable(userRepository.findByEmail(username))
+				       .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+	}
+	
 	@Transactional
 	public UserEntity agregarUsuario(UserRegistrationDTO usuarioDTO) throws Exception{
 		

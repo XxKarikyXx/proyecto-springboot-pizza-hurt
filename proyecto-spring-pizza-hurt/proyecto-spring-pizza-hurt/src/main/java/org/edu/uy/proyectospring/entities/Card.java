@@ -5,6 +5,8 @@ import java.util.Date;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -34,6 +36,9 @@ public class Card extends BaseEntity{
 	@NotEmpty
 	@Digits(integer=3, fraction=0, message="Código CVV inválido")
 	private int cvv;
+	
+	@ManyToOne
+	private UserEntity user;
 
 	public Card(String bank, Date validUntil, String cardNumber, int cvv) {
 		super();

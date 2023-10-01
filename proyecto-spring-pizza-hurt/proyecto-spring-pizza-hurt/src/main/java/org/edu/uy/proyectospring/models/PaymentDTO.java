@@ -10,6 +10,6 @@ public class PaymentDTO {
 	
 	private Long id;
 	
-	@NotNull(groups = PaymentInfo.class)
+	@NotNull(groups = PaymentInfo.class, message="Debe elegir una forma de pago válida")
 	private CardDTO card;
 }

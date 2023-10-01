@@ -60,26 +60,13 @@
 					<div class="left">
 						<label for="size" type="text" name="size" >Tarjeta: </label>
 						<select th:object="${cards}" >
-							<option value="0">Nueva</option>
-							<option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardNumber}"></option>
+							<option value="0">Seleccione</option>
+							<option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardNumber}" th:field="${payment.card.id}"></option>
 						</select>
-						<button disabled>Guardar Tarjeta</button>
-						<br>
-						<label for="bank" type="text" name="bank" >Banco emisor: </label> 
-						<input type="text" th:field="*{payment.card.bank}"/>
-						<br>
-						<label for="cardNumber" type="text" name="cardNumber" >N°: </label> 
-						<input type="text" th:field="*{payment.card.cardNumber}"/>
-						<br>
-						<label for="validUntil" type="date" name="validUntil" >Vencimiento: </label> 
-						<input type="date" th:field="*{payment.card.validUntil}"/>
-						<br>
-						<label for="cvv" type="number" name="cvv" >CVV: </label> 
-						<input type="number" th:field="*{payment.card.cvv}"/>
 					</div>
 				</div>
 				<br>
-				<button disabled>Confirmar</button>
+				<button>Confirmar</button>
 			</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}">&copy; 2016 The Static Templates</div>

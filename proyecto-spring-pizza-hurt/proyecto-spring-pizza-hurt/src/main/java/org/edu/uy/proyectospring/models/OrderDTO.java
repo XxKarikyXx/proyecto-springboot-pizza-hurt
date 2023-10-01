@@ -1,11 +1,9 @@
-package org.edu.uy.proyectospring.models.orders;
+package org.edu.uy.proyectospring.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.edu.uy.proyectospring.models.CommonInfo;
-import org.edu.uy.proyectospring.models.PizzaDTO;
-
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +11,18 @@ import lombok.Setter;
 @Getter
 @Setter
 public  class OrderDTO{
+	
+	private Long id;
+	
+	private Double total;
+	
+	private UserDTO user;
+	
+	@NotNull(groups = PaymentInfo.class)
+	private PaymentDTO payment;
+	
+	@NotNull(groups = DeliveryInfo.class)
+	private DeliveryDTO delivery;
 	
 	@Size(min= 1, message="No se puede generar la orden sin pizzas", groups = CommonInfo.class)
 	private List<PizzaDTO> pizzas = new ArrayList<PizzaDTO>();

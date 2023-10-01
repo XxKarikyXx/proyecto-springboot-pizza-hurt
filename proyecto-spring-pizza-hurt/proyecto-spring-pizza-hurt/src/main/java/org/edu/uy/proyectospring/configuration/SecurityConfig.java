@@ -44,11 +44,10 @@ public class SecurityConfig {
                 authorize
                         .requestMatchers("/carrito/**", "/ordenes/**").authenticated()
                         .requestMatchers("/", "/**").permitAll()
+                        .and()                    
+                        .csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**"))
+                        .formLogin()
                         .and()
-                        .formLogin(login -> login.loginPage("/registrarse")
-                                .defaultSuccessUrl("/"))
-                        .logout(logout -> logout
-                                .logoutSuccessUrl("/"))
                         //Necesario para acceder a la console de h2
                         .authorizeHttpRequests(auth -> auth .requestMatchers(toH2Console()).permitAll())
                         .csrf(csrf -> csrf .ignoringRequestMatchers(toH2Console()))

@@ -8,15 +8,18 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class CardDTO {	
+	
+	@Size(min=1,groups = PaymentInfo.class, message="Debe elegir una forma de pago válida")
 	Long id;
 	
-	@NotEmpty
+	@NotEmpty(message = "La tarjeta tiene que tener un banco emisor")
 	private String bank;
 	
 	@Future(message="La tarjeta está vencida")

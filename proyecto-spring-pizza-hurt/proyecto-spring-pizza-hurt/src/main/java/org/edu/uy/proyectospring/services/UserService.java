@@ -3,15 +3,19 @@ package org.edu.uy.proyectospring.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.edu.uy.proyectospring.converters.CardDTOConverter;
 import org.edu.uy.proyectospring.converters.UserConverter;
 import org.edu.uy.proyectospring.converters.UserRegistrationConverter;
 import org.edu.uy.proyectospring.entities.Card;
 import org.edu.uy.proyectospring.entities.OrderEntity;
 import org.edu.uy.proyectospring.entities.UserEntity;
 import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
+import org.edu.uy.proyectospring.models.CardDTO;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
+import org.edu.uy.proyectospring.repositories.CardRepository;
 import org.edu.uy.proyectospring.repositories.PaymentRepository;
 import org.edu.uy.proyectospring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +32,15 @@ public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
+	@Autowired
 	private UserConverter userConverter;
+	@Autowired
+	private CardRepository cardRepository;
+	@Autowired
+	private CardDTOConverter cardConverter;
 	
-	private PaymentRepository paymentRepository;
-	
+
+
 	public UserDetails loadByUsername(String username) throws UsernameNotFoundException {
 		
 		//UserEntity
@@ -90,6 +98,13 @@ public class UserService implements UserDetailsService {
 		{
 			throw new Exception("El usuario ya existe");
 		}
+	}
+
+	public List<CardDTO> getUserCardsByUserId(long userId) {
+		return cardRepository.findByUserId(userId)
+				.stream()
+				.map(c->cardConverter.convert(c))
+				.collect(Collectors.toList());
 	}
 
 }

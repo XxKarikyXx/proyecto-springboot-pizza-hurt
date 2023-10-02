@@ -1,6 +1,7 @@
 package org.edu.uy.proyectospring.controllers.views;
 
 import org.edu.uy.proyectospring.entities.UserEntity;
+import org.edu.uy.proyectospring.models.CardDTO;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
 import org.edu.uy.proyectospring.services.UserService;
@@ -23,15 +24,11 @@ import jakarta.validation.Valid;
 @Controller
 public class UserController {
 	
-	UserService userService;
-
-	//private final AuthenticationManager authenticationManager;
+	private final UserService userService;
 	
-	//public UserController(UserService userService, AuthenticationManager authenticationManager) {
 	public UserController(UserService userService) {
 		super();
 		this.userService = userService;
-		//this.authenticationManager = authenticationManager;
 	}
 	
 	@PostMapping("/signin")
@@ -39,7 +36,8 @@ public class UserController {
 		if(bindingResult.hasErrors()) {
 			//IMPORTANTE. SI REDIRECCIONAMOS PERDEMOS LOS ERRORES (a menos q se lo pasemos)
 			return "adduser";
-		}else {
+		}
+		else {
 			try {
 				userService.createUser(userRegistrationDTO);
 			}catch(Exception ex) {
@@ -66,6 +64,8 @@ public class UserController {
 
         model.addAttribute("user", userEntity);
         model.addAttribute("cards", userEntity.getCards());
+        
+        model.addAttribute("CardDTO", new CardDTO());
 
         return "profile"; //
     }

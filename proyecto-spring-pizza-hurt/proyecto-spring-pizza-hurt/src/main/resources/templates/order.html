@@ -12,10 +12,7 @@
 	</div>
     <div id="content">
 		<h1>Pagar y Enviar Orden</h1>
-			<form method="POST" th:object="${order}">
-				<div th:if="${#fields.hasAnyErrors()}">
-					<p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
-				</div>
+			<form  th:object="${order}">
 				<div class="flex-column">
 					<h2>Orden:</h2>
 					<div class="left">
@@ -37,36 +34,32 @@
 					<h2>Envío:</h2>
 					<div class="left">
 						<label for="street" type="text" name="street" >Calle: </label> 
-						<input type="text" th:field="*{delivery.address.street}"/>
+						<input type="text" th:field="*{delivery.address.street}" disabled/>
 						<br>
 						<label for="doorNumber" type="text" name="doorNumber" >Nro de puerta: </label> 
-						<input type="text" th:field="*{delivery.address.doorNumber}"/>
+						<input type="text" th:field="*{delivery.address.doorNumber}" disabled/>
 						<br>
 						<label for="apartmentNumber" type="text" name="apartmentNumber" >Apartamento: </label> 
-						<input type="text" th:field="*{delivery.address.apartmentNumber}"/>
+						<input type="text" th:field="*{delivery.address.apartmentNumber}" disabled/>
 						<br>
 						<label for="district" type="text" name="district" >Barrio: </label> 
-						<input type="text" th:field="*{delivery.address.district}"/>
+						<input type="text" th:field="*{delivery.address.district}" disabled/>
 						<br>
 						<label for="zipCode" type="text" name="zipCode" >Código postal: </label> 
-						<input type="text" th:field="*{delivery.address.zipCode}"/>
+						<input type="text" th:field="*{delivery.address.zipCode}" disabled/>
 						<br>
 						<label for="observations" type="text" name="observations" >Observaciones: </label> 
-						<textarea th:field="*{delivery.observations}"/>
+						<textarea th:field="*{delivery.observations}" disabled/>
 					</div>
 				</div>
 				<div class="flex-column">
 					<h2>Pago:</h2>
 					<div class="left">
 						<label for="size" type="text" name="size" >Tarjeta: </label>
-						<select th:object="${cards}" >
-							<option value="0">Seleccione</option>
-							<option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardNumber}" th:field="${payment.card.id}"></option>
-						</select>
+						<input type="text" th:field="*{payment.card.cardNumber}" disabled/>
 					</div>
 				</div>
 				<br>
-				<button>Confirmar</button>
 			</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}">&copy; 2016 The Static Templates</div>

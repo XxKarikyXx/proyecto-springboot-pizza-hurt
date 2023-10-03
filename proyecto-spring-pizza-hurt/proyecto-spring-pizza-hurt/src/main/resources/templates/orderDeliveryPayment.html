@@ -11,7 +11,7 @@
   <body>
 	<div th:replace="~{/fragments/header :: header}">
 	</div>
-    <div id="content" class="container mt-4">
+    <div id="content" class="container mt-5">
 		<h1>Pagar y Enviar Orden</h1>
 			<form method="POST" th:object="${order}">
 				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">

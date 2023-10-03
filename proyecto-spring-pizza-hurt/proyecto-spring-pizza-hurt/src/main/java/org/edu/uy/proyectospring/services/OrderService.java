@@ -66,12 +66,7 @@ public class OrderService {
 	}
 
 	public OrderDTO getOrderByIdAndUserId(Long orderId, Long userId) {
-		OrderEntity order = orderRepository.findById(orderId)
-				.orElseThrow(()->new EntityNotFoundException(orderId));
-		
-		if (!order.getUser().getId().equals(userId)) {
-			throw new EntityNotFoundException(userId);
-		}
+		OrderEntity order = getOrderEntityByIdAndUserId(orderId, userId);
 
 		return orderDTOConverter
 				.convert(order);

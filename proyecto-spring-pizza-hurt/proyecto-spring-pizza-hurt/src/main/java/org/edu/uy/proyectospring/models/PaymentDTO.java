@@ -1,6 +1,6 @@
 package org.edu.uy.proyectospring.models;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +10,6 @@ public class PaymentDTO {
 	
 	private Long id;
 	
-	@NotNull(groups = PaymentInfo.class, message="Debe elegir una forma de pago válida")
+	@Valid
 	private CardDTO card;
 }

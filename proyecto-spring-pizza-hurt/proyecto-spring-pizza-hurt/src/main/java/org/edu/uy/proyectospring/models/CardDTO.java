@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 public class CardDTO {	
 	
-	@Size(min=1,groups = PaymentInfo.class, message="Debe elegir una forma de pago válida")
+	@Min(value=1L, groups = PaymentInfo.class, message="Debe elegir una forma de pago válida")
 	Long id;
 	
 	@NotEmpty(message="Debe ingresar una institución bancaria válida")

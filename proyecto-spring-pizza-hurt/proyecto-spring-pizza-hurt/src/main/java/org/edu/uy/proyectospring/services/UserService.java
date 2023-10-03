@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 
 import org.edu.uy.proyectospring.converters.CardConverter;
+import org.edu.uy.proyectospring.converters.CardDTOConverter;
 import org.edu.uy.proyectospring.converters.UserConverter;
 import org.edu.uy.proyectospring.converters.UserRegistrationConverter;
 import org.edu.uy.proyectospring.entities.Card;
@@ -40,9 +41,12 @@ public class UserService implements UserDetailsService {
 	private final CardRepository cardRepository;
 	
 	private UserConverter userConverter;
+	
 	private UserRegistrationConverter userRegistrationConverter;
 	
-
+	private CardDTOConverter cardDTOConverter;
+	
+	private AuthenticationContext autentication;
 
 	public UserDetails loadByUsername(String username) throws UsernameNotFoundException {
 		
@@ -52,12 +56,15 @@ public class UserService implements UserDetailsService {
 		return null;
 	}
 
-	public UserService(UserRepository userRepository, CardRepository cardRepository, UserConverter userConverter, UserRegistrationConverter userRegistrationConverter) {
+	public UserService(UserRepository userRepository, CardRepository cardRepository, UserConverter userConverter,
+			UserRegistrationConverter userRegistrationConverter, CardDTOConverter cardDTOConverter, AuthenticationContext autentication) {
 		super();
 		this.userRepository = userRepository;
 		this.cardRepository = cardRepository;
 		this.userConverter = userConverter;
 		this.userRegistrationConverter = userRegistrationConverter;
+		this.cardDTOConverter = cardDTOConverter;
+		this.autentication = autentication;
 	}
 
 	public List<UserEntity> getUsers() {
@@ -106,19 +113,20 @@ public class UserService implements UserDetailsService {
 	}
 
 	public List<CardDTO> getUserCardsByUserId(long userId) {
-		return cardRepository.findByUserId(userId)
+		return getUserById(userId)
+				.getCards()
 				.stream()
-				.map(c->cardConverter.convert(c))
+				.map(c->cardDTOConverter.convert(c))
 				.collect(Collectors.toList());
 	}
 	
 	public UserEntity getUserLogged() {
-		UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserEntity user = (UserEntity) autentication.getAuthentication().getPrincipal();
 		if (user == null || user.getId() == 0) {
 			throw new RuntimeException("No se pudo obtener la información del usuario autenticado");
 		}
 		return user;
-
+	}
 	
 	@Transactional
 	public void addCardToUser(String username, CardDTO card) {
@@ -131,6 +139,5 @@ public class UserService implements UserDetailsService {
 	    
 	    cardRepository.save(cardEntity);
 	    userRepository.save(user);
-
 	}
 }

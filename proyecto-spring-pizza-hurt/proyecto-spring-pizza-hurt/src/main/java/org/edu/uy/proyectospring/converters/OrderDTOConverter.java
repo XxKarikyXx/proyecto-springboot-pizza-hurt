@@ -16,13 +16,16 @@ public class OrderDTOConverter implements Converter<OrderEntity, OrderDTO>{
 	
 	DeliveryDTOConverter deliveryDTOConverter;
 	
+	UserDTOConverter userDTOConverter;
+	
 
 	public OrderDTOConverter(PizzaComponentDTOConverter pizzaComponentDTOConverter, PaymentDTOConverter paymentDTOConverter,
-			DeliveryDTOConverter deliveryDTOConverter) {
+			DeliveryDTOConverter deliveryDTOConverter, UserDTOConverter userDTOConverter) {
 		super();
 		this.pizzaComponentDTOConverter = pizzaComponentDTOConverter;
 		this.paymentDTOConverter = paymentDTOConverter;
 		this.deliveryDTOConverter = deliveryDTOConverter;
+		this.userDTOConverter = userDTOConverter;
 	}
 
 
@@ -39,7 +42,13 @@ public class OrderDTOConverter implements Converter<OrderEntity, OrderDTO>{
 		}else{
 			order.setTotal(0.0);
 		}
-
+		
+		order.setOrderDateTime(source.getOrderDateTime());
+		
+		if(source.getUser() != null)
+		{
+			order.setUser(userDTOConverter.convert(source.getUser()));
+		}
 		if(source.getPayment() != null) {
 			order.setPayment(paymentDTOConverter.convert(source.getPayment()));
 		}

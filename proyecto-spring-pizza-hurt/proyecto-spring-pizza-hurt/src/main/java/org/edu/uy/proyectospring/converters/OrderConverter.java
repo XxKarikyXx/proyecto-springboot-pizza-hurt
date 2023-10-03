@@ -42,6 +42,10 @@ public class OrderConverter implements Converter<OrderDTO, OrderEntity>{
 	public OrderEntity convert(OrderDTO source) {
 		OrderEntity order = new OrderEntity();
 		
+		if(source.getId() != null) {
+			order.setId(source.getId());
+		}
+		
 		if(source.getUser() != null) {
 			order.setUser(userConverter.convert(source.getUser()));
 		}
@@ -57,7 +61,9 @@ public class OrderConverter implements Converter<OrderDTO, OrderEntity>{
 		}else {
 			order.setTotalPrice(0.0);
 		}
-
+		
+		order.setOrderDateTime(source.getOrderDateTime());
+		
 		order.setPizzas(source.getPizzas().stream()
 				.map(p -> pizzaComponentConverter.convert(p))
 				.collect(Collectors.toList()));

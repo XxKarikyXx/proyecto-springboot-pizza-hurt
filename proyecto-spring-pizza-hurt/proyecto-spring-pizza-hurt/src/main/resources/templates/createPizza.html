@@ -55,7 +55,7 @@
 					<label for="topping" type="text" name="sauce" >Toping: </label> 
 					<select th:field="*{topping}" class="sum">
 						<option value="0">Seleccione</option>
-						<option th:price="${component.price}" th:each="component : ${topping}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
+						<option th:each="component : ${topping}" th:price="${component.price}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}"></option>
 					</select>
 				</div>			
 			</div>

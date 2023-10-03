@@ -28,7 +28,7 @@ public class Payment extends BaseEntity{
 	@JoinColumn(name= "card_id")
 	private Card card;
 	
-	@NotEmpty
+	@NotNull
 	private double totalPaid;
 	
 	@Temporal(TemporalType.TIMESTAMP)

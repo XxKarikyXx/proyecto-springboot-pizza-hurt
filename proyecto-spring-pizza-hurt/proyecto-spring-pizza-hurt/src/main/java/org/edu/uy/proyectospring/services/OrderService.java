@@ -3,8 +3,10 @@ package org.edu.uy.proyectospring.services;
 import java.util.Date;
 import java.util.List;
 
+import org.edu.uy.proyectospring.converters.DeliveryConverter;
 import org.edu.uy.proyectospring.converters.OrderConverter;
 import org.edu.uy.proyectospring.converters.OrderDTOConverter;
+import org.edu.uy.proyectospring.converters.PaymentConverter;
 import org.edu.uy.proyectospring.entities.OrderEntity;
 import org.edu.uy.proyectospring.entities.UserEntity;
 import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
@@ -23,18 +25,27 @@ public class OrderService {
 	
 	private OrderDTOConverter orderDTOConverter;
 	
+	private DeliveryConverter deliveryConverter;
+	
+	private PaymentConverter paymentConverter;
+	
 	private PizzaComponentService pizzaComponentService;
 
-	public OrderService(OrderRepository orderRepository, UserService userService, OrderConverter orderConverter, OrderDTOConverter orderDTOConverter,
+	
+	
+	public OrderService(UserService userService, OrderRepository orderRepository, OrderConverter orderConverter,
+			OrderDTOConverter orderDTOConverter, DeliveryConverter deliveryConverter, PaymentConverter paymentConverter,
 			PizzaComponentService pizzaComponentService) {
 		super();
 		this.userService = userService;
 		this.orderRepository = orderRepository;
 		this.orderConverter = orderConverter;
 		this.orderDTOConverter = orderDTOConverter;
+		this.deliveryConverter = deliveryConverter;
+		this.paymentConverter = paymentConverter;
 		this.pizzaComponentService = pizzaComponentService;
 	}
-	
+
 	//Hay que revisar esto.
 	public OrderDTO saveOrderWithUserId(OrderDTO orderPizza, Long userId) {
 		UserEntity user = userService.getUserById(userId);
@@ -58,24 +69,37 @@ public class OrderService {
 		OrderEntity order = orderRepository.findById(orderId)
 				.orElseThrow(()->new EntityNotFoundException(orderId));
 		
-		if (order.getUser().getId() != userId) {
-			throw new EntityNotFoundException(orderId);
+		if (!order.getUser().getId().equals(userId)) {
+			throw new EntityNotFoundException(userId);
 		}
-		
+
 		return orderDTOConverter
 				.convert(order);
 	}
 	
+	private OrderEntity getOrderEntityByIdAndUserId(Long orderId, Long userId) {
+		OrderEntity order = orderRepository.findById(orderId)
+				.orElseThrow(()->new EntityNotFoundException(orderId));
+		
+		if (!order.getUser().getId().equals(userId)) {
+			throw new EntityNotFoundException(userId);
+		}
+
+		return order;
+	}
+	
 	public OrderDTO saveDeliveryAndPaymentOfOrderOfUserId(Long orderId,Long userId, OrderDTO order){
 		//Valido datos de integridad de la orden
-		OrderDTO orderRetrived = getOrderByIdAndUserId(orderId,userId);
+		OrderEntity orderRetrived = getOrderEntityByIdAndUserId(orderId,userId);
+		
 		
 		//Seteo los datos del delivery y pago
-		orderRetrived.setDelivery(order.getDelivery());
-		orderRetrived.setPayment(order.getPayment());
+		orderRetrived.setDelivery(deliveryConverter.convert(order.getDelivery()));
+		orderRetrived.setPayment(paymentConverter.convert(order.getPayment()));
+		orderRetrived.getPayment().setTotalPaid(orderRetrived.getTotalPrice());
+	
 		
-		OrderEntity orderToSave = orderConverter.convert(orderRetrived);
-		return orderDTOConverter.convert(orderRepository.save(orderToSave));		
+		return orderDTOConverter.convert(orderRepository.save(orderRetrived));		
 	}
 
 }

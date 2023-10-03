@@ -26,8 +26,7 @@ public class PaymentConverter implements Converter<PaymentDTO, Payment>{
 	@Override
 	public Payment convert(PaymentDTO source) {
 		Payment payment = new Payment();
-		payment.setId(source.getId());
-		if(payment.getId() != 0) {
+		if(payment.getId() != null) {
 			payment = paymentRepository.findById(payment.getId()).orElseThrow();
 		}else {
 			Card card = new Card();

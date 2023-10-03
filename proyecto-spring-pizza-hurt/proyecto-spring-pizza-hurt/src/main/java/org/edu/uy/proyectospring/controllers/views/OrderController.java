@@ -9,6 +9,7 @@ import org.edu.uy.proyectospring.converters.OrderDTOConverter;
 import org.edu.uy.proyectospring.models.CardDTO;
 import org.edu.uy.proyectospring.models.DeliveryInfo;
 import org.edu.uy.proyectospring.models.OrderDTO;
+import org.edu.uy.proyectospring.models.PaymentDTO;
 import org.edu.uy.proyectospring.models.PaymentInfo;
 import org.edu.uy.proyectospring.services.OrderService;
 import org.edu.uy.proyectospring.services.PizzaComponentService;
@@ -68,16 +69,20 @@ public class OrderController {
 	
 	//revisar
 	@GetMapping("/{orderId}/pagar")
-	public String showOrderDeliveryPaymentForm(@PathVariable("orderId") Long orderId, Model model) {
+	public String showOrderDeliveryPaymentForm(@PathVariable("orderId") Long orderId,@ModelAttribute(name="order") OrderDTO order, Model model) {
 		try {
 			OrderDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,userService.getUserLogged().getId());
+			
+			PaymentDTO payment = new PaymentDTO();
+			payment.setCard(new CardDTO());
+			orderToReturn.setPayment(payment);
+			
 			model.addAttribute("order", orderToReturn);
+		
 		}catch(Exception ex) {
+			System.out.println(ex);
 			return "redirect:/error";
 		}
-
-		List<CardDTO> cards = userService.getUserCardsByUserId(userService.getUserLogged().getId());
-		model.addAttribute("cards",cards);
 
 		return "orderDeliveryPayment";
 	}
@@ -106,6 +111,11 @@ public class OrderController {
 		return "redirect:/ordenes";
 	}
 	
+	@ModelAttribute	
+	public void addComponentsToModel1(Model model) {	
+		List<CardDTO> cards = userService.getUserCardsByUserId(userService.getUserLogged().getId());
+		model.addAttribute("cards",cards);
+	}
 
 
 }

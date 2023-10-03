@@ -50,6 +50,7 @@ public class CardController {
 			try {
 				userService.addCardToUser(currentUserName, cardDTO);
 			} catch(Exception ex) {
+				System.out.print(ex);
 				bindingResult.reject("errorCode", "Hubo una inconsistencia en algunos de los datos ingresados..., se sugiere refrescar y volver a intentar");
 				return "profile";
 			}

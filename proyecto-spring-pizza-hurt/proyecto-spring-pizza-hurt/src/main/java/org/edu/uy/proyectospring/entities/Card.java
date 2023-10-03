@@ -39,9 +39,6 @@ public class Card extends BaseEntity{
 	@Min(value=100, message="El CVV debe ser un número de 3 dígitos")
 	@Max(value=999, message="El CVV debe ser un número de 3 dígitos")
 	private int cvv;
-	
-	@ManyToOne
-	private UserEntity user;
 
 	public Card(String bank, Date validUntil, String cardNumber, int cvv) {
 		super();

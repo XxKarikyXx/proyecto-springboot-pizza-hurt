@@ -59,9 +59,9 @@
 					<h2>Pago:</h2>
 					<div class="left">
 						<label for="size" type="text" name="size" >Tarjeta: </label>
-						<select th:object="${cards}" >
+						<select th:field="*{payment.card.id}">
 							<option value="0">Seleccione</option>
-							<option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardNumber}" th:field="${payment.card.id}"></option>
+							<option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardNumber}"></option>
 						</select>
 					</div>
 				</div>

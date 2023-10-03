@@ -31,28 +31,9 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@PostMapping("/signin")
-	public String addUser(@ModelAttribute("userRegistrationDTO") @Valid UserRegistrationDTO userRegistrationDTO, BindingResult bindingResult, Model model, SessionStatus sessionStatus) {
-		if(bindingResult.hasErrors()) {
-			//IMPORTANTE. SI REDIRECCIONAMOS PERDEMOS LOS ERRORES (a menos q se lo pasemos)
-			return "adduser";
-		}
-		else {
-			try {
-				userService.createUser(userRegistrationDTO);
-			}catch(Exception ex) {
-				bindingResult.reject("errorCode", "Hubo una inconsistencia en algunos de los datos ingresados..., se sugiere refrescar y volver a intentar");
-				return "adduser";
-			}
-			sessionStatus.setComplete();
-			return "redirect:/carrito/pizza";
-			//return "adduser";
-		}
-	}
-	
-	@GetMapping("/signin")
-	public String showAddUser(@ModelAttribute("userRegistrationDTO")UserRegistrationDTO userRegistrationDTO) {
-		return "adduser";
+	@GetMapping("/login")
+	public String showLogin(@ModelAttribute("userDTO")UserDTO userDTO) {
+		return "login";
 	}
 	
 	@GetMapping("/profile")
@@ -71,10 +52,6 @@ public class UserController {
     }
 	
 	/*
-	@GetMapping("/login")
-	public String showLogin(@ModelAttribute("userDTO")UserDTO userDTO) {
-		return "login";
-	}
 	
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password, Model model) {

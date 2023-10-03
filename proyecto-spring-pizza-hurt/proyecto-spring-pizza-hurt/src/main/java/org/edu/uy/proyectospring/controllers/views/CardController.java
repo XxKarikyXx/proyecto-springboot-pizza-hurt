@@ -51,7 +51,6 @@ public class CardController {
 				userService.addCardToUser(currentUserName, cardDTO);
 			} catch(Exception ex) {
 				bindingResult.reject("errorCode", "Hubo una inconsistencia en algunos de los datos ingresados..., se sugiere refrescar y volver a intentar");
-				ex.printStackTrace();
 				return "profile";
 			}
 			sessionStatus.setComplete();

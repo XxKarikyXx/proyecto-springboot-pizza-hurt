@@ -19,11 +19,11 @@ import lombok.Setter;
 public class CardDTO {	
 	Long id;
 	
-	@NotEmpty
+	@NotEmpty(message="Debe ingresar una institución bancaria válida")
 	private String bank;
 	
 	@Future(message="La tarjeta está vencida")
-	@NotNull
+	@NotNull(message="Debe ingresar una fecha de vencimiento válida")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date validUntil;
 	

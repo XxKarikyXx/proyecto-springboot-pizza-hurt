@@ -22,11 +22,11 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Card extends BaseEntity{
 	
-	@NotNull
-	@NotEmpty
+	@NotNull(message="Debe ingresar una institución bancaria válida")
+	@NotEmpty(message="Debe ingresar una institución bancaria válida")
 	private String bank;
 	
-	@NotNull
+	@NotNull(message="Debe ingresar una fecha de vencimiento válida")
 	private Date validUntil;
 	
 	//Nro válido : 4242424242424242

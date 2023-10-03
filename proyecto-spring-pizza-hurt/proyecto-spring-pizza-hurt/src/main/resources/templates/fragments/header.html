@@ -1,12 +1,12 @@
 <div th:fragment="header" class="header">
-  <a th:href="@{~/}" class="logo">Pizza Hurt</a>
+  <a th:href="@{~/}" class="logo custom-link">Pizza Hurt</a>
   <div class="header-right">
-    <a th:href="@{~/}">Inicio</a>
-    <a sec:authorize="isAuthenticated()" th:href="@{/carrito/pizza}">Armar mi pizza</a>
-    <a sec:authorize="isAuthenticated()" th:href="@{/ordenes}">Órdenes</a>
-    <a sec:authorize="isAuthenticated()" th:href="@{/carrito}">Carrito</a>
-    <a sec:authorize="isAuthenticated()" th:href="@{/profile}">Perfil</a>
-    <a sec:authorize="!isAuthenticated()" th:href="@{/profile}">LogIn</a>
-    <a sec:authorize="!isAuthenticated()" th:href="@{/signin}">Registrarse</a>
+    <a class="custom-link" th:href="@{~/}">Inicio</a>
+    <a class="custom-link" sec:authorize="isAuthenticated()" th:href="@{/carrito/pizza}">Armar mi pizza</a>
+    <a class="custom-link" sec:authorize="isAuthenticated()" th:href="@{/ordenes}">Órdenes</a>
+    <a class="custom-link" sec:authorize="isAuthenticated()" th:href="@{/carrito}">Carrito</a>
+    <a class="custom-link" sec:authorize="isAuthenticated()" th:href="@{/profile}">Perfil</a>
+    <a class="custom-link" sec:authorize="!isAuthenticated()" th:href="@{/profile}">LogIn</a>
+    <a class="custom-link" sec:authorize="!isAuthenticated()" th:href="@{/signin}">Registrarse</a>
   </div>
 </div>

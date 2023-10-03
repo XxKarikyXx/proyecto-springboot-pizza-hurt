@@ -54,7 +54,6 @@ public class PizzaController {
 		if (bindingResult.hasErrors()) {
 			return "createPizza";
 		}		
-		//Se validan los componentes antes de agregarlos.
 		try {
 			pizzaComponentService.map(pizza);
 		}catch(Exception ex) {

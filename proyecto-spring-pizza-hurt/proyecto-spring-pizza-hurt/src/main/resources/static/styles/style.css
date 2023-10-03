@@ -60,13 +60,6 @@ label {
   float: right;
 }
 
-a:link, a:visited {
-    color: white;
-    text-decoration: none;
-    margin-right: 5px;    
-    padding: 5px;
-}
-
 form.scroll{
     overflow-y: auto;
     max-height: 600px;
@@ -119,4 +112,12 @@ div.flex{
 
 input::placeholder{
     color: rgb(236, 247, 255);
+}
+
+
+a:link.custom-link, a:visited.custom-link {
+    color: white;
+    text-decoration: none;
+    margin-right: 5px;    
+    padding: 5px;
 }

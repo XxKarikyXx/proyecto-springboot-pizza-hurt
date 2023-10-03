@@ -14,6 +14,8 @@ import org.edu.uy.proyectospring.models.OrderDTO;
 import org.edu.uy.proyectospring.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class OrderService {
 	
@@ -46,7 +48,7 @@ public class OrderService {
 		this.pizzaComponentService = pizzaComponentService;
 	}
 
-	//Hay que revisar esto.
+	@Transactional
 	public OrderDTO saveOrderWithUserId(OrderDTO orderPizza, Long userId) {
 		UserEntity user = userService.getUserById(userId);
 		OrderEntity orderToSave = orderConverter.convert(orderPizza);
@@ -83,6 +85,7 @@ public class OrderService {
 		return order;
 	}
 	
+	@Transactional
 	public OrderDTO saveDeliveryAndPaymentOfOrderOfUserId(Long orderId,Long userId, OrderDTO order){
 		//Valido datos de integridad de la orden
 		OrderEntity orderRetrived = getOrderEntityByIdAndUserId(orderId,userId);

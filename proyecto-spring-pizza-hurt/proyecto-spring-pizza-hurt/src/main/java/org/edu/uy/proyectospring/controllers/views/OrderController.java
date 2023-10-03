@@ -1,7 +1,5 @@
 package org.edu.uy.proyectospring.controllers.views;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +45,6 @@ public class OrderController {
 	
 	@GetMapping()
 	public String showOrderForm(Model model) {
-		//HARDCODEADO USERID
 		List<OrderDTO> orders = orderService.getOrdersByUserId(userService.getUserLogged().getId()).stream()
 				.map(o -> orderDTOConverter.convert(o))
 				.collect(Collectors.toList());
@@ -67,7 +64,6 @@ public class OrderController {
 		return "order";
 	}
 	
-	//revisar
 	@GetMapping("/{orderId}/pagar")
 	public String showOrderDeliveryPaymentForm(@PathVariable("orderId") Long orderId,@ModelAttribute(name="order") OrderDTO order, Model model) {
 		try {
@@ -80,7 +76,6 @@ public class OrderController {
 			model.addAttribute("order", orderToReturn);
 		
 		}catch(Exception ex) {
-			System.out.println(ex);
 			return "redirect:/error";
 		}
 
@@ -91,16 +86,13 @@ public class OrderController {
 	public String payOrderDeliveryPayment(@PathVariable("orderId") Long orderId, 
 			@ModelAttribute(name="order") @Validated({PaymentInfo.class, DeliveryInfo.class}) OrderDTO order, 
 			BindingResult bindingResult, Model model) {	
-
-		//Mantiene los atributos no modificables de la orden en el form
 		try {
 			OrderDTO orderToReturn = orderService.getOrderByIdAndUserId(orderId,userService.getUserLogged().getId());
 			order.setPizzas(orderToReturn.getPizzas());
 			order.setTotal(orderToReturn.getTotal());
 			model.addAttribute("order", order);
 		}catch(Exception ex) {
-			bindingResult.reject(ex.getMessage());
-			return "orderDeliveryPayment";
+			return "redirect:/orderDeliveryPayment";
 		}
 		
 		if (bindingResult.hasErrors()) {

@@ -32,7 +32,7 @@ public class CardController {
 		this.userService = userService;
 	}
 
-    @PostMapping("/profile/addCard")
+    @PostMapping("/profile")
     public String addCard(@Valid @ModelAttribute("CardDTO") CardDTO cardDTO, BindingResult bindingResult, Model model, SessionStatus sessionStatus) {
     	
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

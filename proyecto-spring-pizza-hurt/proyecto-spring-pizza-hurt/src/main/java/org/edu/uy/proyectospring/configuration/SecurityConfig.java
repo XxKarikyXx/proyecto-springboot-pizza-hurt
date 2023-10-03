@@ -45,10 +45,11 @@ public class SecurityConfig {
 		return http.authorizeHttpRequests(a -> {
 			try {
                 	a
-                	.requestMatchers("/carrito/**", "/ordenes/**").authenticated()
-                	.requestMatchers("/","/**","/signin/**").permitAll()
+                	.requestMatchers("/carrito/**", "/ordenes/**", "/profile/**").authenticated()
+                	.requestMatchers("/login/**","/signin/**").anonymous()
+                	.requestMatchers("/","/**").permitAll()
                 	.and()
-                	.csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**", "/signin/**"))
+                	.csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**", "/profile/**"))
                     .formLogin(login -> login.loginPage("/login")
                             .defaultSuccessUrl("/"))
                     .logout(logout -> logout

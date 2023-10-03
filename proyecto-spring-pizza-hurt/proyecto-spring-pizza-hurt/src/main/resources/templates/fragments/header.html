@@ -7,5 +7,6 @@
     <a sec:authorize="isAuthenticated()" th:href="@{/carrito}">Carrito</a>
     <a sec:authorize="isAuthenticated()" th:href="@{/profile}">Perfil</a>
     <a sec:authorize="!isAuthenticated()" th:href="@{/profile}">LogIn</a>
+    <a sec:authorize="!isAuthenticated()" th:href="@{/signin}">Registrarse</a>
   </div>
 </div>

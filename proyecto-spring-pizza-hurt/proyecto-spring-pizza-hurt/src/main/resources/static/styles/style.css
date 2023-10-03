@@ -5,13 +5,16 @@ body{
 }
 
 .footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: rgb(150, 220, 240);
-  color: white;
-  text-align: left;
+  padding-top: 50px;
+}
+.inner-footer{
+	background-color: rgb(150, 220, 240);
+	position: fixed;
+  	bottom: 0;
+  	margin-top: 100px;
+  	width: 100%;
+  	color: white;
+  	text-align: left;
 }
 
 label {

@@ -1,4 +1,4 @@
-package org.edu.uy.proyectospring.converters.orders;
+package org.edu.uy.proyectospring.converters;
 
 import org.edu.uy.proyectospring.entities.Address;
 import org.edu.uy.proyectospring.entities.Delivery;
@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeliveryConverter implements Converter<DeliveryDTO, Delivery>{
 
-	
+	@Override
 	public Delivery convert(DeliveryDTO source) {
 		
 		Delivery delivery = new Delivery();
 		delivery.setObservations(source.getObservations());
 		
 		Address address = new Address();
-		address.setId(0L);
+		address.setId(source.getId());
 		address.setApartmentNumber(source.getAddress().getApartmentNumber());
 		address.setDistrict(source.getAddress().getDistrict());
 		address.setDoorNumber(source.getAddress().getDoorNumber());

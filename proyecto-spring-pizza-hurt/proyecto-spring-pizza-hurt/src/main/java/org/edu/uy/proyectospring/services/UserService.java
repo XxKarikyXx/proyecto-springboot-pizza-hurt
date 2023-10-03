@@ -3,6 +3,8 @@ package org.edu.uy.proyectospring.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 import org.edu.uy.proyectospring.converters.CardConverter;
 import org.edu.uy.proyectospring.converters.UserConverter;
@@ -18,6 +20,7 @@ import org.edu.uy.proyectospring.repositories.CardRepository;
 import org.edu.uy.proyectospring.repositories.PaymentRepository;
 import org.edu.uy.proyectospring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +32,7 @@ import jakarta.validation.Valid;
 @Service
 public class UserService implements UserDetailsService {
 	
+
 	//@Autowired
 	private final UserRepository userRepository;
 	
@@ -38,8 +42,8 @@ public class UserService implements UserDetailsService {
 	private UserConverter userConverter;
 	private UserRegistrationConverter userRegistrationConverter;
 	
-	private PaymentRepository paymentRepository;
-	
+
+
 	public UserDetails loadByUsername(String username) throws UsernameNotFoundException {
 		
 		//UserEntity
@@ -100,6 +104,21 @@ public class UserService implements UserDetailsService {
 			throw new Exception("El usuario ya existe");
 		}
 	}
+
+	public List<CardDTO> getUserCardsByUserId(long userId) {
+		return cardRepository.findByUserId(userId)
+				.stream()
+				.map(c->cardConverter.convert(c))
+				.collect(Collectors.toList());
+	}
+	
+	public UserEntity getUserLogged() {
+		UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (user == null || user.getId() == 0) {
+			throw new RuntimeException("No se pudo obtener la información del usuario autenticado");
+		}
+		return user;
+
 	
 	@Transactional
 	public void addCardToUser(String username, CardDTO card) {
@@ -112,5 +131,6 @@ public class UserService implements UserDetailsService {
 	    
 	    cardRepository.save(cardEntity);
 	    userRepository.save(user);
+
 	}
 }

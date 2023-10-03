@@ -5,6 +5,8 @@ import java.util.Date;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -37,6 +39,9 @@ public class Card extends BaseEntity{
 	@Min(value=100, message="El CVV debe ser un número de 3 dígitos")
 	@Max(value=999, message="El CVV debe ser un número de 3 dígitos")
 	private int cvv;
+	
+	@ManyToOne
+	private UserEntity user;
 
 	public Card(String bank, Date validUntil, String cardNumber, int cvv) {
 		super();

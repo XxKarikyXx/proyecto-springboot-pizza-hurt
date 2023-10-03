@@ -1,4 +1,4 @@
-package org.edu.uy.proyectospring.converters.orders;
+package org.edu.uy.proyectospring.converters;
 
 
 import org.edu.uy.proyectospring.entities.Card;

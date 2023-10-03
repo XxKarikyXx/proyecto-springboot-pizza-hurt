@@ -11,12 +11,15 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class CardDTO {	
+	
+	@Size(min=1,groups = PaymentInfo.class, message="Debe elegir una forma de pago válida")
 	Long id;
 	
 	@NotEmpty(message="Debe ingresar una institución bancaria válida")

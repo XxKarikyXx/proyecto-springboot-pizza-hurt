@@ -35,11 +35,11 @@ public class OrderEntity extends BaseEntity{
 	private List<Pizza> pizzas = new ArrayList<Pizza>();
 	
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="payment_id")
 	private Payment payment;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="delivery_id")
 	private Delivery delivery;
 	

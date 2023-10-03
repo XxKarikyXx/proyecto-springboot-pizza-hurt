@@ -95,6 +95,9 @@ public class SecurityConfig {
                 authorize
                         .requestMatchers("/carrito/**", "/ordenes/**").authenticated()
                         .requestMatchers("/", "/**").permitAll()
+                        .and()                    
+                        .csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**"))
+                        .formLogin()
                         .and()
                         .logout(logout -> logout
                                 .logoutSuccessUrl("/"))

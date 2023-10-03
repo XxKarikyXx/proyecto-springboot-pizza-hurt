@@ -38,7 +38,8 @@
 							</ul>
 						</li>
 						<div>Total: $<span th:text=${order.total}>Total</span></div>
-						<button th:formaction="@{'/ordenes/' + ${order.id} + '/pagar'}">Pagar y Enviar</button>
+						<button th:if="${order.payment} == null" th:formaction="@{'/ordenes/' + ${order.id} + '/pagar'}">Pagar y Enviar</button>
+						<button th:if="${order.payment} != null" th:formaction="@{'/ordenes/' + ${order.id}}">Ver Orden</button>
 						<hr>
 						</br>
 					</div>

@@ -2,6 +2,7 @@ package org.edu.uy.proyectospring.entities;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -22,7 +23,7 @@ import lombok.ToString;
 public class Delivery extends BaseEntity{
 	
 	@NotNull
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="adress_id")
 	private Address address;
 	

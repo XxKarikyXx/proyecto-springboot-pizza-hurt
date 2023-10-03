@@ -3,14 +3,12 @@ package org.edu.uy.proyectospring.services;
 import java.util.Date;
 import java.util.List;
 
-import org.edu.uy.proyectospring.converters.orders.OrderDTOToOrderConverter;
-import org.edu.uy.proyectospring.converters.orders.OrderDTOConverter;
-import org.edu.uy.proyectospring.converters.orders.OrderWithIdDTOConverter;
+import org.edu.uy.proyectospring.converters.OrderConverter;
+import org.edu.uy.proyectospring.converters.OrderDTOConverter;
 import org.edu.uy.proyectospring.entities.OrderEntity;
 import org.edu.uy.proyectospring.entities.UserEntity;
 import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
-import org.edu.uy.proyectospring.models.orders.OrderDTO;
-import org.edu.uy.proyectospring.models.orders.OrderWithIdDTO;
+import org.edu.uy.proyectospring.models.OrderDTO;
 import org.edu.uy.proyectospring.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,23 +19,20 @@ public class OrderService {
 	
 	private OrderRepository orderRepository;
 	
-	private OrderDTOToOrderConverter orderConverter;
+	private OrderConverter orderConverter;
 	
 	private OrderDTOConverter orderDTOConverter;
 	
-	private OrderWithIdDTOConverter orderWithIdDTOConverter;
-	
 	private PizzaComponentService pizzaComponentService;
 
-	public OrderService(OrderRepository orderRepository, UserService userService, OrderDTOToOrderConverter orderConverter, OrderDTOConverter orderDTOConverter,
-			PizzaComponentService pizzaComponentService, OrderWithIdDTOConverter orderWithIdDTOConverter) {
+	public OrderService(OrderRepository orderRepository, UserService userService, OrderConverter orderConverter, OrderDTOConverter orderDTOConverter,
+			PizzaComponentService pizzaComponentService) {
 		super();
 		this.userService = userService;
 		this.orderRepository = orderRepository;
 		this.orderConverter = orderConverter;
 		this.orderDTOConverter = orderDTOConverter;
 		this.pizzaComponentService = pizzaComponentService;
-		this.orderWithIdDTOConverter = orderWithIdDTOConverter;
 	}
 	
 	//Hay que revisar esto.
@@ -59,7 +54,7 @@ public class OrderService {
 		return orderRepository.findByUserId(userId);
 	}
 
-	public OrderWithIdDTO getOrderByIdAndUserId(Long orderId, Long userId) {
+	public OrderDTO getOrderByIdAndUserId(Long orderId, Long userId) {
 		OrderEntity order = orderRepository.findById(orderId)
 				.orElseThrow(()->new EntityNotFoundException(orderId));
 		
@@ -67,8 +62,20 @@ public class OrderService {
 			throw new EntityNotFoundException(orderId);
 		}
 		
-		return orderWithIdDTOConverter
+		return orderDTOConverter
 				.convert(order);
+	}
+	
+	public OrderDTO saveDeliveryAndPaymentOfOrderOfUserId(Long orderId,Long userId, OrderDTO order){
+		//Valido datos de integridad de la orden
+		OrderDTO orderRetrived = getOrderByIdAndUserId(orderId,userId);
+		
+		//Seteo los datos del delivery y pago
+		orderRetrived.setDelivery(order.getDelivery());
+		orderRetrived.setPayment(order.getPayment());
+		
+		OrderEntity orderToSave = orderConverter.convert(orderRetrived);
+		return orderDTOConverter.convert(orderRepository.save(orderToSave));		
 	}
 
 }

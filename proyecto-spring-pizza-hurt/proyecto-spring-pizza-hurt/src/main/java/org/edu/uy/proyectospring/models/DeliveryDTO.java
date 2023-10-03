@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 public class DeliveryDTO {
 	
+	Long id;
+	
 	@NotNull(groups = DeliveryInfo.class)
 	private AddressDTO address;
 	

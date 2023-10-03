@@ -19,7 +19,7 @@ public class Address extends BaseEntity{
 	@NotEmpty
 	private String street;
 	
-	@NotEmpty
+	@NotNull
 	private int doorNumber;
 	
 	private int apartmentNumber;

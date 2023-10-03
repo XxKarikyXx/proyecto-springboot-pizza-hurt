@@ -5,18 +5,19 @@
     <title>Pagar y Enviar Orden</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link th:href="@{/styles/style.css}" rel="stylesheet" />
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" th:src="@{/scripts/script.js}"></script>
   </head>
   <body>
 	<div th:replace="~{/fragments/header :: header}">
 	</div>
-    <div id="content">
+    <div id="content" class="container mt-4">
 		<h1>Pagar y Enviar Orden</h1>
 			<form method="POST" th:object="${order}">
-				<div th:if="${#fields.hasAnyErrors()}">
+				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
 					<p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
 				</div>
-				<div class="flex-column">
+				<div class="flex-column container mt-5">
 					<h2>Orden:</h2>
 					<div class="left">
 						<ul>
@@ -33,40 +34,40 @@
 					</div>
 					<div>Total: $<span th:text=${order.total}>Total</span></div>
 				</div>
-				<div class="flex-column">
+				<div class="flex-column container mt-5">
 					<h2>Envío:</h2>
 					<div class="left">
 						<label for="street" type="text" name="street" >Calle: </label> 
-						<input type="text" th:field="*{delivery.address.street}"/>
+						<input class="form-control" type="text" th:field="*{delivery.address.street}"/>
 						<br>
 						<label for="doorNumber" type="text" name="doorNumber" >Nro de puerta: </label> 
-						<input type="text" th:field="*{delivery.address.doorNumber}"/>
+						<input class="form-control" type="text" th:field="*{delivery.address.doorNumber}"/>
 						<br>
 						<label for="apartmentNumber" type="text" name="apartmentNumber" >Apartamento: </label> 
-						<input type="text" th:field="*{delivery.address.apartmentNumber}"/>
+						<input class="form-control" type="text" th:field="*{delivery.address.apartmentNumber}"/>
 						<br>
 						<label for="district" type="text" name="district" >Barrio: </label> 
-						<input type="text" th:field="*{delivery.address.district}"/>
+						<input class="form-control" type="text" th:field="*{delivery.address.district}"/>
 						<br>
 						<label for="zipCode" type="text" name="zipCode" >Código postal: </label> 
-						<input type="text" th:field="*{delivery.address.zipCode}"/>
+						<input class="form-control" type="text" th:field="*{delivery.address.zipCode}"/>
 						<br>
 						<label for="observations" type="text" name="observations" >Observaciones: </label> 
-						<textarea th:field="*{delivery.observations}"/>
+						<textarea class="form-control" th:field="*{delivery.observations}"/>
 					</div>
 				</div>
-				<div class="flex-column">
+				<div class="flex-column container mt-5">
 					<h2>Pago:</h2>
 					<div class="left">
 						<label for="size" type="text" name="size" >Tarjeta: </label>
-						<select th:field="*{payment.card.id}">
+						<select class="form-control" th:field="*{payment.card.id}">
 							<option value="0">Seleccione</option>
 							<option th:each="card : ${cards}" th:value="${card.id}" th:text="${card.cardNumber}"></option>
 						</select>
 					</div>
 				</div>
 				<br>
-				<button>Confirmar</button>
+				<button class="btn btn-primary">Confirmar</button>
 			</form>
 	</div>
 	<div th:replace="~{fragments/footer :: footer}">&copy; 2016 The Static Templates</div>

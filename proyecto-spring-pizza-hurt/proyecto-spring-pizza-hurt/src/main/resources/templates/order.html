@@ -2,18 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Pagar y Enviar Orden</title>
+    <title>Orden</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link th:href="@{/styles/style.css}" rel="stylesheet" />
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" th:src="@{/scripts/script.js}"></script>
   </head>
   <body>
 	<div th:replace="~{/fragments/header :: header}">
 	</div>
-    <div id="content">
-		<h1>Pagar y Enviar Orden</h1>
+    <div id="content" class="container mt-4">
+		<h1>Orden</h1>
 			<form  th:object="${order}">
-				<div class="flex-column">
+				<div class="flex-column container mt-5">
 					<h2>Orden:</h2>
 					<div class="left">
 						<ul>
@@ -30,33 +31,33 @@
 					</div>
 					<div>Total: $<span th:text=${order.total}>Total</span></div>
 				</div>
-				<div class="flex-column">
+				<div class="flex-column container mt-5">
 					<h2>Envío:</h2>
 					<div class="left">
 						<label for="street" type="text" name="street" >Calle: </label> 
-						<input type="text" th:field="*{delivery.address.street}" disabled/>
+						<input type="text" class="form-control" th:field="*{delivery.address.street}" disabled/>
 						<br>
 						<label for="doorNumber" type="text" name="doorNumber" >Nro de puerta: </label> 
-						<input type="text" th:field="*{delivery.address.doorNumber}" disabled/>
+						<input type="text" class="form-control" th:field="*{delivery.address.doorNumber}" disabled/>
 						<br>
 						<label for="apartmentNumber" type="text" name="apartmentNumber" >Apartamento: </label> 
-						<input type="text" th:field="*{delivery.address.apartmentNumber}" disabled/>
+						<input type="text" class="form-control" th:field="*{delivery.address.apartmentNumber}" disabled/>
 						<br>
 						<label for="district" type="text" name="district" >Barrio: </label> 
-						<input type="text" th:field="*{delivery.address.district}" disabled/>
+						<input type="text" class="form-control" th:field="*{delivery.address.district}" disabled/>
 						<br>
 						<label for="zipCode" type="text" name="zipCode" >Código postal: </label> 
-						<input type="text" th:field="*{delivery.address.zipCode}" disabled/>
+						<input type="text" class="form-control" th:field="*{delivery.address.zipCode}" disabled/>
 						<br>
 						<label for="observations" type="text" name="observations" >Observaciones: </label> 
-						<textarea th:field="*{delivery.observations}" disabled/>
+						<textarea class="form-control" th:field="*{delivery.observations}" disabled/>
 					</div>
 				</div>
-				<div class="flex-column">
+				<div class="flex-column container mt-5">
 					<h2>Pago:</h2>
 					<div class="left">
 						<label for="size" type="text" name="size" >Tarjeta: </label>
-						<input type="text" th:field="*{payment.card.cardNumber}" disabled/>
+						<input type="text" class="form-control" th:field="*{payment.card.cardNumber}" disabled/>
 					</div>
 				</div>
 				<br>

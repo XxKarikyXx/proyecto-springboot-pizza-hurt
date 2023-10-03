@@ -5,56 +5,57 @@
     <title>Carrito</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link th:href="@{/styles/style.css}" rel="stylesheet" />
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" th:src="@{/scripts/script.js}"></script>
   </head>
   <body>
 	<div th:replace="~{/fragments/header :: header}">
 	</div>
-    <div id="content">
+    <div id="content" class="container mt-5">
 		<h1>Carrito de Pizzas</h1>
 		<div th:if="${orderPizza.pizzas.size} == 0">
 			Aún no tiene pizzas agregadas :(
 		</div>
 		<div th:if="${orderPizza.pizzas.size} > 0">
 			<form method="POST" th:object="${orderPizza}">
-				<div th:if="${#fields.hasAnyErrors()}">
+				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
 				    <p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
 				</div>
 				<div class="border scroll super-sum" th:each="pizza,iter : ${orderPizza.pizzas}">
-					<div class="flex-inline">
+					<div class="flex-inline form-group">
 						<label for="name" type="text" name="name" >Nombre: </label> 
-						<span th:text="${pizza.name}">nombre</span> <button id="button" th:name="number" th:value="${iter.index}" th:formaction="@{/carrito/pizza/eliminar}">Eliminar</button>
+						<input type="text" class="form-control" th:value="${pizza.name}" disabled> <button id="button" class="btn btn-primary" th:name="number" th:value="${iter.index}" th:formaction="@{/carrito/pizza/eliminar}">Eliminar</button>
 						<br/>
 					</div>
 					<h3>Componentes</h3>
 					<div class="grid">
-						<div class="pizza-component" id="size">
+						<div class="pizza-component form-group" id="size">
 							<label for="size" type="text" name="size" >Tama&ntilde;o: </label> 
-							<select th:object="${size}" class="sum" disabled>
+							<select th:object="${size}" class="sum form-control" disabled>
 								<option th:price="${component.price}" th:each="component : ${size}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.size}"></option>
 							</select>
 						</div>	
-						<div class="pizza-component" id="mass">
+						<div class="pizza-component form-group" id="mass">
 							<label for="mass" type="text" name="mass" >Masa: </label> 
-							<select th:object="${mass}" class="sum" disabled>
+							<select th:object="${mass}" class="sum form-control" disabled>
 								<option th:price="${component.price}" th:each="component : ${mass}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.mass}"></option>
 							</select>
 						</div>	
-						<div class="pizza-component" id="cheese">
+						<div class="pizza-component form-group" id="cheese">
 							<label for="cheese" type="text" name="cheese" >Masa: </label> 
-							<select th:object="${cheese}" class="sum" disabled>
+							<select th:object="${cheese}" class="sum form-control" disabled>
 								<option th:price="${component.price}" th:each="component : ${cheese}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.cheese}"></option>
 							</select>
 						</div>	
-						<div class="pizza-component" id="sauce">
+						<div class="pizza-component form-group" id="sauce">
 							<label for="sauce" type="text" name="sauce" >Salsa: </label> 
-							<select th:object="${sauce}" class="sum" disabled>
+							<select th:object="${sauce}" class="sum form-control" disabled>
 								<option th:price="${component.price}" th:each="component : ${sauce}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.sauce}"></option>
 							</select>
 						</div>	
-						<div class="pizza-component" id="topping">
+						<div class="pizza-component form-group" id="topping">
 							<label for="topping" type="text" name="topping" >Topin: </label> 
-							<select th:object="${topping}" class="sum" disabled>
+							<select th:object="${topping}" class="sum form-control" disabled>
 								<option th:price="${component.price}" th:each="component : ${topping}" th:value="${component.id}" th:text="${component.name} + ' - $' + ${component.price}" th:selected="${component.id == pizza.topping}"></option>
 							</select>
 						</div>	
@@ -64,7 +65,7 @@
 					</div>	
 				</div>
 				<div th:if="${orderPizza.pizzas.size} > 0">
-					<button id="button" th:formaction="@{/carrito}">Confirmar Orden</button>  <button id="button" th:formaction="@{/carrito/eliminar}">Anular Orden</button>	
+					<button class="btn btn-primary" id="button" th:formaction="@{/carrito}">Confirmar Orden</button>  <button class="btn btn-primary" id="button" th:formaction="@{/carrito/eliminar}">Anular Orden</button>	
 				</div>
 				</br>
 			</form>

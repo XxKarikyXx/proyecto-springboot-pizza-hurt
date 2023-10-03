@@ -1,9 +1,7 @@
-/* ESTILOS PARA ELECTRO.WEB */
-
 body{
-    background-color: rgba(16, 160, 232, 0.05);
-    margin: 0;
-    font-family: calibri;
+    background-color: rgba(16, 160, 232, 0.05) !important;
+    margin: 0 !important;
+    font-family: calibri !important;
 }
 
 .footer {
@@ -116,31 +114,6 @@ div.flex{
 	display: flex;
 }
 
-input[type="reset"], input[type="button"], input[type="submit"], button{
-    background-color: rgb(16, 160, 232);
-    color: rgb(236, 247, 255);
-    border-color: rgb(16, 160, 232);
-}
-
-input[type="reset"]:hover, input[type="button"]:hover, input[type="submit"]:hover, button:hover{
-    background-color: rgb(118, 209, 255);
-    color: rgb(236, 247, 255);
-    border-color: rgb(16, 160, 232);
-    cursor: pointer;
-}
-
-input[type="reset"]:active, input[type="button"]:active, input[type="submit"]:active, button:active{
-    background-color: rgb(18, 94, 133);
-    color: rgb(236, 247, 255);
-    border-color: rgb(16, 160, 232);
-}
-
-input[disabled], input[readonly],button[disabled]{
-    background-color: rgb(112, 193, 234);
-    border-color: rgb(236, 247, 255);
-    color: rgb(236, 247, 255);
-    cursor: default;
-}
 input::placeholder{
     color: rgb(236, 247, 255);
 }

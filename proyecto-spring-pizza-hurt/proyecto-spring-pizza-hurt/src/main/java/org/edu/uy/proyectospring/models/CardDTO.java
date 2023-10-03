@@ -3,9 +3,12 @@ package org.edu.uy.proyectospring.models;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,19 +22,20 @@ public class CardDTO {
 	@Size(min=1,groups = PaymentInfo.class, message="Debe elegir una forma de pago válida")
 	Long id;
 	
-	@NotEmpty(message = "La tarjeta tiene que tener un banco emisor")
+	@NotEmpty(message="Debe ingresar una institución bancaria válida")
 	private String bank;
 	
 	@Future(message="La tarjeta está vencida")
-	@NotNull
+	@NotNull(message="Debe ingresar una fecha de vencimiento válida")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date validUntil;
 	
 	//Nro válido : 4242424242424242
 	@CreditCardNumber(message="El nro de tarjeta no es válido")
 	private String cardNumber;
 	
-	@NotEmpty
-	@Digits(integer=3, fraction=0, message="Código CVV inválido")
+	@NotNull(message="El campo CVV no puede estar vacío")
+	@Min(value=100, message="El CVV debe ser un número de 3 dígitos")
+	@Max(value=999, message="El CVV debe ser un número de 3 dígitos")
 	private int cvv;
-
 }

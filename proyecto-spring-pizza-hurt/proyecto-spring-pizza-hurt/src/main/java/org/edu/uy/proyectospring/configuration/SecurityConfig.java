@@ -2,11 +2,15 @@ package org.edu.uy.proyectospring.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.Header;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 import org.edu.uy.proyectospring.services.UserService;
@@ -35,7 +39,54 @@ public class SecurityConfig {
 		return authenticationProvider;
 	}
 	
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+		return http.authorizeHttpRequests(a -> {
+			try {
+                	a
+                	.requestMatchers("/carrito/**", "/ordenes/**").authenticated()
+                	.requestMatchers("/","/**","/signin/**").permitAll()
+                	.and()
+                	.csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**", "/signin/**"))
+                    .formLogin()
+                    .and()
+                    //Necesario para acceder a la console de h2
+                    .authorizeHttpRequests(auth -> auth.requestMatchers(toH2Console()).permitAll())
+                    .csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()))
+                    .headers(headers -> headers.frameOptions().sameOrigin());
+			} catch (Exception e) {
+				throw new RuntimeException("Error en filterChain");
+			}
+		})
+        .build();
+	}
 	
+	/*
+	// Usado hasta el 20231001
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+		return http.authorizeHttpRequests(a -> {
+			try {
+                	a
+                	.requestMatchers("/carrito/*", "/ordenes/*").authenticated()
+                	.requestMatchers("/","/**").permitAll()
+                    .and()
+                    .formLogin()
+                    .and()
+                    //Necesario para acceder a la console de h2
+                    .authorizeHttpRequests(auth -> auth.requestMatchers(toH2Console()).permitAll())
+                    .csrf().disable();
+			} catch (Exception e) {
+				throw new RuntimeException("Error en filterChain");
+			}
+		})
+        .build();
+	}
+	*/
+	
+	/*
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -48,6 +99,8 @@ public class SecurityConfig {
                         .csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**"))
                         .formLogin()
                         .and()
+                        .logout(logout -> logout
+                                .logoutSuccessUrl("/"))
                         //Necesario para acceder a la console de h2
                         .authorizeHttpRequests(auth -> auth .requestMatchers(toH2Console()).permitAll())
                         .csrf(csrf -> csrf .ignoringRequestMatchers(toH2Console()))
@@ -57,13 +110,15 @@ public class SecurityConfig {
 			}
 		}).build();
 	}
+	*/
 	
 	/*
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
 	{
 		return http.authorizeHttpRequests(a -> {
-			a.requestMatchers("""/registration").permitAll();
+			a.requestMatchers("/signin").permitAll();
+			a.requestMatchers("/").permitAll();
 		}).build();
 	}
 	*/

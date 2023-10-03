@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.edu.uy.proyectospring.converters.CardDTOConverter;
+
+import org.edu.uy.proyectospring.converters.CardConverter;
 import org.edu.uy.proyectospring.converters.UserConverter;
 import org.edu.uy.proyectospring.converters.UserRegistrationConverter;
 import org.edu.uy.proyectospring.entities.Card;
@@ -31,14 +32,15 @@ import jakarta.validation.Valid;
 @Service
 public class UserService implements UserDetailsService {
 	
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
+
+	//@Autowired
+	private final UserRepository userRepository;
+	
+	//@Autowired
+	private final CardRepository cardRepository;
+	
 	private UserConverter userConverter;
-	@Autowired
-	private CardRepository cardRepository;
-	@Autowired
-	private CardDTOConverter cardConverter;
+	private UserRegistrationConverter userRegistrationConverter;
 	
 
 
@@ -50,18 +52,20 @@ public class UserService implements UserDetailsService {
 		return null;
 	}
 
-	public UserService(UserRepository userRepository, UserConverter userConverter) {
+	public UserService(UserRepository userRepository, CardRepository cardRepository, UserConverter userConverter, UserRegistrationConverter userRegistrationConverter) {
 		super();
 		this.userRepository = userRepository;
+		this.cardRepository = cardRepository;
 		this.userConverter = userConverter;
+		this.userRegistrationConverter = userRegistrationConverter;
 	}
 
 	public List<UserEntity> getUsers() {
 		return userRepository.findAll();
 	}
 
-	public UserEntity createUser(@Valid UserDTO userEntity) {		
-		UserEntity user = this.userConverter.convert(userEntity);
+	public UserEntity createUser(@Valid UserRegistrationDTO userRegistrationDTO) {		
+		UserEntity user = this.userRegistrationConverter.convert(userRegistrationDTO);
 		user.setActive(true);
 		user.setCards(new ArrayList<Card>());
 		user.setOrders(new ArrayList<OrderEntity>());
@@ -114,5 +118,19 @@ public class UserService implements UserDetailsService {
 			throw new RuntimeException("No se pudo obtener la información del usuario autenticado");
 		}
 		return user;
+
+	
+	@Transactional
+	public void addCardToUser(String username, CardDTO card) {
+	    UserEntity user = this.loadUserEntityByUsername(username);
+	    CardConverter cardConverter = new CardConverter();
+	    
+	    Card cardEntity = cardConverter.convert(card);
+	    
+	    user.getCards().add(cardEntity);
+	    
+	    cardRepository.save(cardEntity);
+	    userRepository.save(user);
+
 	}
 }

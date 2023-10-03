@@ -5,6 +5,7 @@ import java.util.List;
 import org.edu.uy.proyectospring.entities.UserEntity;
 import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
 import org.edu.uy.proyectospring.models.UserDTO;
+import org.edu.uy.proyectospring.models.UserRegistrationDTO;
 import org.edu.uy.proyectospring.services.UserService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +34,10 @@ public class UserControllerRest {
 	}
 	
 	@PostMapping("/usuarios")
-	public UserEntity addUser(@RequestBody @Valid UserDTO userDTO) {
-		return userService.createUser(userDTO);
+	public UserEntity addUser(@RequestBody @Valid UserRegistrationDTO userRegistrationDTO) {
+		return userService.createUser(userRegistrationDTO);
 	}
-	
+	 
 	@GetMapping("/usuarios/{id}")
 	public UserEntity getUserById(@PathVariable Long id) {
 		return userService.getUserById(id);

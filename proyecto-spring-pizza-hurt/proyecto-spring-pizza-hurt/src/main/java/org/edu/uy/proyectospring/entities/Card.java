@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -22,19 +24,20 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Card extends BaseEntity{
 	
-	@NotNull
-	@NotEmpty
+	@NotNull(message="Debe ingresar una institución bancaria válida")
+	@NotEmpty(message="Debe ingresar una institución bancaria válida")
 	private String bank;
 	
-	@NotNull
+	@NotNull(message="Debe ingresar una fecha de vencimiento válida")
 	private Date validUntil;
 	
 	//Nro válido : 4242424242424242
 	@CreditCardNumber(message="El nro de tarjeta no es válido")
 	private String cardNumber;
 	
-	@NotEmpty
-	@Digits(integer=3, fraction=0, message="Código CVV inválido")
+	@NotNull(message="El campo CVV no puede estar vacío")
+	@Min(value=100, message="El CVV debe ser un número de 3 dígitos")
+	@Max(value=999, message="El CVV debe ser un número de 3 dígitos")
 	private int cvv;
 	
 	@ManyToOne

@@ -13,6 +13,10 @@
     <div th:replace="~{/fragments/header :: header}">
     </div>
 
+	<div th:if="${errorMessage}" class="alert alert-danger">
+		<p th:text="${errorMessage}">Mensaje de error</p>
+	</div>
+
     <div id="contenido" class="container mt-4">
         <p>
             <div th:unless="${#lists.isEmpty(usersDTO)}" class="mb-3">
@@ -30,7 +34,7 @@
 				</div>
 			</div>
 			
-			<form th:object="${userDTO}" th:action="@{/signin}" method="post" class="mb-3">
+			<form th:object="${userRegistrationDTO}" th:action="@{/signin}" method="post" class="mb-3">
 				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
 					<p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
 				</div>
@@ -41,21 +45,28 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="password" class="col-sm-2 col-form-label">Password: </label>
-					<div class="col-sm-6">
-						<input id="password" type="password" name="password" th:field="*{password}" class="form-control"/>
-					</div>
-				</div>
-				<div class="form-group row">
 					<label for="fullName" class="col-sm-2 col-form-label">Nombre: </label>
 					<div class="col-sm-6">
 						<input id="fullName" type="text" name="fullName" th:field="*{fullName}" class="form-control"/>
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="telephone" class="col-sm-2 col-form-label">Telephone: </label>
+					<label for="telephone" class="col-sm-2 col-form-label">Teléfono: </label>
 					<div class="col-sm-6">
 						<input id="telephone" type="text" name="telephone" th:field="*{telephone}" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="password" class="col-sm-2 col-form-label">Password: </label>
+					<div class="col-sm-6">
+						<input id="password" type="password" name="password" th:field="*{password}" class="form-control"/>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="confirmPassword" class="col-sm-2 col-form-label">Confirmar Password: </label>
+					<div class="col-sm-6">
+						<input id="confirmPassword" type="password" name="confirmPassword" th:field="*{confirmPassword}" class="form-control"/>
 					</div>
 				</div>
 				<div class="form-group row">

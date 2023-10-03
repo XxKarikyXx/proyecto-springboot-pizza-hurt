@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.edu.uy.proyectospring.converters.CardConverter;
 import org.edu.uy.proyectospring.converters.UserConverter;
 import org.edu.uy.proyectospring.converters.UserRegistrationConverter;
 import org.edu.uy.proyectospring.entities.Card;
 import org.edu.uy.proyectospring.entities.OrderEntity;
 import org.edu.uy.proyectospring.entities.UserEntity;
 import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
+import org.edu.uy.proyectospring.models.CardDTO;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
+import org.edu.uy.proyectospring.repositories.CardRepository;
 import org.edu.uy.proyectospring.repositories.PaymentRepository;
 import org.edu.uy.proyectospring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +29,14 @@ import jakarta.validation.Valid;
 @Service
 public class UserService implements UserDetailsService {
 	
-	@Autowired
-	private UserRepository userRepository;
+	//@Autowired
+	private final UserRepository userRepository;
+	
+	//@Autowired
+	private final CardRepository cardRepository;
 	
 	private UserConverter userConverter;
+	private UserRegistrationConverter userRegistrationConverter;
 	
 	private PaymentRepository paymentRepository;
 	
@@ -41,18 +48,20 @@ public class UserService implements UserDetailsService {
 		return null;
 	}
 
-	public UserService(UserRepository userRepository, UserConverter userConverter) {
+	public UserService(UserRepository userRepository, CardRepository cardRepository, UserConverter userConverter, UserRegistrationConverter userRegistrationConverter) {
 		super();
 		this.userRepository = userRepository;
+		this.cardRepository = cardRepository;
 		this.userConverter = userConverter;
+		this.userRegistrationConverter = userRegistrationConverter;
 	}
 
 	public List<UserEntity> getUsers() {
 		return userRepository.findAll();
 	}
 
-	public UserEntity createUser(@Valid UserDTO userEntity) {		
-		UserEntity user = this.userConverter.convert(userEntity);
+	public UserEntity createUser(@Valid UserRegistrationDTO userRegistrationDTO) {		
+		UserEntity user = this.userRegistrationConverter.convert(userRegistrationDTO);
 		user.setActive(true);
 		user.setCards(new ArrayList<Card>());
 		user.setOrders(new ArrayList<OrderEntity>());
@@ -91,5 +100,17 @@ public class UserService implements UserDetailsService {
 			throw new Exception("El usuario ya existe");
 		}
 	}
-
+	
+	@Transactional
+	public void addCardToUser(String username, CardDTO card) {
+	    UserEntity user = this.loadUserEntityByUsername(username);
+	    CardConverter cardConverter = new CardConverter();
+	    
+	    Card cardEntity = cardConverter.convert(card);
+	    
+	    user.getCards().add(cardEntity);
+	    
+	    cardRepository.save(cardEntity);
+	    userRepository.save(user);
+	}
 }

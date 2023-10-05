@@ -45,11 +45,12 @@ public class SecurityConfig {
 		return http.authorizeHttpRequests(a -> {
 			try {
                 	a
+                	.requestMatchers("/api/v1/users/**").permitAll()
                 	.requestMatchers("/carrito/**", "/ordenes/**", "/profile/**").authenticated()
                 	.requestMatchers("/login/**","/signin/**").anonymous()
                 	.requestMatchers("/","/**").permitAll()
                 	.and()
-                	.csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**", "/profile/**"))
+                	.csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**", "/profile/**", "/api/v1/users/**"))
                     .formLogin(login -> login.loginPage("/login")
                             .defaultSuccessUrl("/"))
                     .logout(logout -> logout
@@ -64,109 +65,4 @@ public class SecurityConfig {
 		})
         .build();
 	}
-	
-	/*
-	// Usado hasta el 20231001
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-		return http.authorizeHttpRequests(a -> {
-			try {
-                	a
-                	.requestMatchers("/carrito/*", "/ordenes/*").authenticated()
-                	.requestMatchers("/","/**").permitAll()
-                    .and()
-                    .formLogin()
-                    .and()
-                    //Necesario para acceder a la console de h2
-                    .authorizeHttpRequests(auth -> auth.requestMatchers(toH2Console()).permitAll())
-                    .csrf().disable();
-			} catch (Exception e) {
-				throw new RuntimeException("Error en filterChain");
-			}
-		})
-        .build();
-	}
-	*/
-	
-	/*
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-		return http.authorizeHttpRequests(authorize -> {
-			try {
-                authorize
-                        .requestMatchers("/carrito/**", "/ordenes/**").authenticated()
-                        .requestMatchers("/", "/**").permitAll()
-                        .and()                    
-                        .csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**"))
-                        .formLogin()
-                        .and()
-                        .logout(logout -> logout
-                                .logoutSuccessUrl("/"))
-                        //Necesario para acceder a la console de h2
-                        .authorizeHttpRequests(auth -> auth .requestMatchers(toH2Console()).permitAll())
-                        .csrf(csrf -> csrf .ignoringRequestMatchers(toH2Console()))
-                        .headers(headers -> headers.frameOptions().sameOrigin());
-			} catch (Exception e) {
-				throw new RuntimeException("Error en filterChain");
-			}
-		}).build();
-	}
-	*/
-	
-	/*
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
-	{
-		return http.authorizeHttpRequests(a -> {
-			a.requestMatchers("/signin").permitAll();
-			a.requestMatchers("/").permitAll();
-		}).build();
-	}
-	*/
-	
-	
-	/*
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-		return http.authorizeHttpRequests(a -> {
-			try {
-                	a
-                	.requestMatchers("/","/**").permitAll()
-                	.requestMatchers("/carrito/*", "/ordenes/*").authenticated()
-                	.requestMatchers("/templates/fragments/**", "/styles/**", "/scripts/**").permitAll()
-                	.requestMatchers("/signin","/registration","/").permitAll()
-                    .and()
-                    .formLogin(login -> login.loginPage("/signin")
-                            .defaultSuccessUrl("/"))
-                    .logout(logout -> logout
-                            .logoutSuccessUrl("/"))
-                    //Necesario para acceder a la console de h2
-                    .authorizeHttpRequests(auth -> auth.requestMatchers(toH2Console()).permitAll())
-                    .csrf(csrf -> csrf .ignoringRequestMatchers(toH2Console()));
-			} catch (Exception e) {
-				throw new RuntimeException("Error en filterChain");
-			}
-		})
-        .build();
-	}
-	*/
-	/*
-	public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-		
-		final List<UserDetails> usuarios = new ArrayList<>();
-		
-		usuarios.add(User.builder()
-				.username("guille")
-				.password(encoder.encode("guille123"))
-				.authorities("ROLE_USER")
-				.build());
-		
-		return new InMemoryUserDetailsManager(usuarios);
-	}
-	*/
-	
-	
 }

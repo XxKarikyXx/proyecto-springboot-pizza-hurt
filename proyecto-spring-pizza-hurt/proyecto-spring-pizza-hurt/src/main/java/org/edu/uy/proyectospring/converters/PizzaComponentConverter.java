@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class PizzaComponentConverter implements Converter<PizzaDTO, Pizza>{
 	
-	private MassRepository massRepository;
+	private final MassRepository massRepository;
 	
-	private SauceRepository sauceRepository;
+	private final SauceRepository sauceRepository;
 	
-	private SizeRepository sizeRepository;
+	private final SizeRepository sizeRepository;
 	
-	private CheeseRepository cheeseRepository;
+	private final CheeseRepository cheeseRepository;
 	
-	private ToppingRepository toppingRepository;
+	private final ToppingRepository toppingRepository;
 	
 	
 

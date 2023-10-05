@@ -7,6 +7,7 @@ import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
 import org.edu.uy.proyectospring.services.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +24,12 @@ public class UserControllerRest {
 	
 	private final UserService userService;
 	
-	public UserControllerRest(UserService userService) {
+	private final BCryptPasswordEncoder passwordEncoder;
+	
+	public UserControllerRest(UserService userService, BCryptPasswordEncoder passwordEncoder) {
 		super();
 		this.userService = userService;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	@GetMapping("/usuarios")
@@ -35,7 +39,7 @@ public class UserControllerRest {
 	
 	@PostMapping("/usuarios")
 	public UserDTO addUser(@RequestBody @Valid UserRegistrationDTO userRegistrationDTO) {
-		return userService.createUser(userRegistrationDTO);
+		return userService.createUser(userRegistrationDTO, passwordEncoder);
 	}
 	 
 	@GetMapping("/usuarios/{id}")

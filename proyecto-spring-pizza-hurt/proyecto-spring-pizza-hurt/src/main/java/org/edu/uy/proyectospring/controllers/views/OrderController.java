@@ -32,7 +32,7 @@ public class OrderController {
 	
 	private final UserService userService;
 	
-	private AuthorizationService authorizationService;
+	private final AuthorizationService authorizationService;
 	
 	public OrderController(OrderService orderService, OrderDTOConverter orderDTOConverter,
 			UserService userService, AuthorizationService authorizationService) {

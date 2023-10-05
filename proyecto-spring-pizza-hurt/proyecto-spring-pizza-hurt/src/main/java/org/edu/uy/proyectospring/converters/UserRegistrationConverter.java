@@ -11,14 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserRegistrationConverter implements Converter<UserRegistrationDTO, UserEntity>{
 
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	
 	@Override
 	public UserEntity convert(UserRegistrationDTO source) {
 		UserEntity mappedEntity = new UserEntity();
 		mappedEntity.setEmail(source.getEmail());
 		mappedEntity.setFullName(source.getFullName());
-		mappedEntity.setPassword(passwordEncoder.encode(source.getPassword()));
+		mappedEntity.setPassword(source.getPassword());
 		mappedEntity.setTelephone(source.getTelephone());
 		return mappedEntity;
 	}

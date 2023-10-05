@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderDTOConverter implements Converter<OrderEntity, OrderDTO>{
 	
-	PizzaComponentDTOConverter pizzaComponentDTOConverter;
+	private final PizzaComponentDTOConverter pizzaComponentDTOConverter;
 	
-	PaymentDTOConverter paymentDTOConverter;
+	private final PaymentDTOConverter paymentDTOConverter;
 	
-	DeliveryDTOConverter deliveryDTOConverter;
+	private final DeliveryDTOConverter deliveryDTOConverter;
 	
-	UserDTOConverter userDTOConverter;
+	private final UserDTOConverter userDTOConverter;
 	
 
 	public OrderDTOConverter(PizzaComponentDTOConverter pizzaComponentDTOConverter, PaymentDTOConverter paymentDTOConverter,

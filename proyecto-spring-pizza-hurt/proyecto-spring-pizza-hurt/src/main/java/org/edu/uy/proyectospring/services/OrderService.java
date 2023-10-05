@@ -19,19 +19,19 @@ import jakarta.transaction.Transactional;
 @Service
 public class OrderService {
 	
-	private UserService userService;
+	private final UserService userService;
 	
-	private OrderRepository orderRepository;
+	private final OrderRepository orderRepository;
 	
-	private OrderConverter orderConverter;
+	private final OrderConverter orderConverter;
 	
-	private OrderDTOConverter orderDTOConverter;
+	private final OrderDTOConverter orderDTOConverter;
 	
-	private DeliveryConverter deliveryConverter;
+	private final DeliveryConverter deliveryConverter;
 	
-	private PaymentConverter paymentConverter;
+	private final PaymentConverter paymentConverter;
 	
-	private PizzaComponentService pizzaComponentService;
+	private final PizzaComponentService pizzaComponentService;
 
 	
 	

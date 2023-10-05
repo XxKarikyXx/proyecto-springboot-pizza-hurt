@@ -8,6 +8,7 @@ import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
 import org.edu.uy.proyectospring.services.AuthorizationService;
 import org.edu.uy.proyectospring.services.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,11 +25,15 @@ public class UserController {
 	
 	private final UserService userService;
 	
+	private final BCryptPasswordEncoder passwordEncoder;
+	
 	private final AuthorizationService authorizationService;
 	
-	public UserController(UserService userService, AuthorizationService authorizationService) {
+	public UserController(UserService userService, AuthorizationService authorizationService,
+			BCryptPasswordEncoder passwordEncoder) {
 		super();
 		this.userService = userService;
+		this.passwordEncoder = passwordEncoder;
 		this.authorizationService = authorizationService;
 	}
 	
@@ -75,13 +80,13 @@ public class UserController {
 		}
 		else {
 			try {
-				userService.createUser(userRegistrationDTO);
+				userService.createUser(userRegistrationDTO, passwordEncoder);
 			}catch(EntityFoundException ex) {
 				bindingResult.reject("errorCode", "El usuario ya existe");
 				return "adduser";
 			}
 			sessionStatus.setComplete();
-			return "redirect:/carrito/pizza";
+			return "redirect:/login";
 		}
 	}
 	

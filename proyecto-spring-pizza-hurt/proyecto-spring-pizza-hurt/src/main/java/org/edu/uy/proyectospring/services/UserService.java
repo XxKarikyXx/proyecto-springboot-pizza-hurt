@@ -30,6 +30,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,11 +44,11 @@ public class UserService implements UserDetailsService {
 
 	private final CardRepository cardRepository;
 	
-	private UserDTOConverter userDTOConverter;
+	private final UserDTOConverter userDTOConverter;
 	
-	private UserRegistrationConverter userRegistrationConverter;
+	private final UserRegistrationConverter userRegistrationConverter;
 	
-	private CardDTOConverter cardDTOConverter;
+	private final CardDTOConverter cardDTOConverter;
 	
 
 	public List<UserEntity> getUsers() {
@@ -79,13 +80,14 @@ public class UserService implements UserDetailsService {
 	}	
 	
 	@Transactional
-	public UserDTO createUser(UserRegistrationDTO usuarioDTO){
+	public UserDTO createUser(UserRegistrationDTO usuarioDTO, BCryptPasswordEncoder passwordEncoder){
 		try {
 			loadUserByUsername(usuarioDTO.getEmail());	
 			throw new EntityFoundException();
 		}catch(UsernameNotFoundException ex) {
 			UserEntity user = userRegistrationConverter.convert(usuarioDTO);
 			user.setActive(true);
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			user.setCards(new ArrayList<Card>());
 			user.setOrders(new ArrayList<OrderEntity>());
 			return userDTOConverter.convert(userRepository.save(user));

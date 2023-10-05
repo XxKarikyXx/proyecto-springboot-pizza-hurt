@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +25,12 @@ public class AuthorizationService {
 	
 	private final UserDTOConverter userDTOConverter;
 	
-	private final AuthenticationContext autentication;
+	BCryptPasswordEncoder passwordEncoder;
 
 	
-	public AuthorizationService(AuthenticationContext autentication, UserConverter userConverter, UserDTOConverter userDTOConverter,
+	public AuthorizationService(UserConverter userConverter, UserDTOConverter userDTOConverter,
 			AuthenticationProvider authenticationProvider) {
 		super();
-		this.autentication = autentication;
 		this.userConverter = userConverter;
 		this.userDTOConverter = userDTOConverter;
 		this.authenticationProvider = authenticationProvider;
@@ -38,7 +38,7 @@ public class AuthorizationService {
 
 	
 	public UserEntity getUserLogged() {
-		UserEntity user =  (UserEntity) autentication.getAuthentication().getPrincipal();
+		UserEntity user =  (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (user == null || user.getId() == 0) {
 			throw new RuntimeException("No se pudo obtener la información del usuario autenticado");
 		}
@@ -62,4 +62,5 @@ public class AuthorizationService {
 		UserEntity user = userConverter.convert(userDTO);
 		authenticateUser(user, request);
 	}
+	
 }

@@ -9,7 +9,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class AuthorizationService {
@@ -34,7 +38,6 @@ public class AuthorizationService {
 
 	
 	public UserEntity getUserLogged() {
-
 		UserEntity user =  (UserEntity) autentication.getAuthentication().getPrincipal();
 		if (user == null || user.getId() == 0) {
 			throw new RuntimeException("No se pudo obtener la información del usuario autenticado");
@@ -45,18 +48,18 @@ public class AuthorizationService {
 	public UserDTO getUserDTOLogged() {
 		return userDTOConverter.convert(getUserLogged());
 	}
-	
-	//Funciona pero luego de la request es como que pierde el contexto
-	public void authenticateUser(UserEntity user) {
+		
+	public void authenticateUser(UserEntity user, HttpServletRequest request) {
 	    UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-	    Authentication auth = authenticationProvider.authenticate(authReq);	    
-	  
+	    Authentication auth = authenticationProvider.authenticate(authReq);	    	  
 	    SecurityContext sc = SecurityContextHolder.getContext();
 	    sc.setAuthentication(auth);	      
+	    HttpSession session = request.getSession(true);
+	    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, sc);
 	}
 	
-	public void authenticateUser(UserDTO userDTO) {
+	public void authenticateUser(UserDTO userDTO, HttpServletRequest request) {
 		UserEntity user = userConverter.convert(userDTO);
-		authenticateUser(user);
+		authenticateUser(user, request);
 	}
 }

@@ -2,18 +2,12 @@ package org.edu.uy.proyectospring.controllers.views;
 
 import java.util.List;
 
-import org.edu.uy.proyectospring.entities.UserEntity;
 import org.edu.uy.proyectospring.exceptions.EntityFoundException;
-import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
 import org.edu.uy.proyectospring.models.CardDTO;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
 import org.edu.uy.proyectospring.services.AuthorizationService;
 import org.edu.uy.proyectospring.services.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.support.SessionStatus;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -42,21 +37,22 @@ public class UserController {
 		return "login";
 	}
 	
-	/*
-	@PostMapping("/login2")
-	public String authLogin(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult bindingResult) {
+
+	@PostMapping("/login")
+	public String authLogin(HttpServletRequest request, @ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			return "login";
 		}
 		try {
-			authorizationService.authenticateUser(userDTO);
+			authorizationService.authenticateUser(userDTO, request);
 		}catch(Exception ex) {
 			bindingResult.reject("error","Credenciales erróneas");
 			return "login";
 		}
-		return "login";
+		return "redirect:/profile";
 	}
-	*/
+
+	
 	
 	@GetMapping("/profile")
     public String showProfile(Model model) {

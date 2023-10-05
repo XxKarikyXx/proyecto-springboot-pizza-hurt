@@ -6,7 +6,7 @@
     <a class="custom-link" sec:authorize="isAuthenticated()" th:href="@{/ordenes}">Órdenes</a>
     <a class="custom-link" sec:authorize="isAuthenticated()" th:href="@{/carrito}">Carrito</a>
     <a class="custom-link" sec:authorize="isAuthenticated()" th:href="@{/profile}">Perfil</a>
-    <a class="custom-link" sec:authorize="!isAuthenticated()" th:href="@{/profile}">LogIn</a>
+    <a class="custom-link" sec:authorize="!isAuthenticated()" th:href="@{/login}">LogIn</a>
     <a class="custom-link" sec:authorize="!isAuthenticated()" th:href="@{/signin}">Registrarse</a>
   </div>
 </div>

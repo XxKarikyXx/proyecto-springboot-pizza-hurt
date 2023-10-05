@@ -2,14 +2,11 @@ package org.edu.uy.proyectospring.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -17,7 +14,6 @@ import org.edu.uy.proyectospring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
 	@Autowired
@@ -51,9 +47,11 @@ public class SecurityConfig {
                 	.requestMatchers("/","/**").permitAll()
                 	.and()
                 	.csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**", "/profile/**"))
-                    .formLogin(login -> login.loginPage("/login")
-                    		.usernameParameter("email")
-                    		.defaultSuccessUrl("/profile"))              
+                    //si seteamos esto nos obliga a usar el post de SS
+                	//.formLogin(login -> login.loginPage("/login"))
+                    		//.usernameParameter("email")
+                    		//.passwordParameter("password")
+                    		//.defaultSuccessUrl("/profile"))              
                     .logout(logout -> logout
                             .logoutSuccessUrl("/"))
                     //Necesario para acceder a la console de h2

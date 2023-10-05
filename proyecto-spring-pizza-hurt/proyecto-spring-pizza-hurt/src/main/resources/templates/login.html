@@ -20,13 +20,16 @@
 							            <span>Credenciales erróneas</span>
 							        </div>
 							    </div>
+							   <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+									<p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+								</div>
 	                        <div class="form-group">
 	                            <label for="email">Email:</label>
-	                            <input type="text" name="username" class="form-control" required="required"/>
+	                            <input type="text" name="username" th:field="*{email}" class="form-control" />
 	                        </div>
 	                        <div class="form-group">
 	                            <label for="password">Contraseña:</label>
-	                            <input type="password" name="password" class="form-control" required="required"/>
+	                            <input type="password" name="password" th:field="*{password}" class="form-control"/>
 	                        </div>
 	                        <div class="form-group">
 	                            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>

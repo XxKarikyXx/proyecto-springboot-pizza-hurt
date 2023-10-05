@@ -1,6 +1,6 @@
 package org.edu.uy.proyectospring.models;
 
-import org.edu.yt.proyectospring.entities.constraints.EmailConstraint;
+import org.edu.uy.proyectospring.entities.constraints.EmailConstraint;
 
 import jakarta.validation.constraints.NotEmpty;
 

@@ -34,26 +34,13 @@ public class UserControllerRest {
 	}
 	
 	@PostMapping("/usuarios")
-	public UserEntity addUser(@RequestBody @Valid UserRegistrationDTO userRegistrationDTO) {
+	public UserDTO addUser(@RequestBody @Valid UserRegistrationDTO userRegistrationDTO) {
 		return userService.createUser(userRegistrationDTO);
 	}
 	 
 	@GetMapping("/usuarios/{id}")
-	public UserEntity getUserById(@PathVariable Long id) {
+	public UserDTO getUserById(@PathVariable Long id) {
 		return userService.getUserById(id);
 	}
-	
-	
-	/* No se pide
-	@PutMapping("/usuarios/{id}")
-	public UserEntity updateUserById(@RequestBody @Valid UserEntity user, @PathVariable Long id) {
-		return userService.updateUserById(id, user);
-	}
-	
-	@DeleteMapping("/usuarios/{id}")
-	public void deleteUserById(@PathVariable Long id) {
-		userService.deleteUserById(id);
-	}
-	*/
 
 }

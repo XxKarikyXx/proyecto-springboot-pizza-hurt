@@ -1,14 +1,18 @@
 package org.edu.uy.proyectospring.controllers.views;
 
+import java.util.List;
+
 import org.edu.uy.proyectospring.entities.UserEntity;
+import org.edu.uy.proyectospring.exceptions.EntityFoundException;
+import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
 import org.edu.uy.proyectospring.models.CardDTO;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
+import org.edu.uy.proyectospring.services.AuthorizationService;
 import org.edu.uy.proyectospring.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 
 import jakarta.validation.Valid;
@@ -26,47 +29,63 @@ public class UserController {
 	
 	private final UserService userService;
 	
-	public UserController(UserService userService) {
+	private final AuthorizationService authorizationService;
+	
+	public UserController(UserService userService, AuthorizationService authorizationService) {
 		super();
 		this.userService = userService;
+		this.authorizationService = authorizationService;
 	}
 	
 	@GetMapping("/login")
-	public String showLogin(@ModelAttribute("userDTO")UserDTO userDTO) {
+	public String showLogin(@ModelAttribute("userDTO")UserRegistrationDTO userDTO) {
 		return "login";
 	}
 	
+	/*
+	@PostMapping("/login2")
+	public String authLogin(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			return "login";
+		}
+		try {
+			authorizationService.authenticateUser(userDTO);
+		}catch(Exception ex) {
+			bindingResult.reject("error","Credenciales erróneas");
+			return "login";
+		}
+		return "login";
+	}
+	*/
+	
 	@GetMapping("/profile")
     public String showProfile(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUserName = authentication.getName(); // Esto te dará el nombre de usuario
+        
+        UserDTO userDTO = authorizationService.getUserDTOLogged();
+        List<CardDTO> cards = userService.getUserCardsByUserId(userDTO.id());
 
-        UserEntity userEntity = userService.loadUserEntityByUsername(currentUserName);
-
-        model.addAttribute("user", userEntity);
-        model.addAttribute("cards", userEntity.getCards());
+        model.addAttribute("user", userDTO);
+        model.addAttribute("cards", cards);
         
         model.addAttribute("CardDTO", new CardDTO());
-
-        return "profile"; //
+       
+        return "profile";
     }
 	
 	@PostMapping("/signin")
 	public String addUser(@ModelAttribute("userRegistrationDTO") @Valid UserRegistrationDTO userRegistrationDTO, BindingResult bindingResult, Model model, SessionStatus sessionStatus) {
 		if(bindingResult.hasErrors()) {
-			//IMPORTANTE. SI REDIRECCIONAMOS PERDEMOS LOS ERRORES (a menos q se lo pasemos)
 			return "adduser";
 		}
 		else {
 			try {
 				userService.createUser(userRegistrationDTO);
-			}catch(Exception ex) {
-				bindingResult.reject("errorCode", "Hubo una inconsistencia en algunos de los datos ingresados..., se sugiere refrescar y volver a intentar");
+			}catch(EntityFoundException ex) {
+				bindingResult.reject("errorCode", "El usuario ya existe");
 				return "adduser";
 			}
 			sessionStatus.setComplete();
 			return "redirect:/carrito/pizza";
-			//return "adduser";
 		}
 	}
 	

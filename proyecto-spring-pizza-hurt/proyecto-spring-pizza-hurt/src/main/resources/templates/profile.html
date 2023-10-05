@@ -15,15 +15,15 @@
 	<h1 class="text-center">Perfil de Usuario</h1>
 
 	<div class="mt-4">
-		<p>Usuario: <span th:text="${user.username}"></span></p>
-		<p>Nombre: <span th:text="${user.username}"></span></p>
+		<p>Usuario: <span th:text="${user.email}"></span></p>
+		<p>Nombre: <span th:text="${user.fullName}"></span></p>
 		<p>Teléfono: <span th:text="${user.telephone}"></span></p>
 	</div>
 	<form th:action="@{/logout}" method="post"><button class="btn btn-primary">LogOut</button></form>
 	<h2 class="mt-4">Tarjetas</h2>
 
 	<!-- Comprobar si la lista de tarjetas está vacía -->
-	<div th:if="${#lists.isEmpty(cards)}">
+	<div th:if="${cards.size} == 0">
 		<p>No tiene tarjetas asociadas</p>
 	</div> 
 	<!-- Mostrar la tabla si hay tarjetas -->

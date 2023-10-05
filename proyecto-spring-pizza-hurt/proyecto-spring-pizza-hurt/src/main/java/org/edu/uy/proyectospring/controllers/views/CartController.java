@@ -19,9 +19,9 @@ import jakarta.validation.Valid;
 @Controller
 @SessionAttributes("orderPizza")
 public class CartController {
-	OrderService orderService;
+	private final OrderService orderService;
 	
-	PizzaComponentService pizzaComponentService;
+	private final PizzaComponentService pizzaComponentService;
 
 	public CartController(OrderService orderService, PizzaComponentService pizzaComponentService) {
 		super();

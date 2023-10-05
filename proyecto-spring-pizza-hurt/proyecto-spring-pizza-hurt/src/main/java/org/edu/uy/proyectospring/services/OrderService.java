@@ -50,7 +50,7 @@ public class OrderService {
 
 	@Transactional
 	public OrderDTO saveOrderWithUserId(OrderDTO orderPizza, Long userId) {
-		UserEntity user = userService.getUserById(userId);
+		UserEntity user = userService.getUserEntityById(userId);
 		OrderEntity orderToSave = orderConverter.convert(orderPizza);
 		orderToSave.getPizzas().forEach(p->
 			orderToSave.setTotalPrice(

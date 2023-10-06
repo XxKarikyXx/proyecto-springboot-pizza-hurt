@@ -104,16 +104,24 @@ public class UserService implements UserDetailsService {
 
 	
 	@Transactional
-	public void addCardToUser(Long userId, CardDTO card) {
-	    UserEntity user = this.getUserEntityById(userId);
+	public void addCardToUser(String username, CardDTO card) {
+	    UserEntity user = this.loadUserEntityByUsername(username);
+	    addCardToUserEntity(user, card);
+	}
+
+	@Transactional
+	public void addCardToUserById(Long userId, CardDTO cardDTO) {
+	    UserEntity user = getUserById(userId);
+	    addCardToUserEntity(user, cardDTO);
+	}
+
+	private void addCardToUserEntity(UserEntity user, CardDTO cardDTO) {
 	    CardConverter cardConverter = new CardConverter();
-	    
-	    Card cardEntity = cardConverter.convert(card);
+	    Card cardEntity = cardConverter.convert(cardDTO);
 	    
 	    user.getCards().add(cardEntity);
 	    
 	    cardRepository.save(cardEntity);
 	    userRepository.save(user);
 	}
-
 }

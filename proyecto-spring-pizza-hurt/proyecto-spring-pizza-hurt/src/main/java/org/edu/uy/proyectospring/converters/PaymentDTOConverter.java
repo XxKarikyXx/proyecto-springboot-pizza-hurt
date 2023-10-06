@@ -8,15 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PaymentDTOConverter implements Converter<Payment, PaymentDTO>{
-
-	PaymentRepository paymentRepository;
 	
-	CardDTOConverter cardDTOConverter;
+	private final CardDTOConverter cardDTOConverter;
 	
 	
-	public PaymentDTOConverter(PaymentRepository paymentRepository, CardDTOConverter cardDTOConverter) {
-		super();
-		this.paymentRepository = paymentRepository;
+	public PaymentDTOConverter(CardDTOConverter cardDTOConverter) {
 		this.cardDTOConverter = cardDTOConverter;
 	}
 

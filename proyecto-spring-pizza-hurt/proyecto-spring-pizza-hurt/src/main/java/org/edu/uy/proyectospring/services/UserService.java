@@ -9,124 +9,99 @@ import java.util.stream.Collectors;
 import org.edu.uy.proyectospring.converters.CardConverter;
 import org.edu.uy.proyectospring.converters.CardDTOConverter;
 import org.edu.uy.proyectospring.converters.UserConverter;
+import org.edu.uy.proyectospring.converters.UserDTOConverter;
 import org.edu.uy.proyectospring.converters.UserRegistrationConverter;
 import org.edu.uy.proyectospring.entities.Card;
 import org.edu.uy.proyectospring.entities.OrderEntity;
 import org.edu.uy.proyectospring.entities.UserEntity;
+import org.edu.uy.proyectospring.exceptions.EntityFoundException;
 import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
 import org.edu.uy.proyectospring.models.CardDTO;
 import org.edu.uy.proyectospring.models.UserDTO;
 import org.edu.uy.proyectospring.models.UserRegistrationDTO;
 import org.edu.uy.proyectospring.repositories.CardRepository;
-import org.edu.uy.proyectospring.repositories.PaymentRepository;
 import org.edu.uy.proyectospring.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class UserService implements UserDetailsService {
 	
-
-	//@Autowired
 	private final UserRepository userRepository;
-	
-	//@Autowired
+
 	private final CardRepository cardRepository;
 	
-	private UserConverter userConverter;
+	private final UserDTOConverter userDTOConverter;
 	
-	private UserRegistrationConverter userRegistrationConverter;
+	private final UserRegistrationConverter userRegistrationConverter;
 	
-	private CardDTOConverter cardDTOConverter;
+	private final CardDTOConverter cardDTOConverter;
 	
-	private AuthenticationContext autentication;
-
-	public UserDetails loadByUsername(String username) throws UsernameNotFoundException {
-		
-		//UserEntity
-		
-		//return Optional.ofNullable(userRepository)
-		return null;
-	}
-
-	public UserService(UserRepository userRepository, CardRepository cardRepository, UserConverter userConverter,
-			UserRegistrationConverter userRegistrationConverter, CardDTOConverter cardDTOConverter, AuthenticationContext autentication) {
-		super();
-		this.userRepository = userRepository;
-		this.cardRepository = cardRepository;
-		this.userConverter = userConverter;
-		this.userRegistrationConverter = userRegistrationConverter;
-		this.cardDTOConverter = cardDTOConverter;
-		this.autentication = autentication;
-	}
 
 	public List<UserEntity> getUsers() {
 		return userRepository.findAll();
 	}
 
-	public UserEntity createUser(@Valid UserRegistrationDTO userRegistrationDTO) {		
-		UserEntity user = this.userRegistrationConverter.convert(userRegistrationDTO);
-		user.setActive(true);
-		user.setCards(new ArrayList<Card>());
-		user.setOrders(new ArrayList<OrderEntity>());
-		return userRepository.save(user);
+	public UserService(UserRepository userRepository, CardRepository cardRepository, UserDTOConverter userDTOConverter,
+			UserRegistrationConverter userRegistrationConverter, CardDTOConverter cardDTOConverter) {
+		super();
+		this.userRepository = userRepository;
+		this.cardRepository = cardRepository;
+		this.userDTOConverter = userDTOConverter;
+		this.userRegistrationConverter = userRegistrationConverter;
+		this.cardDTOConverter = cardDTOConverter;
 	}
 
-	public UserEntity getUserById(Long id) {
+	public UserDTO getUserById(Long id) {
+		return userDTOConverter.convert(getUserEntityById(id));
+	}
+	
+	public UserEntity getUserEntityById(Long id) {
 		return userRepository.findById(id)
 				.orElseThrow(()-> new EntityNotFoundException(id));
 	}
 
-	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return Optional.ofNullable(userRepository.findByEmail(username))
 				       .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-	}
-	
-	public UserEntity loadUserEntityByUsername(String username) throws UsernameNotFoundException {
-		return Optional.ofNullable(userRepository.findByEmail(username))
-				       .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-	}
+	}	
 	
 	@Transactional
-	public UserEntity agregarUsuario(UserRegistrationDTO usuarioDTO) throws Exception{
-		
-		UserEntity userValidation = userRepository.findByEmail(usuarioDTO.getEmail());
-		
-		if (userValidation != null) {
-			
-			UserRegistrationConverter converter = new UserRegistrationConverter();
-			
-			return userRepository.save(converter.convert(usuarioDTO));
-		}
-		else
-		{
-			throw new Exception("El usuario ya existe");
+	public UserDTO createUser(UserRegistrationDTO usuarioDTO, BCryptPasswordEncoder passwordEncoder){
+		try {
+			loadUserByUsername(usuarioDTO.getEmail());	
+			throw new EntityFoundException();
+		}catch(UsernameNotFoundException ex) {
+			UserEntity user = userRegistrationConverter.convert(usuarioDTO);
+			user.setActive(true);
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			user.setCards(new ArrayList<Card>());
+			user.setOrders(new ArrayList<OrderEntity>());
+			return userDTOConverter.convert(userRepository.save(user));
 		}
 	}
 
 	public List<CardDTO> getUserCardsByUserId(long userId) {
-		return getUserById(userId)
+		return getUserEntityById(userId)
 				.getCards()
 				.stream()
 				.map(c->cardDTOConverter.convert(c))
 				.collect(Collectors.toList());
 	}
-	
-	public UserEntity getUserLogged() {
-		UserEntity user = (UserEntity) autentication.getAuthentication().getPrincipal();
-		if (user == null || user.getId() == 0) {
-			throw new RuntimeException("No se pudo obtener la información del usuario autenticado");
-		}
-		return user;
-	}
+
 	
 	@Transactional
 	public void addCardToUser(String username, CardDTO card) {
@@ -149,6 +124,4 @@ public class UserService implements UserDetailsService {
 	    cardRepository.save(cardEntity);
 	    userRepository.save(user);
 	}
-
-	
 }

@@ -2,14 +2,11 @@ package org.edu.uy.proyectospring.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.header.Header;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -38,7 +35,7 @@ public class SecurityConfig {
 		
 		return authenticationProvider;
 	}
-	
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -53,6 +50,11 @@ public class SecurityConfig {
                 	.csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**", "/profile/**", "/api/v1/users/**"))
                     .formLogin(login -> login.loginPage("/login")
                             .defaultSuccessUrl("/"))
+                    //si seteamos esto nos obliga a usar el post de SS
+                	//.formLogin(login -> login.loginPage("/login"))
+                    		//.usernameParameter("email")
+                    		//.passwordParameter("password")
+                    		//.defaultSuccessUrl("/profile"))              
                     .logout(logout -> logout
                             .logoutSuccessUrl("/"))
                     //Necesario para acceder a la console de h2

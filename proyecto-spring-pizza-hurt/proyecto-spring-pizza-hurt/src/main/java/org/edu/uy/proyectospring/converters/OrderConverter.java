@@ -12,29 +12,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderConverter implements Converter<OrderDTO, OrderEntity>{
 	
-	PizzaComponentConverter pizzaComponentConverter;
+	private final PizzaComponentConverter pizzaComponentConverter;
 	
-	PaymentConverter paymentConverter;
+	private final PaymentConverter paymentConverter;
 	
-	DeliveryConverter deliveryConverter;
-	
-	CardRepository cardRepository;
-	
-	PaymentRepository paymentRepository;
+	private final DeliveryConverter deliveryConverter;
 
-	UserConverter userConverter;
-
-	
+	private final UserConverter userConverter;
 
 	public OrderConverter(PizzaComponentConverter pizzaComponentConverter, PaymentConverter paymentConverter,
-			DeliveryConverter deliveryConverter, CardRepository cardRepository, PaymentRepository paymentRepository,
-			UserConverter userConverter) {
+			DeliveryConverter deliveryConverter, UserConverter userConverter) {
 		super();
 		this.pizzaComponentConverter = pizzaComponentConverter;
 		this.paymentConverter = paymentConverter;
 		this.deliveryConverter = deliveryConverter;
-		this.cardRepository = cardRepository;
-		this.paymentRepository = paymentRepository;
 		this.userConverter = userConverter;
 	}
 

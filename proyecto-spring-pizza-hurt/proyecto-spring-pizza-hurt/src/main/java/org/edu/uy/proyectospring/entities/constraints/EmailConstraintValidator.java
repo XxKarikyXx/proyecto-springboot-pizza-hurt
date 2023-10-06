@@ -1,4 +1,4 @@
-package org.edu.yt.proyectospring.entities.constraints;
+package org.edu.uy.proyectospring.entities.constraints;
 
 import jakarta.validation.ConstraintValidator;
 import org.apache.commons.validator.routines.EmailValidator;

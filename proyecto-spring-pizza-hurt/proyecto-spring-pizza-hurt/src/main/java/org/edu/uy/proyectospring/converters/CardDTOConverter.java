@@ -10,15 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CardDTOConverter implements Converter<Card, CardDTO>{
 
-	CardRepository cardRepository;
-	
-	
-	
-	public CardDTOConverter(CardRepository cardRepository) {
-		super();
-		this.cardRepository = cardRepository;
-	}
-
 
 	@Override
 	public CardDTO convert(Card source) {

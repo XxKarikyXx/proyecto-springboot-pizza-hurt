@@ -20,17 +20,13 @@ import jakarta.validation.Valid;
 @SessionAttributes("orderPizza")
 public class PizzaController {
 	
-	OrderService orderService;
-	
-	PizzaComponentService pizzaComponentService;
+	private final PizzaComponentService pizzaComponentService;
 
 	public PizzaController(PizzaComponentService pizzaComponentService) {
 		super();
 		this.pizzaComponentService = pizzaComponentService;
 	}
 	
-	
-	//Get ingredients
 	@ModelAttribute	
 	public void addComponentsToModel(Model model) {	
 		ControllerUtilities.loadPizzaComponentsToModel(model,pizzaComponentService);
@@ -54,7 +50,6 @@ public class PizzaController {
 		if (bindingResult.hasErrors()) {
 			return "createPizza";
 		}		
-		//Se validan los componentes antes de agregarlos.
 		try {
 			pizzaComponentService.map(pizza);
 		}catch(Exception ex) {
@@ -75,7 +70,5 @@ public class PizzaController {
 	public String showCreatePizzaForm() {
 		return "createPizza";
 	}
-	
-	
 
 }

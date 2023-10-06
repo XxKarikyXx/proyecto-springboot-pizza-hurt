@@ -4,42 +4,45 @@
     <title>Login</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Aquí irían tus referencias a CSS o JS adicionales -->
+    <link th:href="@{/styles/style.css}" rel="stylesheet" />
 </head>
 <body>
-
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-body">
-                   <h2 class="card-title text-center">Ingresar</h2>
-                    <form th:action="@{/login}" method="post" th:object=${userDTO}>
-                    	    <div th:if="${param.error}">
-						        <div class="alert alert-danger">
-						            <span>Credenciales erróneas</span>
-						        </div>
-						    </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="text" name="username" class="form-control" required="required"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Contraseña:</label>
-                            <input type="password" name="password" class="form-control" required="required"/>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
-                        </div>
-                    </form>
-                    <div class="text-center">
-                        <a href="#" th:href="@{/signin}">Crear un nuevo usuario</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+	<div th:replace="~{/fragments/header :: header}"></div>
+	<div class="container mt-5">
+	    <div class="row">
+	        <div class="col-md-6 offset-md-3">
+	            <div class="card">
+	                <div class="card-body">
+	                   <h2 class="card-title text-center">Ingresar</h2>
+	                    <form th:action="@{/login}" method="post" th:object=${userDTO}>
+	                    	    <div th:if="${param.error}">
+							        <div class="alert alert-danger">
+							            <span>Credenciales erróneas</span>
+							        </div>
+							    </div>
+							   <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+									<p th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+								</div>
+	                        <div class="form-group">
+	                            <label for="email">Email:</label>
+	                            <input type="text" name="username" th:field="*{email}" class="form-control" />
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="password">Contraseña:</label>
+	                            <input type="password" name="password" th:field="*{password}" class="form-control"/>
+	                        </div>
+	                        <div class="form-group">
+	                            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+	                        </div>
+	                    </form>
+	                    <div class="text-center">
+	                        <a class="btn btn-link" href="#" th:href="@{/signin}">Crear un nuevo usuario</a>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div th:replace="~{fragments/footer :: footer}">&copy; 2016 The Static Templates</div>
 </body>
 </html>

@@ -23,17 +23,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class PizzaComponentService {
 	
-	private PizzaComponentConverter pizzaComponentConverter;
+	private final PizzaComponentConverter pizzaComponentConverter;
 	
-	private MassRepository massRepository;
+	private final MassRepository massRepository;
 	
-	private SauceRepository sauceRepository;
+	private final SauceRepository sauceRepository;
 	
-	private SizeRepository sizeRepository;
+	private final SizeRepository sizeRepository;
 	
-	private CheeseRepository cheeseRepository;
+	private final CheeseRepository cheeseRepository;
 	
-	private ToppingRepository toppingRepository;
+	private final ToppingRepository toppingRepository;
 
 	public PizzaComponentService(MassRepository massRepository, SauceRepository sauceRepository,
 			SizeRepository sizeRepository, CheeseRepository cheeseRepository, ToppingRepository toppingRepository, PizzaComponentConverter pizzaComponentConverter) {

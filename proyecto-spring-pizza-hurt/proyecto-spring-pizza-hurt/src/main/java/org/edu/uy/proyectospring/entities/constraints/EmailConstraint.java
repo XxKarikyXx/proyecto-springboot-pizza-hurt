@@ -1,4 +1,4 @@
-package org.edu.yt.proyectospring.entities.constraints;
+package org.edu.uy.proyectospring.entities.constraints;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

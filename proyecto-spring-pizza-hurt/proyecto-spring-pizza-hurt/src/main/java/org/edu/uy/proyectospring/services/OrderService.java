@@ -14,22 +14,24 @@ import org.edu.uy.proyectospring.models.OrderDTO;
 import org.edu.uy.proyectospring.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class OrderService {
 	
-	private UserService userService;
+	private final UserService userService;
 	
-	private OrderRepository orderRepository;
+	private final OrderRepository orderRepository;
 	
-	private OrderConverter orderConverter;
+	private final OrderConverter orderConverter;
 	
-	private OrderDTOConverter orderDTOConverter;
+	private final OrderDTOConverter orderDTOConverter;
 	
-	private DeliveryConverter deliveryConverter;
+	private final DeliveryConverter deliveryConverter;
 	
-	private PaymentConverter paymentConverter;
+	private final PaymentConverter paymentConverter;
 	
-	private PizzaComponentService pizzaComponentService;
+	private final PizzaComponentService pizzaComponentService;
 
 	
 	
@@ -46,9 +48,9 @@ public class OrderService {
 		this.pizzaComponentService = pizzaComponentService;
 	}
 
-	//Hay que revisar esto.
+	@Transactional
 	public OrderDTO saveOrderWithUserId(OrderDTO orderPizza, Long userId) {
-		UserEntity user = userService.getUserById(userId);
+		UserEntity user = userService.getUserEntityById(userId);
 		OrderEntity orderToSave = orderConverter.convert(orderPizza);
 		orderToSave.getPizzas().forEach(p->
 			orderToSave.setTotalPrice(
@@ -83,6 +85,7 @@ public class OrderService {
 		return order;
 	}
 	
+	@Transactional
 	public OrderDTO saveDeliveryAndPaymentOfOrderOfUserId(Long orderId,Long userId, OrderDTO order){
 		//Valido datos de integridad de la orden
 		OrderEntity orderRetrived = getOrderEntityByIdAndUserId(orderId,userId);

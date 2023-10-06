@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PaymentConverter implements Converter<PaymentDTO, Payment>{
 	
-	PaymentRepository paymentRepository;
+	private final PaymentRepository paymentRepository;
 	
-	CardRepository cardRepository;
+	private final CardRepository cardRepository;
 	
 
 	public PaymentConverter(PaymentRepository paymentRepository, CardRepository cardRepository) {

@@ -4,4 +4,4 @@ import org.edu.uy.proyectospring.entities.constraints.EmailConstraint;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record UserDTO(Long id, String fullName, @EmailConstraint String email, @NotBlank(message="Debe ingresar una contraseña")String password, String telephone) {};
+public record UserDTO(Long id, String fullName, @EmailConstraint String email, @NotBlank(message="Debe ingresar una contraseña")String password, String telephone, boolean active) {};

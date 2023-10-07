@@ -15,6 +15,7 @@ public class UserConverter implements Converter<UserDTO, UserEntity>{
 		mappedEntity.setFullName(source.fullName());
 		mappedEntity.setPassword(source.password());
 		mappedEntity.setTelephone(source.telephone());
+		mappedEntity.setActive(source.active());
 		return mappedEntity;
 	}
 }

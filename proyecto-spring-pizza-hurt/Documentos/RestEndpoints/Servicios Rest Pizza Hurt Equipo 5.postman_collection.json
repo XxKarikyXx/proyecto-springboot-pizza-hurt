@@ -1,11 +1,41 @@
 {
 	"info": {
-		"_postman_id": "551c00cd-4efb-421b-a36b-6b05243ba732",
+		"_postman_id": "0066379b-e731-47b2-b5ba-f71fdf3529cc",
 		"name": "Servicios Rest Pizza Hurt Equipo 5",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "5307778"
 	},
 	"item": [
+		{
+			"name": "http://localhost:8080/api/v1/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\":\"pepe@pepe.com\",\r\n\"password\":\"1234\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "http://localhost:8080/api/v1/users",
 			"event": [
@@ -70,21 +100,12 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/api/v1/users/{id}/cards",
+			"name": "http://localhost:8080/api/v1/users/{id}",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"id\": 1,\r\n  \"bank\": \"BBVA\",\r\n  \"validUntil\": \"2025-12-31\",\r\n  \"cardNumber\": \"4242424242424242\",\r\n  \"cvv\": 123\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/users/1/cards",
+					"raw": "http://localhost:8080/api/v1/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -94,38 +115,7 @@
 						"api",
 						"v1",
 						"users",
-						"1",
-						"cards"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "http://localhost:8080/api/v1/users/{id}/cards",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"3ejemplo@email.com\",\r\n    \"password\": \"1234\",\r\n    \"confirmPassword\": \"1234\",\r\n    \"fullName\": \"Juan Gomez\",\r\n    \"telephone\": \"1234567890\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/v1/users",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"users"
+						"1"
 					]
 				}
 			},
@@ -155,13 +145,13 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/api/v1/login",
+			"name": "http://localhost:8080/api/v1/users/{id}/cards",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"email\":\"pepe@pepe.com\",\r\n\"password\":\"1234\"}",
+					"raw": "{\r\n  \"bank\": \"BBVA\",\r\n  \"validUntil\": \"2025-12-31\",\r\n  \"cardNumber\": \"4242424242424242\",\r\n  \"cvv\": 123\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -169,7 +159,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/login",
+					"raw": "http://localhost:8080/api/v1/users/1/cards",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -178,7 +168,9 @@
 					"path": [
 						"api",
 						"v1",
-						"login"
+						"users",
+						"1",
+						"cards"
 					]
 				}
 			},

@@ -2,9 +2,8 @@ package org.edu.uy.proyectospring.controllers.rest;
 
 import java.util.List;
 
-import org.edu.uy.proyectospring.converters.UserConverter;
-import org.edu.uy.proyectospring.converters.UserDTOConverter;
 import org.edu.uy.proyectospring.entities.UserEntity;
+import org.edu.uy.proyectospring.exceptions.EntityFoundException;
 import org.edu.uy.proyectospring.exceptions.EntityNotFoundException;
 import org.edu.uy.proyectospring.models.CardDTO;
 import org.edu.uy.proyectospring.models.UserDTO;
@@ -13,19 +12,13 @@ import org.edu.uy.proyectospring.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.validation.BindingResult;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import jakarta.validation.Valid;
 
@@ -43,15 +36,18 @@ public class UserControllerRest {
 		this.passwordEncoder = passwordEncoder;
 	}
 		
-	@PostMapping("/")
-    public ResponseEntity<UserDTO> addUser(@RequestBody @Valid UserRegistrationDTO userRegistrationDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
+	@GetMapping
+    public ResponseEntity<List<UserDTO>> getUsers() {
+        return ResponseEntity.ok(userService.getUsers());
+    }
+	
+	@PostMapping
+    public ResponseEntity<Object> addUser(@RequestBody @Valid UserRegistrationDTO userRegistrationDTO) {
         try {
         	UserDTO createdUser = userService.createUser(userRegistrationDTO, new BCryptPasswordEncoder());
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+        } catch (EntityFoundException e) {
+        	 return new ResponseEntity<>("Ya existe un usuario con el mismo email", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -67,11 +63,7 @@ public class UserControllerRest {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
+    public ResponseEntity<String> loginUser(@RequestBody @Valid UserDTO userDTO) {
         try {
             UserEntity userEntity = (UserEntity) userService.loadUserByUsername(userDTO.email());
 
@@ -92,22 +84,22 @@ public class UserControllerRest {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-	
-    // Obtener todas las tarjetas para un usuario dado
+
     @GetMapping("/{userId}/cards")
     public ResponseEntity<List<CardDTO>> getUserCards(@PathVariable long userId) {
         List<CardDTO> cards = userService.getUserCardsByUserId(userId);
         return ResponseEntity.ok(cards);
     }
 
-    // Agregar una nueva tarjeta a un usuario
     @PostMapping("/{userId}/cards")
-    public ResponseEntity<String> addCard(@PathVariable Long userId, @RequestBody CardDTO cardDTO) {
+    public ResponseEntity<Object> addCard(@PathVariable Long userId, @RequestBody @Valid CardDTO cardDTO) {
         try {
-            userService.addCardToUserById(userId, cardDTO);
-            return ResponseEntity.ok("Tarjeta agregada con éxito");
+        	CardDTO card = userService.addCardToUserById(userId, cardDTO);
+        	return new ResponseEntity<>(card, HttpStatus.CREATED);
+        } catch(EntityNotFoundException e){
+        	return new ResponseEntity<>("El usuario no existe",HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al agregar la tarjeta");
+        	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 	

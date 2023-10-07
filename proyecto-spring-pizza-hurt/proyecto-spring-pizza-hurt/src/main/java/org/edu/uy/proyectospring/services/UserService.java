@@ -50,8 +50,10 @@ public class UserService implements UserDetailsService {
 	private final CardDTOConverter cardDTOConverter;
 	
 
-	public List<UserEntity> getUsers() {
-		return userRepository.findAll();
+	public List<UserDTO> getUsers() {
+		return userRepository.findAll().stream()
+				.map(u->userDTOConverter.convert(u))
+				.collect(Collectors.toList());
 	}
 
 	public UserService(UserRepository userRepository, CardRepository cardRepository, UserDTOConverter userDTOConverter,
@@ -103,24 +105,25 @@ public class UserService implements UserDetailsService {
 
 	
 	@Transactional
-	public void addCardToUser(String username, CardDTO card) {
+	public CardDTO addCardToUser(String username, CardDTO card) {
 	    UserEntity user = (UserEntity) this.loadUserByUsername(username);
-	    addCardToUserEntity(user, card);
+	    return cardDTOConverter.convert(addCardToUserEntity(user, card));
 	}
 
 	@Transactional
-	public void addCardToUserById(Long userId, CardDTO cardDTO) {
+	public CardDTO addCardToUserById(Long userId, CardDTO cardDTO) {
 	    UserEntity user = getUserEntityById(userId);
-	    addCardToUserEntity(user, cardDTO);
+	    return cardDTOConverter.convert(addCardToUserEntity(user, cardDTO));
 	}
 
-	private void addCardToUserEntity(UserEntity user, CardDTO cardDTO) {
+	private Card addCardToUserEntity(UserEntity user, CardDTO cardDTO) {
 	    CardConverter cardConverter = new CardConverter();
 	    Card cardEntity = cardConverter.convert(cardDTO);
 	    
 	    user.getCards().add(cardEntity);
 	    
-	    cardRepository.save(cardEntity);
+	    Card card = cardRepository.save(cardEntity);
 	    userRepository.save(user);
+	    return card;
 	}
 }

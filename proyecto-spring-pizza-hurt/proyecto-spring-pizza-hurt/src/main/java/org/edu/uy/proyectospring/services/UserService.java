@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.edu.uy.proyectospring.converters.CardConverter;
 import org.edu.uy.proyectospring.converters.CardDTOConverter;
-import org.edu.uy.proyectospring.converters.UserConverter;
 import org.edu.uy.proyectospring.converters.UserDTOConverter;
 import org.edu.uy.proyectospring.converters.UserRegistrationConverter;
 import org.edu.uy.proyectospring.entities.Card;
@@ -105,13 +104,13 @@ public class UserService implements UserDetailsService {
 	
 	@Transactional
 	public void addCardToUser(String username, CardDTO card) {
-	    UserEntity user = this.loadUserEntityByUsername(username);
+	    UserEntity user = (UserEntity) this.loadUserByUsername(username);
 	    addCardToUserEntity(user, card);
 	}
 
 	@Transactional
 	public void addCardToUserById(Long userId, CardDTO cardDTO) {
-	    UserEntity user = getUserById(userId);
+	    UserEntity user = getUserEntityById(userId);
 	    addCardToUserEntity(user, cardDTO);
 	}
 

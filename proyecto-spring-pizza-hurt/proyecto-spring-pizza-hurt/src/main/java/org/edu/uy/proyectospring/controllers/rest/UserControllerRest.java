@@ -50,10 +50,8 @@ public class UserControllerRest {
         }
 
         try {
-            UserEntity createdUser = userService.createUser(userRegistrationDTO);
-            UserDTOConverter converter = new UserDTOConverter();
-            UserDTO createdUserDTO = converter.convert(createdUser);
-            return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
+        	UserDTO createdUser = userService.createUser(userRegistrationDTO, new BCryptPasswordEncoder());
+            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -62,22 +60,22 @@ public class UserControllerRest {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         try {
-        	UserDTOConverter converter = new UserDTOConverter();
-            UserEntity userEntity = userService.getUserById(id);
-            UserDTO userDTO = converter.convert(userEntity);
-            return ResponseEntity.ok(userDTO);
+            return ResponseEntity.ok(userService.getUserById(id));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
     
-    @GetMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password) {
-        try {
-            UserEntity userEntity = userService.loadUserEntityByUsername(username);
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            boolean isPasswordCorrect = passwordEncoder.matches(password, userEntity.getPassword());
+        try {
+            UserEntity userEntity = (UserEntity) userService.loadUserByUsername(userDTO.email());
+
+            boolean isPasswordCorrect = passwordEncoder.matches(userDTO.password(), userEntity.getPassword());
             
             if (!isPasswordCorrect) {
                 return new ResponseEntity<>("Contraseña incorrecta", HttpStatus.UNAUTHORIZED);

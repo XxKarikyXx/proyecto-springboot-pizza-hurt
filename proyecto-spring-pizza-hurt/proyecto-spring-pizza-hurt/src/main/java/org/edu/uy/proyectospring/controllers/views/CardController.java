@@ -52,7 +52,7 @@ public class CardController {
         }
         else {
 			try {
-				userService.addCardToUser(userDTO.id(), cardDTO);
+				userService.addCardToUserById(userDTO.id(), cardDTO);
 			} catch(Exception ex) {
 				bindingResult.reject("errorCode", ex.getMessage());
 				return "profile";

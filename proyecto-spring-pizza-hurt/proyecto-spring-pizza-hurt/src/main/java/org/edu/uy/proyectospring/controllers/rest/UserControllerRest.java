@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1")
 public class UserControllerRest {
 	
 	private final UserService userService;
@@ -36,12 +36,12 @@ public class UserControllerRest {
 		this.passwordEncoder = passwordEncoder;
 	}
 		
-	@GetMapping
+	@GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getUsers() {
         return ResponseEntity.ok(userService.getUsers());
     }
 	
-	@PostMapping
+	@PostMapping("/users")
     public ResponseEntity<Object> addUser(@RequestBody @Valid UserRegistrationDTO userRegistrationDTO) {
         try {
         	UserDTO createdUser = userService.createUser(userRegistrationDTO, new BCryptPasswordEncoder());
@@ -53,7 +53,7 @@ public class UserControllerRest {
         }
     }
 	 
-    @GetMapping("/{id}")
+    @GetMapping("users/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.getUserById(id));
@@ -85,13 +85,13 @@ public class UserControllerRest {
         }
     }
 
-    @GetMapping("/{userId}/cards")
+    @GetMapping("users/{userId}/cards")
     public ResponseEntity<List<CardDTO>> getUserCards(@PathVariable long userId) {
         List<CardDTO> cards = userService.getUserCardsByUserId(userId);
         return ResponseEntity.ok(cards);
     }
 
-    @PostMapping("/{userId}/cards")
+    @PostMapping("users/{userId}/cards")
     public ResponseEntity<Object> addCard(@PathVariable Long userId, @RequestBody @Valid CardDTO cardDTO) {
         try {
         	CardDTO card = userService.addCardToUserById(userId, cardDTO);

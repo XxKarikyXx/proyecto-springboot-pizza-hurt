@@ -42,14 +42,12 @@ public class SecurityConfig {
 		return http.authorizeHttpRequests(a -> {
 			try {
                 	a
-                	.requestMatchers("/api/v1/users/**").permitAll()
+                	.requestMatchers("/api/v1/**").permitAll()
                 	.requestMatchers("/carrito/**", "/ordenes/**", "/profile/**").authenticated()
                 	.requestMatchers("/login/**","/signin/**").anonymous()
                 	.requestMatchers("/","/**").permitAll()
                 	.and()
-                	.csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**", "/profile/**", "/api/v1/users/**"))
-                    .formLogin(login -> login.loginPage("/login")
-                            .defaultSuccessUrl("/"))
+                	.csrf(csrf -> csrf.ignoringRequestMatchers("/carrito/**", "/ordenes/**", "/profile/**", "/api/v1/**"))
                     //si seteamos esto nos obliga a usar el post de SS
                 	//.formLogin(login -> login.loginPage("/login"))
                     		//.usernameParameter("email")
